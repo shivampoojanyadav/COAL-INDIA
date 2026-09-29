@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Notifications</h1>
+        <p>Important alerts and actions requiring attention.</p>
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <div class="card-header">
+        <h2>Alert Center</h2>
+    </div>
+
+
+    {% if notifications %}
+
+        <div class="notification-list">
+
+            {% for notification in notifications %}
+
+                <div class="notification-item
+                    {% if not notification.is_read %}
+                        notification-unread
+                    {% endif %}
+                ">
+
+                    <div>
+
+                        <h3>
+                            {{ notification.title }}
+                        </h3>
+
+                        <p>
+                            {{ notification.message }}
+                        </p>
+
+                        <small>
+                            {{ notification.created_at }}
+                        </small>
+
+                    </div>
+
+
+                    <div>
+
+                        {% if not notification.is_read %}
+
+                            <a
+                                href="{% url 'notification_read' notification.id %}"
+                            >
+                                View
+                            </a>
+
+                        {% else %}
+
+                            <span>
+                                Read
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p>
+            No notifications at this time.
+        </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

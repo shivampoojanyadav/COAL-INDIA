@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Compliance Management | MineGov
+{% endblock %}
+
+
+{% block page_title %}
+Compliance Management
+{% endblock %}
+
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h1>Compliance Management</h1>
+
+    <p>
+        Monitor statutory compliance requirements across mining sites.
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <div class="card-header">
+
+        <div class="card-title">
+            Compliance Records
+        </div>
+
+        <a
+            href="{% url 'compliance_create' %}"
+            class="card-link"
+        >
+            Add Compliance
+        </a>
+
+    </div>
+
+
+    <div style="overflow-x: auto;">
+
+        <table class="data-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Requirement</th>
+                    <th>Mine</th>
+                    <th>Category</th>
+                    <th>Due Date</th>
+                    <th>Days</th>
+                    <th>Status</th>
+                    <th>Responsible Person</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for compliance in compliances %}
+
+                    <tr>
+
+                        <td>
+                            {{ compliance.requirement }}
+                        </td>
+
+                        <td>
+                            {{ compliance.mine.name }}
+                        </td>
+
+                        <td>
+                            {{ compliance.get_category_display }}
+                        </td>
+
+                        <td>
+                            {{ compliance.due_date|date:"d M Y" }}
+                        </td>
+
+                        <td>
+
+                            {% if compliance.status == "COMPLETED" %}
+
+                                -
+
+                            {% else %}
+
+                                {{ compliance.due_date|timeuntil }}
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                           {% if compliance.monitoring_status == "COMPLETED" %}
+
+                            <span class="status status-success">
+                                Completed
+                            </span>
+
+                        {% elif compliance.monitoring_status == "OVERDUE" %}
+
+                            <span class="status status-danger">
+                                Overdue
+                            </span>
+
+                        {% elif compliance.monitoring_status == "DUE_SOON" %}
+
+                            <span class="status status-warning">
+                                Due Soon
+                            </span>
+
+                        {% else %}
+
+                            <span class="status">
+                                Upcoming
+                            </span>
+
+                        {% endif %}
+                        </td>
+
+                        <td>
+
+                            {% if compliance.responsible_person %}
+
+                                {{ compliance.responsible_person.username }}
+
+                            {% else %}
+
+                                Not Assigned
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="7">
+                            No compliance records found.
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

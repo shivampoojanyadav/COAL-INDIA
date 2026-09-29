@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Mine Management | MineGov
+{% endblock %}
+
+
+{% block page_title %}
+Mine Management
+{% endblock %}
+
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h1>Mine Management</h1>
+
+    <p>
+        View and manage registered mining sites.
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <div class="card-header">
+
+        <div class="card-title">
+            Registered Mines
+        </div>
+
+        <a
+            href="{% url 'mine_create' %}"
+            class="card-link"
+        >
+            Add Mine
+        </a>
+
+    </div>
+
+
+    <form method="GET" style="margin-bottom: 25px;">
+
+        <div style="
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 10px;
+        ">
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search by mine name or code"
+                style="
+                    padding: 11px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                "
+            >
+
+
+            <select
+                name="status"
+                style="
+                    padding: 11px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                "
+            >
+
+                <option value="">
+                    All Statuses
+                </option>
+
+                {% for value, label in status_choices %}
+
+                    <option
+                        value="{{ value }}"
+                        {% if selected_status == value %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ label }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <select
+                name="state"
+                style="
+                    padding: 11px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 6px;
+                "
+            >
+
+                <option value="">
+                    All States
+                </option>
+
+                {% for state in states %}
+
+                    <option
+                        value="{{ state }}"
+                        {% if selected_state == state %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ state }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <button
+                type="submit"
+                style="
+                    padding: 11px 20px;
+                    border: none;
+                    border-radius: 6px;
+                    background: #173f5f;
+                    color: white;
+                    cursor: pointer;
+                "
+            >
+                Search
+            </button>
+
+        </div>
+
+    </form>
+
+
+    <div style="overflow-x: auto;">
+
+        <table class="data-table">
+
+            <thead>
+
+                <tr>
+
+                <th>Mine Code</th>
+                <th>Mine Name</th>
+                <th>Subsidiary</th>
+                <th>Location</th>
+                <th>State</th>
+                <th>Manager</th>
+                <th>Status</th>
+                <th>Actions</th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for mine in mines %}
+
+                    <tr>
+
+                        <td>
+                            {{ mine.mine_code }}
+                        </td>
+
+                        <td>
+                            {{ mine.name }}
+                        </td>
+
+                        <td>
+                            {{ mine.subsidiary }}
+                        </td>
+
+                        <td>
+                            {{ mine.location }}
+                        </td>
+
+                        <td>
+                            {{ mine.state }}
+                        </td>
+
+                        <td>
+
+                            {% if mine.manager %}
+                                {{ mine.manager.username }}
+                            {% else %}
+                                Not Assigned
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if mine.status == "ACTIVE" %}
+
+                                <span class="status status-success">
+                                    Active
+                                </span>
+
+                            {% elif mine.status == "MAINTENANCE" %}
+
+                                <span class="status status-warning">
+                                    Under Maintenance
+                                </span>
+
+                            {% else %}
+
+                                <span class="status status-danger">
+                                    Inactive
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+                        <td>
+
+                            <div style="
+                                display: flex;
+                                gap: 8px;
+                                align-items: center;
+                            ">
+                            <a
+                                href="{% url 'mine_detail' mine.id %}"
+                                style="
+                                    padding: 6px 10px;
+                                    border: 1px solid #d1d5db;
+                                    border-radius: 5px;
+                                    text-decoration: none;
+                                    color: #374151;
+                                    font-size: 12px;
+                                "
+                            >
+                                View
+                            </a>
+
+                                <a
+                                    href="{% url 'mine_edit' mine.id %}"
+                                    style="
+                                        padding: 6px 10px;
+                                        border: 1px solid #d1d5db;
+                                        border-radius: 5px;
+                                        text-decoration: none;
+                                        color: #245b80;
+                                        font-size: 12px;
+                                    "
+                                >
+                                    Edit
+                                </a>
+
+
+                                <a
+                                    href="{% url 'mine_delete' mine.id %}"
+                                    style="
+                                        padding: 6px 10px;
+                                        border: 1px solid #fecaca;
+                                        border-radius: 5px;
+                                        text-decoration: none;
+                                        color: #b91c1c;
+                                        font-size: 12px;
+                                    "
+                                >
+                                    Delete
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="8">
+                            No mines found.
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

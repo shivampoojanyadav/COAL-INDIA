@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Contractor Details{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>{{ contractor.company_name }}</h1>
+        <p>Contractor information and compliance documents.</p>
+    </div>
+
+    <a href="{% url 'contractor_list' %}">
+        Back to Contractors
+    </a>
+
+</div>
+
+
+<div class="content-card">
+
+    <h2>Contractor Information</h2>
+
+    <table>
+
+        <tr>
+            <th>Contractor Code</th>
+            <td>{{ contractor.contractor_code }}</td>
+        </tr>
+
+        <tr>
+            <th>Company</th>
+            <td>{{ contractor.company_name }}</td>
+        </tr>
+
+        <tr>
+            <th>Contact Person</th>
+            <td>{{ contractor.contact_person }}</td>
+        </tr>
+
+        <tr>
+            <th>Phone</th>
+            <td>{{ contractor.phone }}</td>
+        </tr>
+
+        <tr>
+            <th>Email</th>
+            <td>{{ contractor.email|default:"-" }}</td>
+        </tr>
+
+        <tr>
+            <th>Mine</th>
+            <td>{{ contractor.mine.name }}</td>
+        </tr>
+
+        <tr>
+            <th>Work</th>
+            <td>{{ contractor.work_description|default:"-" }}</td>
+        </tr>
+
+        <tr>
+            <th>Start Date</th>
+            <td>{{ contractor.start_date }}</td>
+        </tr>
+
+        <tr>
+            <th>End Date</th>
+            <td>{{ contractor.end_date|default:"-" }}</td>
+        </tr>
+
+        <tr>
+            <th>Status</th>
+            <td>{{ contractor.get_status_display }}</td>
+        </tr>
+
+    </table>
+
+</div>
+
+
+<div class="content-card">
+
+    <div class="card-header">
+
+        <h2>Compliance Documents</h2>
+
+        {% if user.role == "ADMIN" or user.role == "MANAGER" %}
+            <a href="{% url 'contractor_document_create' %}">
+                Add Document
+            </a>
+        {% endif %}
+
+    </div>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Document</th>
+                <th>Document Number</th>
+                <th>Issue Date</th>
+                <th>Expiry Date</th>
+                <th>Authority</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for document in documents %}
+
+            <tr>
+
+                <td>
+                    {{ document.get_document_type_display }}
+                </td>
+
+                <td>
+                    {{ document.document_number }}
+                </td>
+
+                <td>
+                    {{ document.issue_date }}
+                </td>
+
+                <td>
+                    {{ document.expiry_date }}
+                </td>
+
+                <td>
+                    {{ document.issuing_authority|default:"-" }}
+                </td>
+
+                <td>
+                    {% if document.calculated_status == "EXPIRED" %}
+                        Expired
+                    {% elif document.calculated_status == "EXPIRING" %}
+                        Expiring Soon
+                    {% else %}
+                        Valid
+                    {% endif %}
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="6">
+                    No compliance documents found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

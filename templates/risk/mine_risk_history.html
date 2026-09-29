@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Risk History{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>{{ mine.name }}</h1>
+
+        <p>
+            Historical risk assessment
+        </p>
+
+    </div>
+
+    <a href="{% url 'risk_dashboard' %}">
+        Back to Risk Dashboard
+    </a>
+
+</div>
+
+
+<div class="content-card">
+
+    <div class="card-header">
+
+        <h2>Risk History</h2>
+
+    </div>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Date</th>
+                <th>Risk Score</th>
+                <th>Risk Level</th>
+                <th>Risk Factors</th>
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for record in history %}
+
+            <tr>
+
+                <td>
+                    {{ record.recorded_at }}
+                </td>
+
+                <td>
+                    {{ record.risk_score }}
+                </td>
+
+                <td>
+                    {{ record.risk_level }}
+                </td>
+
+                <td>
+                    {{ record.risk_factors|default:"No significant factors" }}
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="4">
+                    No historical risk data available.
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <td>
+        <a href="{% url 'mine_risk_history' item.mine.id %}">
+            View History
+        </a>
+    </td>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    const riskDates = [
+        {% for record in history %}
+            "{{ record.recorded_at|date:'Y-m-d' }}",
+        {% endfor %}
+    ];
+
+    const riskScores = [
+        {% for record in history %}
+            {{ record.risk_score }},
+        {% endfor %}
+    ];
+
+
+    const ctx =
+        document.getElementById("riskTrendChart");
+
+
+    new Chart(ctx, {
+
+        type: "line",
+
+        data: {
+
+            labels: riskDates,
+
+            datasets: [{
+
+                label: "Risk Score",
+
+                data: riskScores,
+
+                tension: 0.2
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true,
+
+                    max: 100
+
+                }
+
+            }
+
+        }
+
+    });
+
+</script>
+
+{% endblock %}

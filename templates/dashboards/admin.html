@@ -1,0 +1,497 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Admin Dashboard | MineGov
+{% endblock %}
+
+
+{% block page_title %}
+Admin Dashboard
+{% endblock %}
+
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h1>System Overview</h1>
+
+    <p>
+        Monitor and manage governance operations across the MineGov platform.
+    </p>
+
+</div>
+
+
+<div class="stats-grid">
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            Total Mines
+        </div>
+
+        <div class="stat-value">
+            {{ total_mines }}
+        </div>
+
+        <div class="stat-description">
+            Registered mining sites
+        </div>
+
+    </div>
+
+
+   <div class="stats-grid">
+
+    <div class="stat-card">
+        <h3>Total Mines</h3>
+        <div class="stat-value">
+            {{ total_mines }}
+        </div>
+    </div>
+
+
+    <div class="stat-card">
+        <h3>Active Mines</h3>
+        <div class="stat-value">
+            {{ active_mines }}
+        </div>
+    </div>
+
+
+    <div class="stat-card">
+        <h3>Maintenance Mines</h3>
+        <div class="stat-value">
+            {{ maintenance_mines }}
+        </div>
+    </div>
+
+
+    <div class="stat-card">
+        <h3>Active Users</h3>
+        <div class="stat-value">
+            {{ active_users }}
+        </div>
+    </div>
+
+
+    <div class="stat-card">
+        <h3>Open Violations</h3>
+        <div class="stat-value">
+            {{ open_violations }}
+        </div>
+    </div>
+
+
+    <div class="stat-card">
+        <h3>Overdue Compliance</h3>
+        <div class="stat-value">
+            {{ overdue_compliance }}
+        </div>
+    </div>
+
+
+    <div class="stat-card">
+        <h3>Upcoming Inspections</h3>
+        <div class="stat-value">
+            {{ upcoming_inspections }}
+        </div>
+    </div>
+
+
+    <div class="stat-card">
+        <h3>Active Contractors</h3>
+        <div class="stat-value">
+            {{ active_contractors }}
+        </div>
+    </div>
+
+
+    <div class="stat-card">
+        <h3>Expired Documents</h3>
+        <div class="stat-value">
+            {{ expired_documents }}
+        </div>
+    </div>
+
+</div>
+
+
+<div class="content-grid">
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div class="card-title">
+                Recent Activities
+            </div>
+
+            <a href="#" class="card-link">
+                View all
+            </a>
+
+        </div>
+
+
+        <table class="data-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Activity</th>
+                    <th>User</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>No activities available</td>
+
+                    <td>-</td>
+
+                    <td>
+                        <span class="status status-info">
+                            Waiting
+                        </span>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div class="card-title">
+                Alerts
+            </div>
+
+        </div>
+
+
+        <div class="alert-list">
+
+            <div class="alert-item">
+
+                <div class="alert-title">
+                    No active alerts
+                </div>
+
+                <div class="alert-description">
+                    System alerts will appear here.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<div class="card">
+
+    <div class="card-header">
+
+        <div class="card-title">
+            System Modules
+        </div>
+
+    </div>
+
+
+    <table class="data-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Module</th>
+                <th>Description</th>
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr>
+
+                <td>User Management</td>
+
+                <td>
+                    Manage platform users and roles.
+                </td>
+
+                <td>
+                    <span class="status status-success">
+                        Active
+                    </span>
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>Mine Management</td>
+
+                <td>
+                    Manage mining sites and subsidiaries.
+                </td>
+
+                <td>
+                    <span class="status status-info">
+                        Ready
+                    </span>
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>Compliance Management</td>
+
+                <td>
+                    Track statutory requirements and deadlines.
+                </td>
+
+                <td>
+                    <span class="status status-info">
+                        Ready
+                    </span>
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>Inspection Management</td>
+
+                <td>
+                    Manage field inspections and observations.
+                </td>
+
+                <td>
+                    <span class="status status-info">
+                        Ready
+                    </span>
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div class="content-card">
+
+    <div class="card-header">
+        <h2>Mine Status Overview</h2>
+    </div>
+
+    <div style="max-width: 500px; margin: auto;">
+        <canvas id="mineStatusChart"></canvas>
+    </div>
+
+</div>
+
+<div class="content-card">
+
+    <div class="card-header">
+
+        <h2>Mine Risk Overview</h2>
+
+    </div>
+
+    <div style="max-width: 700px; margin: auto;">
+
+        <canvas id="riskChart"></canvas>
+
+    </div>
+
+</div>
+
+<script>
+
+    const riskChart =
+        document.getElementById("riskChart");
+
+    new Chart(riskChart, {
+
+        type: "bar",
+
+        data: {
+
+            labels: [
+                "Low",
+                "Medium",
+                "High",
+                "Critical"
+            ],
+
+            datasets: [{
+
+                label: "Number of Mines",
+
+                data: [
+                    {{ risk_summary.LOW }},
+                    {{ risk_summary.MEDIUM }},
+                    {{ risk_summary.HIGH }},
+                    {{ risk_summary.CRITICAL }}
+                ]
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            scales: {
+
+                y: {
+                    beginAtZero: true
+                }
+
+            }
+
+        }
+
+    });
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    const mineStatusChart =
+        document.getElementById("mineStatusChart");
+
+    new Chart(mineStatusChart, {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: [
+                "Active",
+                "Inactive",
+                "Maintenance"
+            ],
+
+            datasets: [{
+                data: [
+                    {{ active_mines }},
+                    {{ inactive_mines }},
+                    {{ maintenance_mines }}
+                ]
+            }]
+
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: true
+        }
+
+    });
+
+</script>
+
+<div class="content-card">
+
+    <div class="card-header">
+        <h2>Compliance & Violation Overview</h2>
+    </div>
+
+    <div style="max-width: 700px; margin: auto;">
+        <canvas id="issueChart"></canvas>
+    </div>
+
+</div>
+
+
+<script>
+
+    const issueChart =
+        document.getElementById("issueChart");
+
+    new Chart(issueChart, {
+
+        type: "bar",
+
+        data: {
+
+            labels: [
+                "Overdue Compliance",
+                "Open Violations",
+                "Upcoming Inspections",
+                "Expired Documents"
+            ],
+
+            datasets: [{
+
+                label: "Count",
+
+                data: [
+                    {{ overdue_compliance }},
+                    {{ open_violations }},
+                    {{ upcoming_inspections }},
+                    {{ expired_documents }}
+                ]
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            scales: {
+
+                y: {
+                    beginAtZero: true
+                }
+
+            }
+
+        }
+
+    });
+
+</script>
+
+
+
+{% endblock %}

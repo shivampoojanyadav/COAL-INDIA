@@ -1,0 +1,165 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        MineGov
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo-section">
+
+            <div class="logo">
+                MineGov
+            </div>
+
+            <div class="logo-subtitle">
+                Smart Governance Platform
+            </div>
+
+        </div>
+
+<nav class="navigation">
+
+    <div class="navigation-title">
+        Main Menu
+    </div>
+
+    <a href="{% url 'dashboard' %}" class="nav-link">
+        Dashboard
+    </a>
+
+    <a href="{% url 'mine_list' %}" class="nav-link">
+        Mines
+    </a>
+
+    <a href="{% url 'compliance_list' %}" class="nav-link">
+        Compliance
+    </a>
+
+    <a href="{% url 'inspection_list' %}" class="nav-link">
+        Inspections
+    </a>
+
+    <a href="{% url 'violation_list' %}" class="nav-link">
+        Violations
+    </a>
+
+    <a href="{% url 'notification_list' %}" class="nav-link">
+        Notifications
+        {% if unread_notifications > 0 %}
+            <span class="notification-badge">
+                {{ unread_notifications }}
+            </span>
+        {% endif %}
+    </a>
+
+    <a href="{% url 'contractor_list' %}" class="nav-link">
+        Contractors
+    </a>
+
+    <a href="{% url 'mine_map' %}" class="nav-link">
+        GIS Map
+    </a>
+
+    <a href="{% url 'analytics_dashboard' %}" class="nav-link">
+        Analytics
+    </a>
+
+    <a href="{% url 'risk_dashboard' %}" class="nav-link">
+        Risk Dashboard
+    </a>
+
+    <a href="#" class="nav-link">
+        Reports
+    </a>
+
+</nav>
+
+    </aside>
+
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+
+        <!-- Topbar -->
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                {% block page_title %}
+                Dashboard
+                {% endblock %}
+
+            </div>
+
+
+            <div class="user-section">
+
+                <div class="user-info">
+
+                    <div class="user-name">
+                        {{ request.user.username }}
+                    </div>
+
+                    <div class="user-role">
+                        {{ request.user.get_role_display }}
+                    </div>
+
+                </div>
+
+                <a
+                    href="{% url 'logout' %}"
+                    class="logout-button"
+                >
+                    Logout
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- Page Content -->
+
+        <section class="page-content">
+
+            {% block content %}
+
+            {% endblock %}
+
+        </section>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

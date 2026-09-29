@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Inspection Details{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Inspection Details</h1>
+        <p>Detailed inspection information.</p>
+    </div>
+
+    <a href="{% url 'inspection_list' %}">
+        Back to Inspections
+    </a>
+
+</div>
+
+<div class="content-card">
+
+    <h2>{{ inspection.mine.name }}</h2>
+
+    <table>
+
+        <tr>
+            <th>Mine</th>
+            <td>{{ inspection.mine.name }}</td>
+        </tr>
+
+        <tr>
+            <th>Inspection Type</th>
+            <td>
+                {{ inspection.get_inspection_type_display }}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Inspector</th>
+            <td>
+                {% if inspection.inspector %}
+                    {{ inspection.inspector.username }}
+                {% else %}
+                    Not Assigned
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Inspection Date</th>
+            <td>{{ inspection.inspection_date }}</td>
+        </tr>
+
+        <tr>
+            <th>Status</th>
+            <td>{{ inspection.get_status_display }}</td>
+        </tr>
+
+    </table>
+
+</div>
+
+
+<div class="content-card">
+
+    <h2>Findings</h2>
+
+    {% if inspection.findings %}
+        <p>{{ inspection.findings }}</p>
+    {% else %}
+        <p>No findings recorded.</p>
+    {% endif %}
+
+</div>
+
+
+<div class="content-card">
+
+    <h2>Remarks</h2>
+
+    {% if inspection.remarks %}
+        <p>{{ inspection.remarks }}</p>
+    {% else %}
+        <p>No additional remarks.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

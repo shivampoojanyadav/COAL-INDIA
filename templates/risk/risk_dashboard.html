@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}Mine Risk Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Mine Risk Dashboard</h1>
+
+        <p>
+            Risk assessment based on compliance,
+            inspections, violations and contractor records.
+        </p>
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <div class="card-header">
+
+        <h2>Mine Risk Assessment</h2>
+
+    </div>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Mine</th>
+                <th>Mine Code</th>
+                <th>Risk Score</th>
+                <th>Risk Level</th>
+                <th>ML Prediction</th>
+                <th>ML Level</th>
+                <th>Change</th>
+                <th>Risk Factors</th>
+                <th>Actions</th>
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for item in risk_data %}
+
+            <tr>
+
+                <td>
+                    {{ item.mine.name }}
+                </td>
+
+                <td>
+                    {{ item.mine.mine_code }}
+                </td>
+
+                <td>
+                    {{ item.score }}
+                </td>
+
+                <td>
+                    {{ item.level }}
+                </td>
+
+                <td>
+                    {{ item.ml_score }}
+                </td>
+
+                <td>
+                    {{ item.ml_level }}
+                </td>
+
+
+                <td>
+
+                    {% if item.risk_change > 0 %}
+
+                        +{{ item.risk_change }}
+
+                    {% elif item.risk_change < 0 %}
+
+                        {{ item.risk_change }}
+
+                    {% else %}
+
+                        0
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    {% if item.factors %}
+
+                        <ul>
+
+                            {% for factor in item.factors %}
+
+                                <li>
+                                    {{ factor }}
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    {% else %}
+
+                        No significant risk factors.
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+                    <a href="{% url 'mine_risk_history' item.mine.id %}">
+                        View History
+                    </a>
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="9">
+                    No mines available for risk assessment.
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <div class="content-card">
+
+    <div class="card-header">
+        <h2>Risk Explanation & Recommendations</h2>
+    </div>
+
+    {% for item in risk_data %}
+
+        <div class="risk-analysis-card">
+
+            <h3>
+                {{ item.mine.name }}
+            </h3>
+
+            <p>
+                <strong>ML Risk Score:</strong>
+                {{ item.ml_score }}
+            </p>
+
+            <p>
+                <strong>ML Risk Level:</strong>
+                {{ item.ml_level }}
+            </p>
+
+
+            <h4>Why is this mine at this risk level?</h4>
+
+            <ul>
+
+                {% for explanation in item.explanations %}
+
+                    <li>
+                        {{ explanation }}
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+
+            <h4>Recommended Actions</h4>
+
+            <ol>
+
+                {% for recommendation in item.recommendations %}
+
+                    <li>
+                        {{ recommendation }}
+                    </li>
+
+                {% endfor %}
+
+            </ol>
+
+        </div>
+
+    {% empty %}
+
+        <p>
+            No risk analysis available.
+        </p>
+
+    {% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}

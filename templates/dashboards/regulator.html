@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Regulatory Dashboard | MineGov</title>
+</head>
+
+<body>
+
+    <h1>Regulatory Dashboard</h1>
+
+    <p>Welcome, {{ request.user.username }}</p>
+
+    <p>Role: {{ request.user.get_role_display }}</p>
+
+    <hr>
+
+    <h2>Regulatory Monitoring</h2>
+
+    <ul>
+        <li>Mine Compliance</li>
+        <li>Inspection Reports</li>
+        <li>Violations</li>
+        <li>Regulatory Reports</li>
+        <li>Compliance Trends</li>
+    </ul>
+
+    <a href="{% url 'logout' %}">Logout</a>
+
+</body>
+
+</html>

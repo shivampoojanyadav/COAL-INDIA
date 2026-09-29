@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contractor Dashboard | MineGov</title>
+</head>
+
+<body>
+
+    <h1>Contractor Dashboard</h1>
+
+    <p>Welcome, {{ request.user.username }}</p>
+
+    <p>Role: {{ request.user.get_role_display }}</p>
+
+    <hr>
+
+    <h2>Contractor Operations</h2>
+
+    <ul>
+        <li>Assigned Work</li>
+        <li>Compliance Documents</li>
+        <li>Pending Actions</li>
+        <li>Contract Information</li>
+    </ul>
+
+    <a href="{% url 'logout' %}">Logout</a>
+
+</body>
+
+</html>

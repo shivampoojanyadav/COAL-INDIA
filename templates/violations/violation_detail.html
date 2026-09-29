@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Violation Details{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Violation Details</h1>
+        <p>Violation and corrective action information.</p>
+    </div>
+
+    <a href="{% url 'violation_list' %}">
+        Back to Violations
+    </a>
+
+</div>
+
+
+<div class="content-card">
+
+    <h2>{{ violation.title }}</h2>
+
+    <table>
+
+        <tr>
+            <th>Mine</th>
+            <td>{{ violation.mine.name }}</td>
+        </tr>
+
+        <tr>
+            <th>Inspection</th>
+            <td>
+                {{ violation.inspection.inspection_date }}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Severity</th>
+            <td>
+                {{ violation.get_severity_display }}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Status</th>
+            <td>
+                {{ violation.get_status_display }}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Assigned To</th>
+            <td>
+                {% if violation.assigned_to %}
+                    {{ violation.assigned_to.username }}
+                {% else %}
+                    Not Assigned
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Due Date</th>
+            <td>
+                {% if violation.due_date %}
+                    {{ violation.due_date }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Resolved Date</th>
+            <td>
+                {% if violation.resolved_date %}
+                    {{ violation.resolved_date }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+
+
+<div class="content-card">
+
+    <h2>Description</h2>
+
+    <p>
+        {{ violation.description }}
+    </p>
+
+</div>
+
+
+<div class="content-card">
+
+    <h2>Corrective Action</h2>
+
+    {% if violation.corrective_action %}
+        <p>
+            {{ violation.corrective_action }}
+        </p>
+    {% else %}
+        <p>
+            No corrective action recorded.
+        </p>
+    {% endif %}
+
+</div>
+
+
+<div class="content-card">
+
+    <h2>Remarks</h2>
+
+    {% if violation.remarks %}
+        <p>
+            {{ violation.remarks }}
+        </p>
+    {% else %}
+        <p>
+            No additional remarks.
+        </p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

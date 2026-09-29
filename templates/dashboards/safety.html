@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Safety Dashboard | MineGov</title>
+</head>
+
+<body>
+
+    <h1>Safety Officer Dashboard</h1>
+
+    <p>Welcome, {{ request.user.username }}</p>
+
+    <p>Role: {{ request.user.get_role_display }}</p>
+
+    <hr>
+
+    <h2>Safety Management</h2>
+
+    <ul>
+        <li>Safety Violations</li>
+        <li>Safety Incidents</li>
+        <li>Corrective Actions</li>
+        <li>Safety Inspections</li>
+        <li>Risk Monitoring</li>
+    </ul>
+
+    <a href="{% url 'logout' %}">Logout</a>
+
+</body>
+
+</html>

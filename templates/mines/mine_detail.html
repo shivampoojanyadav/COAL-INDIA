@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+{% endblock %}
+
+{% block title %}
+{{ mine.name }} | MineGov
+{% endblock %}
+
+
+{% block page_title %}
+Mine Details
+{% endblock %}
+
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h1>{{ mine.name }}</h1>
+
+    <p>
+        Detailed information about this mining site.
+    </p>
+
+</div>
+
+
+<div class="content-grid">
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div class="card-title">
+                Mine Information
+            </div>
+
+            {% if mine.status == "ACTIVE" %}
+
+                <span class="status status-success">
+                    Active
+                </span>
+
+            {% elif mine.status == "MAINTENANCE" %}
+
+                <span class="status status-warning">
+                    Under Maintenance
+                </span>
+
+            {% else %}
+
+                <span class="status status-danger">
+                    Inactive
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <table class="data-table">
+
+            <tbody>
+
+                <tr>
+                    <th>Mine Code</th>
+                    <td>{{ mine.mine_code }}</td>
+                </tr>
+
+                <tr>
+                    <th>Mine Name</th>
+                    <td>{{ mine.name }}</td>
+                </tr>
+
+                <tr>
+                    <th>Subsidiary</th>
+                    <td>{{ mine.subsidiary }}</td>
+                </tr>
+
+                <tr>
+                    <th>Location</th>
+                    <td>{{ mine.location }}</td>
+                </tr>
+
+                <tr>
+                    <th>State</th>
+                    <td>{{ mine.state }}</td>
+                </tr>
+
+                <tr>
+                    <th>District</th>
+                    <td>{{ mine.district }}</td>
+                </tr>
+
+                <tr>
+                    <th>Manager</th>
+
+                    <td>
+
+                        {% if mine.manager %}
+                            {{ mine.manager.username }}
+                        {% else %}
+                            Not Assigned
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th>Status</th>
+                    <td>{{ mine.get_status_display }}</td>
+                </tr>
+
+                <tr>
+                    <th>Production Capacity</th>
+
+                    <td>
+
+                        {% if mine.production_capacity %}
+                            {{ mine.production_capacity }} tonnes/year
+                        {% else %}
+                            Not Available
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th>Registered On</th>
+                    <td>{{ mine.created_at|date:"d M Y" }}</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div class="card-title">
+                Location
+            </div>
+
+        </div>
+
+
+        <div
+            id="mine-map"
+            style="
+                height: 350px;
+                width: 100%;
+                border-radius: 8px;
+                overflow: hidden;
+            "
+        ></div>
+
+
+    </div>
+
+
+</div>
+
+
+<div style="
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+">
+
+    <a
+        href="{% url 'mine_edit' mine.id %}"
+        class="logout-button"
+    >
+        Edit Mine
+    </a>
+
+
+    <a
+        href="{% url 'mine_list' %}"
+        class="logout-button"
+    >
+        Back to Mines
+    </a>
+
+    <a href="{% url 'mine_risk_history' mine.id %}">
+        Risk History
+    </a>
+
+</div>
+
+
+<script>
+
+    const latitude = {{ mine.latitude|default:"null" }};
+    const longitude = {{ mine.longitude|default:"null" }};
+
+</script>
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+<script>
+
+    if (latitude !== null && longitude !== null) {
+
+        const map = L.map("mine-map").setView(
+            [latitude, longitude],
+            13
+        );
+
+
+        L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                attribution:
+                    '&copy; OpenStreetMap contributors'
+            }
+        ).addTo(map);
+
+
+        L.marker(
+            [latitude, longitude]
+        )
+        .addTo(map)
+        .bindPopup(
+            "<strong>{{ mine.name }}</strong><br>" +
+            "{{ mine.mine_code }}"
+        )
+        .openPopup();
+
+    } else {
+
+        document.getElementById("mine-map").innerHTML =
+            "<div style='padding: 30px; text-align: center; color: #6b7280;'>" +
+            "Location coordinates are not available." +
+            "</div>";
+
+    }
+
+</script>
+
+{% endblock %}

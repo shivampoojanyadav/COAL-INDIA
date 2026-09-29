@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Analytics Dashboard</h1>
+    <p>
+        Detailed analytics and performance overview of the MineGov platform.
+    </p>
+</div>
+
+
+<!-- MINE OVERVIEW -->
+
+<div class="analytics-section">
+
+    <h2>Mine Overview</h2>
+
+    <div class="analytics-grid">
+
+        <div class="analytics-card">
+            <span>Total Mines</span>
+            <strong>{{ total_mines }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Active Mines</span>
+            <strong>{{ active_mines }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Inactive Mines</span>
+            <strong>{{ inactive_mines }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Maintenance Mines</span>
+            <strong>{{ maintenance_mines }}</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- COMPLIANCE -->
+
+<div class="analytics-section">
+
+    <h2>Compliance Analytics</h2>
+
+    <div class="analytics-grid">
+
+        <div class="analytics-card">
+            <span>Total Compliance</span>
+            <strong>{{ total_compliance }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Completed</span>
+            <strong>{{ completed_compliance }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Pending</span>
+            <strong>{{ pending_compliance }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Overdue</span>
+            <strong>{{ overdue_compliance }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Due Soon</span>
+            <strong>{{ due_soon_compliance }}</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- INSPECTIONS -->
+
+<div class="analytics-section">
+
+    <h2>Inspection Analytics</h2>
+
+    <div class="analytics-grid">
+
+        <div class="analytics-card">
+            <span>Total Inspections</span>
+            <strong>{{ total_inspections }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Scheduled</span>
+            <strong>{{ scheduled_inspections }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>In Progress</span>
+            <strong>{{ in_progress_inspections }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Completed</span>
+            <strong>{{ completed_inspections }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Cancelled</span>
+            <strong>{{ cancelled_inspections }}</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- VIOLATIONS -->
+
+<div class="analytics-section">
+
+    <h2>Violation Analytics</h2>
+
+    <div class="analytics-grid">
+
+        <div class="analytics-card">
+            <span>Total Violations</span>
+            <strong>{{ total_violations }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Open</span>
+            <strong>{{ open_violations }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>In Progress</span>
+            <strong>{{ in_progress_violations }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Resolved</span>
+            <strong>{{ resolved_violations }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Closed</span>
+            <strong>{{ closed_violations }}</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- VIOLATION SEVERITY -->
+
+<div class="analytics-section">
+
+    <h2>Violation Severity</h2>
+
+    <div class="analytics-grid">
+
+        <div class="analytics-card">
+            <span>Critical</span>
+            <strong>{{ critical_violations }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>High</span>
+            <strong>{{ high_violations }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Medium</span>
+            <strong>{{ medium_violations }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Low</span>
+            <strong>{{ low_violations }}</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CONTRACTORS -->
+
+<div class="analytics-section">
+
+    <h2>Contractor Analytics</h2>
+
+    <div class="analytics-grid">
+
+        <div class="analytics-card">
+            <span>Total Contractors</span>
+            <strong>{{ total_contractors }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Active</span>
+            <strong>{{ active_contractors }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Inactive</span>
+            <strong>{{ inactive_contractors }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Suspended</span>
+            <strong>{{ suspended_contractors }}</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- DOCUMENTS -->
+
+<div class="analytics-section">
+
+    <h2>Contractor Documents</h2>
+
+    <div class="analytics-grid">
+
+        <div class="analytics-card">
+            <span>Total Documents</span>
+            <strong>{{ total_documents }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Valid</span>
+            <strong>{{ valid_documents }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Expiring</span>
+            <strong>{{ expiring_documents }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Expired</span>
+            <strong>{{ expired_documents }}</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- RISK -->
+
+<div class="analytics-section">
+
+    <h2>Mine Risk Distribution</h2>
+
+    <div class="analytics-grid">
+
+        <div class="analytics-card">
+            <span>Low Risk</span>
+            <strong>{{ low_risk }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Medium Risk</span>
+            <strong>{{ medium_risk }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>High Risk</span>
+            <strong>{{ high_risk }}</strong>
+        </div>
+
+        <div class="analytics-card">
+            <span>Critical Risk</span>
+            <strong>{{ critical_risk }}</strong>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

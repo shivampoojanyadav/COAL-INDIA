@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inspector Dashboard | MineGov</title>
+</head>
+
+<body>
+
+    <h1>Inspection Dashboard</h1>
+
+    <p>Welcome, {{ request.user.username }}</p>
+
+    <p>Role: {{ request.user.get_role_display }}</p>
+
+    <hr>
+
+    <h2>Inspection Operations</h2>
+
+    <ul>
+        <li>Start Inspection</li>
+        <li>Pending Inspections</li>
+        <li>Completed Inspections</li>
+        <li>Report Violation</li>
+        <li>Inspection History</li>
+    </ul>
+
+    <a href="{% url 'logout' %}">Logout</a>
+
+</body>
+
+</html>

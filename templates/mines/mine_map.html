@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Mine GIS Map{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<style>
+    #mine-map {
+        height: 650px;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .map-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .map-legend {
+        margin-top: 15px;
+        padding: 15px;
+        border: 1px solid #e1e6ed;
+        border-radius: 8px;
+        background: #ffffff;
+    }
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="map-header">
+
+    <div>
+        <h1>Mine GIS Map</h1>
+        <p>
+            Geographic view of registered mining sites.
+        </p>
+    </div>
+
+    <a href="{% url 'mine_list' %}">
+        Back to Mines
+    </a>
+
+</div>
+
+
+<div class="content-card">
+
+    <div id="mine-map"></div>
+
+    <div class="map-legend">
+
+        <strong>Map Information</strong>
+
+        <p>
+            Click a mine marker to view its details.
+        </p>
+
+    </div>
+
+</div>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+<script>
+
+    const mines = [
+        {% for mine in mines %}
+        {
+            id: {{ mine.id }},
+            name: "{{ mine.name|escapejs }}",
+            code: "{{ mine.mine_code|escapejs }}",
+            state: "{{ mine.state|escapejs }}",
+            district: "{{ mine.district|escapejs }}",
+            status: "{{ mine.get_status_display|escapejs }}",
+            latitude: {{ mine.latitude }},
+            longitude: {{ mine.longitude }}
+        },
+        {% endfor %}
+    ];
+
+
+    const map = L.map("mine-map").setView(
+        [22.5, 80.0],
+        5
+    );
+
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            attribution:
+                '&copy; OpenStreetMap contributors'
+        }
+    ).addTo(map);
+
+
+    mines.forEach(function(mine) {
+
+        const marker = L.marker([
+            mine.latitude,
+            mine.longitude
+        ]).addTo(map);
+
+
+        marker.bindPopup(`
+            <strong>${mine.name}</strong>
+            <br>
+            Mine Code: ${mine.code}
+            <br>
+            State: ${mine.state}
+            <br>
+            District: ${mine.district}
+            <br>
+            Status: ${mine.status}
+            <br><br>
+            <a href="/mines/${mine.id}/">
+                View Mine Details
+            </a>
+        `);
+
+    });
+
+
+    if (mines.length > 0) {
+
+        const bounds = mines.map(function(mine) {
+            return [
+                mine.latitude,
+                mine.longitude
+            ];
+        });
+
+        map.fitBounds(bounds, {
+            padding: [30, 30]
+        });
+
+    }
+
+</script>
+
+{% endblock %}
