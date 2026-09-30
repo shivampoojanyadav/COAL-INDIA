@@ -8,7 +8,7 @@
 
     <div>
 
-        <h1>{{ mine.name }}</h1>
+        <h1>{{ mine.name }} - Risk History</h1>
 
         <p>
             Historical risk assessment
@@ -87,7 +87,7 @@
     </table>
 
     <td>
-        <a href="{% url 'mine_risk_history' item.mine.id %}">
+        <a href="{% url 'mine_risk_history' mine_id=mine.id %}">
             View History
         </a>
     </td>
