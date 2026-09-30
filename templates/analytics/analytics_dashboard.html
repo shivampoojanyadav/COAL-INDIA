@@ -1,5 +1,42 @@
 {% extends "base.html" %}
 
+{% block extra_css %}
+<style>
+    .analytics-charts {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-bottom: 32px;
+    }
+
+    .chart-card {
+        background: #ffffff;
+        border: 1px solid #e1e6ed;
+        border-radius: 10px;
+        padding: 22px;
+        min-height: 380px;
+    }
+
+    .chart-card h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        color: #172b4d;
+        font-size: 19px;
+    }
+
+    .chart-container {
+        position: relative;
+        height: 300px;
+    }
+
+    @media (max-width: 900px) {
+        .analytics-charts {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 
 <div class="page-header">
@@ -282,6 +319,97 @@
         <div class="analytics-card">
             <span>Critical Risk</span>
             <strong>{{ critical_risk }}</strong>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     ANALYTICS CHARTS
+     ===================================================== -->
+
+<div class="analytics-section">
+
+    <h2>Visual Analytics</h2>
+
+    <div class="analytics-charts">
+
+        <!-- MINE STATUS -->
+
+        <div class="chart-card">
+
+            <h3>Mine Status</h3>
+
+            <div class="chart-container">
+                <canvas id="mineStatusChart"></canvas>
+            </div>
+
+        </div>
+
+
+        <!-- COMPLIANCE -->
+
+        <div class="chart-card">
+
+            <h3>Compliance Status</h3>
+
+            <div class="chart-container">
+                <canvas id="complianceChart"></canvas>
+            </div>
+
+        </div>
+
+
+        <!-- INSPECTIONS -->
+
+        <div class="chart-card">
+
+            <h3>Inspection Status</h3>
+
+            <div class="chart-container">
+                <canvas id="inspectionChart"></canvas>
+            </div>
+
+        </div>
+
+
+        <!-- VIOLATIONS -->
+
+        <div class="chart-card">
+
+            <h3>Violation Severity</h3>
+
+            <div class="chart-container">
+                <canvas id="violationChart"></canvas>
+            </div>
+
+        </div>
+
+
+        <!-- CONTRACTOR DOCUMENTS -->
+
+        <div class="chart-card">
+
+            <h3>Contractor Documents</h3>
+
+            <div class="chart-container">
+                <canvas id="documentChart"></canvas>
+            </div>
+
+        </div>
+
+
+        <!-- RISK -->
+
+        <div class="chart-card">
+
+            <h3>Mine Risk Distribution</h3>
+
+            <div class="chart-container">
+                <canvas id="riskChart"></canvas>
+            </div>
+
         </div>
 
     </div>

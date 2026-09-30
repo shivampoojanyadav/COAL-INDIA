@@ -7,9 +7,16 @@ from .risk_engine import update_mine_risk
 from .ml.predict import predict_mine_risk
 from .ai_engine import generate_risk_explanation
 from datetime import timedelta
+from .audit import create_audit_log
+
+from django.db.models import Q
+
+from django.http import FileResponse
+from .report_engine import build_mine_compliance_report
 
 from django.shortcuts import render, redirect
 from django.utils import timezone
+from .decorators import role_required
 
 from .forms import (
     ComplianceForm,
@@ -27,6 +34,8 @@ from .models import (
     Contractor,
     ContractorDocument,
     Notification,
+    RiskHistory,
+    AuditLog,
 )
 
 from django.shortcuts import (
@@ -85,6 +94,7 @@ def mine_list(request):
 
 
 @login_required
+@role_required("ADMIN", "MANAGER")
 def mine_create(request):
 
     if request.user.role not in ["ADMIN", "MANAGER"]:
@@ -95,7 +105,16 @@ def mine_create(request):
         form = MineForm(request.POST)
 
         if form.is_valid():
-            form.save()
+
+            mine = form.save()
+
+            create_audit_log(
+                request.user,
+                "CREATE",
+                f"Created mine {mine.name} ({mine.mine_code})",
+                "Mine",
+                mine.id
+            )
 
             return redirect("mine_list")
 
@@ -112,12 +131,16 @@ def mine_create(request):
     )
 
 @login_required
+@role_required("ADMIN", "MANAGER")
 def mine_edit(request, mine_id):
 
     if request.user.role not in ["ADMIN", "MANAGER"]:
         return redirect("unauthorized")
 
-    mine = get_object_or_404(Mine, id=mine_id)
+    mine = get_object_or_404(
+        Mine,
+        id=mine_id
+    )
 
     if request.method == "POST":
 
@@ -127,7 +150,16 @@ def mine_edit(request, mine_id):
         )
 
         if form.is_valid():
+
             form.save()
+
+            create_audit_log(
+                request.user,
+                "UPDATE",
+                f"Updated mine {mine.name} ({mine.mine_code})",
+                "Mine",
+                mine.id
+            )
 
             return redirect("mine_list")
 
@@ -149,6 +181,7 @@ def mine_edit(request, mine_id):
 
 
 @login_required
+@role_required("ADMIN", "MANAGER")
 def mine_delete(request, mine_id):
 
     if request.user.role not in ["ADMIN", "MANAGER"]:
@@ -160,6 +193,14 @@ def mine_delete(request, mine_id):
     )
 
     if request.method == "POST":
+
+        create_audit_log(
+            request.user,
+            "DELETE",
+            f"Deleted mine {mine.name} ({mine.mine_code})",
+            "Mine",
+            mine.id
+        )
 
         mine.delete()
 
@@ -1100,10 +1141,243 @@ def analytics_dashboard(request):
         "medium_risk": medium_risk,
         "high_risk": high_risk,
         "critical_risk": critical_risk,
+
+        "mine_status_labels": ["Active", "Inactive", "Maintenance"],
+        "mine_status_data": [
+            active_mines,
+            inactive_mines,
+            maintenance_mines,
+        ],
+
+        "compliance_status_labels": [
+            "Completed",
+            "Pending",
+            "Overdue",
+            "Due Soon",
+        ],
+        "compliance_status_data": [
+            completed_compliance,
+            pending_compliance,
+            overdue_compliance,
+            due_soon_compliance,
+        ],
+
+        "inspection_status_labels": [
+            "Scheduled",
+            "In Progress",
+            "Completed",
+            "Cancelled",
+        ],
+        "inspection_status_data": [
+            scheduled_inspections,
+            in_progress_inspections,
+            completed_inspections,
+            cancelled_inspections,
+        ],
+
+        "violation_severity_labels": [
+            "Critical",
+            "High",
+            "Medium",
+            "Low",
+        ],
+        "violation_severity_data": [
+            critical_violations,
+            high_violations,
+            medium_violations,
+            low_violations,
+        ],
+
+        "document_status_labels": [
+            "Valid",
+            "Expiring",
+            "Expired",
+        ],
+        "document_status_data": [
+            valid_documents,
+            expiring_documents,
+            expired_documents,
+        ],
+
+        "risk_labels": [
+            "Low",
+            "Medium",
+            "High",
+            "Critical",
+        ],
+        "risk_data": [
+            low_risk,
+            medium_risk,
+            high_risk,
+            critical_risk,
+        ],
+
+        
     }
 
     return render(
         request,
         "analytics/analytics_dashboard.html",
         context
+    )
+
+
+def mine_compliance_report(request, mine_id):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    mine = get_object_or_404(Mine, id=mine_id)
+
+    pdf = build_mine_compliance_report(mine)
+
+    filename = (
+        f"{mine.mine_code}_compliance_report.pdf"
+    )
+
+    return FileResponse(
+        pdf,
+        as_attachment=True,
+        filename=filename,
+        content_type="application/pdf",
+    )
+
+
+def ai_assistant(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    answer = None
+    question = ""
+
+    if request.method == "POST":
+        question = request.POST.get("question", "").strip()
+        q = question.lower()
+
+        if "high risk" in q or "high-risk" in q:
+            mines = Mine.objects.filter(
+                risk_level="HIGH"
+            )
+
+            if mines.exists():
+                names = ", ".join(
+                    mine.name for mine in mines
+                )
+
+                answer = (
+                    f"The following mines currently have "
+                    f"HIGH risk: {names}."
+                )
+            else:
+                answer = "No mines currently have HIGH risk."
+
+        elif "critical risk" in q or "critical-risk" in q:
+            mines = Mine.objects.filter(
+                risk_level="CRITICAL"
+            )
+
+            if mines.exists():
+                names = ", ".join(
+                    mine.name for mine in mines
+                )
+
+                answer = (
+                    f"The following mines currently have "
+                    f"CRITICAL risk: {names}."
+                )
+            else:
+                answer = (
+                    "No mines currently have CRITICAL risk."
+                )
+
+        elif "overdue compliance" in q:
+            count = Compliance.objects.filter(
+                status="PENDING",
+                due_date__lt=timezone.localdate()
+            ).count()
+
+            answer = (
+                f"There are currently {count} "
+                f"overdue compliance requirement(s)."
+            )
+
+        elif "critical violation" in q:
+            count = Violation.objects.filter(
+                severity="CRITICAL"
+            ).exclude(
+                status="CLOSED"
+            ).count()
+
+            answer = (
+                f"There are currently {count} "
+                f"open critical violation(s)."
+            )
+
+        elif "expired" in q and "document" in q:
+            count = ContractorDocument.objects.filter(
+                expiry_date__lt=timezone.localdate()
+            ).count()
+
+            answer = (
+                f"There are currently {count} "
+                f"expired contractor document(s)."
+            )
+
+        elif "total mine" in q or "how many mines" in q:
+            count = Mine.objects.count()
+
+            answer = (
+                f"MineGov currently has {count} "
+                f"registered mine(s)."
+            )
+
+        elif "total violation" in q:
+            count = Violation.objects.count()
+
+            answer = (
+                f"There are currently {count} "
+                f"violation record(s)."
+            )
+
+        elif "total contractor" in q:
+            count = Contractor.objects.count()
+
+            answer = (
+                f"MineGov currently has {count} "
+                f"contractor(s)."
+            )
+
+        else:
+            answer = (
+                "I can currently answer questions about "
+                "mines, risk levels, compliance, violations, "
+                "contractors, and contractor documents."
+            )
+
+    return render(
+        request,
+        "assistant/assistant.html",
+        {
+            "question": question,
+            "answer": answer,
+        },
+    )
+
+
+@login_required
+@role_required("ADMIN")
+def audit_logs(request):
+
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    logs = AuditLog.objects.select_related(
+        "user"
+    ).all()[:100]
+
+    return render(
+        request,
+        "audit/audit_list.html",
+        {
+            "logs": logs
+        }
     )

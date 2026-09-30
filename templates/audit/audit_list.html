@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Audit Logs</h1>
+    <p>Track important actions performed across MineGov.</p>
+</div>
+
+<div class="content-card">
+
+    <div class="table-responsive">
+
+        <table class="data-table">
+
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Module</th>
+                    <th>Description</th>
+                    <th>Date & Time</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for log in logs %}
+
+                <tr>
+
+                    <td>
+                        {% if log.user %}
+                            {{ log.user.username }}
+                        {% else %}
+                            System
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <span class="audit-action">
+                            {{ log.action }}
+                        </span>
+                    </td>
+
+                    <td>
+                        {{ log.model_name }}
+                    </td>
+
+                    <td>
+                        {{ log.description }}
+                    </td>
+
+                    <td>
+                        {{ log.created_at|date:"d M Y, H:i" }}
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="5">
+                        No audit activity recorded yet.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

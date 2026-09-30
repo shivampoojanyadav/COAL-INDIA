@@ -119,6 +119,45 @@ Admin Dashboard
 
 </div>
 
+<div class="content-card">
+
+    <div class="section-header">
+        <div>
+            <h2>Quick Actions</h2>
+            <p>Frequently used MineGov operations.</p>
+        </div>
+    </div>
+
+    <div class="quick-actions">
+
+        <a href="{% url 'mine_create' %}" class="action-button">
+            Add Mine
+        </a>
+
+        <a href="{% url 'compliance_create' %}" class="action-button">
+            Add Compliance
+        </a>
+
+        <a href="{% url 'inspection_create' %}" class="action-button">
+            Schedule Inspection
+        </a>
+
+        <a href="{% url 'violation_create' %}" class="action-button">
+            Report Violation
+        </a>
+
+        <a href="{% url 'contractor_create' %}" class="action-button">
+            Add Contractor
+        </a>
+
+        <a href="{% url 'analytics_dashboard' %}" class="action-button">
+            View Analytics
+        </a>
+
+    </div>
+
+</div>
+
 
 <div class="content-grid">
 

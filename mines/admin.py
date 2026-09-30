@@ -9,6 +9,7 @@ from .models import (
     ContractorDocument,
     Notification,
     RiskHistory,
+    AuditLog,
 )
 
 
@@ -200,4 +201,32 @@ class RiskHistoryAdmin(admin.ModelAdmin):
     search_fields = (
         "mine__name",
         "mine__mine_code",
+    )
+
+
+@admin.register(AuditLog)
+class AuditLogAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "user",
+        "action",
+        "model_name",
+        "object_id",
+        "created_at",
+    )
+
+    list_filter = (
+        "action",
+        "model_name",
+        "created_at",
+    )
+
+    search_fields = (
+        "description",
+        "object_id",
+        "user__username",
+    )
+
+    readonly_fields = (
+        "created_at",
     )

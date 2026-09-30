@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>MineGov AI Assistant</h1>
+    <p>
+        Ask questions about mines, compliance, violations,
+        contractors and risk.
+    </p>
+</div>
+
+<div class="assistant-card">
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="question">
+            Ask MineGov
+        </label>
+
+        <textarea
+            id="question"
+            name="question"
+            rows="4"
+            placeholder="Example: Which mines are high risk?"
+        >{{ question }}</textarea>
+
+        <button type="submit" class="btn btn-primary">
+            Ask MineGov
+        </button>
+    </form>
+
+    {% if answer %}
+
+        <div class="assistant-answer">
+
+            <h3>MineGov Response</h3>
+
+            <p>
+                {{ answer }}
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

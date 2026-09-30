@@ -126,5 +126,15 @@ urlpatterns = [
     ),
 
     path("analytics/", include("mines.analytics_urls")),
+
+    path(
+    "assistant/",
+    include("mines.assistant_urls")
+    ),
+
+    path(
+    "audit/",
+    include("mines.audit_urls")
+    ),
     
 ]

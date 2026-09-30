@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-
+from .views import mine_compliance_report
 
 urlpatterns = [
 
@@ -36,5 +36,13 @@ urlpatterns = [
     ),
 
     path("map/", views.mine_map, name="mine_map"),
+
+    path(
+    "<int:mine_id>/compliance-report/",
+    mine_compliance_report,
+    name="mine_compliance_report",
+    ),
+
+
 
 ]
