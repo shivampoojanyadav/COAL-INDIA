@@ -1,32 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Contractor Dashboard | MineGov</title>
-</head>
+{% block content %}
 
-<body>
+<div class="page-header">
 
-    <h1>Contractor Dashboard</h1>
+    <div>
+        <h1>Contractor Dashboard</h1>
+        <p>
+            Manage contractor information and compliance documents.
+        </p>
+    </div>
 
-    <p>Welcome, {{ request.user.username }}</p>
+</div>
 
-    <p>Role: {{ request.user.get_role_display }}</p>
 
-    <hr>
+<div class="content-card">
 
-    <h2>Contractor Operations</h2>
+    <div class="section-header">
 
-    <ul>
-        <li>Assigned Work</li>
-        <li>Compliance Documents</li>
-        <li>Pending Actions</li>
-        <li>Contract Information</li>
-    </ul>
+        <div>
+            <h2>Contractor Operations</h2>
+            <p>
+                Access contractor management and document information.
+            </p>
+        </div>
 
-    <a href="{% url 'logout' %}">Logout</a>
+    </div>
 
-</body>
 
-</html>
+    <div class="quick-actions">
+
+        <a href="{% url 'contractor_list' %}" class="action-button">
+            Contractors
+        </a>
+
+        <a href="{% url 'notification_list' %}" class="action-button">
+            Notifications
+        </a>
+
+        <a href="{% url 'compliance_list' %}" class="action-button">
+            Compliance
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

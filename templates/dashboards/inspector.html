@@ -1,33 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Inspector Dashboard | MineGov</title>
-</head>
+{% block content %}
 
-<body>
+<div class="page-header">
 
-    <h1>Inspection Dashboard</h1>
+    <div>
+        <h1>Inspector Dashboard</h1>
+        <p>
+            Manage inspections, findings and mine violations.
+        </p>
+    </div>
 
-    <p>Welcome, {{ request.user.username }}</p>
+</div>
 
-    <p>Role: {{ request.user.get_role_display }}</p>
 
-    <hr>
+<div class="content-card">
 
-    <h2>Inspection Operations</h2>
+    <div class="section-header">
 
-    <ul>
-        <li>Start Inspection</li>
-        <li>Pending Inspections</li>
-        <li>Completed Inspections</li>
-        <li>Report Violation</li>
-        <li>Inspection History</li>
-    </ul>
+        <div>
+            <h2>Inspection Operations</h2>
+            <p>
+                Access inspection and violation management tools.
+            </p>
+        </div>
 
-    <a href="{% url 'logout' %}">Logout</a>
+    </div>
 
-</body>
 
-</html>
+    <div class="quick-actions">
+
+        <a href="{% url 'inspection_list' %}" class="action-button">
+            Inspections
+        </a>
+
+        <a href="{% url 'inspection_create' %}" class="action-button">
+            Schedule Inspection
+        </a>
+
+        <a href="{% url 'violation_list' %}" class="action-button">
+            Violations
+        </a>
+
+        <a href="{% url 'violation_create' %}" class="action-button">
+            Report Violation
+        </a>
+
+        <a href="{% url 'mine_list' %}" class="action-button">
+            Mine Overview
+        </a>
+
+        <a href="{% url 'risk_dashboard' %}" class="action-button">
+            Risk Monitoring
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

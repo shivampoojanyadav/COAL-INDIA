@@ -3,6 +3,10 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
 from mines.risk_engine import calculate_mine_risk
 User = get_user_model()
+from django.contrib.auth import login
+from django.shortcuts import redirect
+from .models import User
+from django.contrib.auth import logout
 
 from datetime import date, timedelta
 
@@ -124,10 +128,37 @@ def admin_dashboard(request):
 
 @login_required
 def manager_dashboard(request):
+
     if request.user.role != "MANAGER":
         return redirect("unauthorized")
 
-    return render(request, "dashboards/manager.html")
+    total_mines = Mine.objects.count()
+
+    active_mines = Mine.objects.filter(
+        status="ACTIVE"
+    ).count()
+
+    open_violations = Violation.objects.filter(
+        status__in=["OPEN", "IN_PROGRESS"]
+    ).count()
+
+    overdue_compliance = Compliance.objects.filter(
+        status="PENDING",
+        due_date__lt=date.today()
+    ).count()
+
+    context = {
+        "total_mines": total_mines,
+        "active_mines": active_mines,
+        "open_violations": open_violations,
+        "overdue_compliance": overdue_compliance,
+    }
+
+    return render(
+        request,
+        "dashboards/manager.html",
+        context
+    )
 
 
 @login_required
@@ -165,3 +196,53 @@ def regulator_dashboard(request):
 @login_required
 def unauthorized(request):
     return render(request, "dashboards/unauthorized.html", status=403)
+
+
+
+def demo_login(request, role):
+
+    demo_users = {
+        "admin": "admin",
+        "manager": "manager1",
+        "inspector": "inspector1",
+        "safety": "safety1",
+        "contractor": "contractor1",
+        "regulator": "regulator1",
+    }
+
+    username = demo_users.get(role)
+
+    if not username:
+        return redirect("login")
+
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return redirect("login")
+
+    login(request, user)
+
+    if user.role == "ADMIN":
+        return redirect("admin_dashboard")
+
+    if user.role == "MANAGER":
+        return redirect("manager_dashboard")
+
+    if user.role == "INSPECTOR":
+        return redirect("inspector_dashboard")
+
+    if user.role == "SAFETY_OFFICER":
+        return redirect("safety_dashboard")
+
+    if user.role == "CONTRACTOR":
+        return redirect("contractor_dashboard")
+
+    if user.role == "REGULATOR":
+        return redirect("regulator_dashboard")
+
+    return redirect("unauthorized")
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")

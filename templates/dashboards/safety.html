@@ -1,33 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Safety Dashboard | MineGov</title>
-</head>
+{% block content %}
 
-<body>
+<div class="page-header">
 
-    <h1>Safety Officer Dashboard</h1>
+    <div>
+        <h1>Safety Officer Dashboard</h1>
+        <p>
+            Monitor safety compliance, inspections and violations.
+        </p>
+    </div>
 
-    <p>Welcome, {{ request.user.username }}</p>
+</div>
 
-    <p>Role: {{ request.user.get_role_display }}</p>
 
-    <hr>
+<div class="content-card">
 
-    <h2>Safety Management</h2>
+    <div class="section-header">
 
-    <ul>
-        <li>Safety Violations</li>
-        <li>Safety Incidents</li>
-        <li>Corrective Actions</li>
-        <li>Safety Inspections</li>
-        <li>Risk Monitoring</li>
-    </ul>
+        <div>
+            <h2>Safety Management</h2>
+            <p>
+                Monitor safety-related activities across MineGov.
+            </p>
+        </div>
 
-    <a href="{% url 'logout' %}">Logout</a>
+    </div>
 
-</body>
 
-</html>
+    <div class="quick-actions">
+
+        <a href="{% url 'compliance_list' %}" class="action-button">
+            Compliance
+        </a>
+
+        <a href="{% url 'inspection_list' %}" class="action-button">
+            Safety Inspections
+        </a>
+
+        <a href="{% url 'violation_list' %}" class="action-button">
+            Safety Violations
+        </a>
+
+        <a href="{% url 'risk_dashboard' %}" class="action-button">
+            Risk Monitoring
+        </a>
+
+        <a href="{% url 'analytics_dashboard' %}" class="action-button">
+            Analytics
+        </a>
+
+        <a href="{% url 'notification_list' %}" class="action-button">
+            Notifications
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <title>Login | MineGov</title>
 
@@ -147,6 +149,64 @@
         </button>
 
     </form>
+
+    <div class="demo-login-section">
+
+    <h3>Demo Access</h3>
+
+    <p>
+        Select a role to explore MineGov.
+    </p>
+
+    <div class="demo-login-grid">
+
+        <a
+            href="{% url 'demo_login' 'admin' %}"
+            class="demo-login-button"
+        >
+            Admin Demo
+        </a>
+
+        <a
+            href="{% url 'demo_login' 'manager' %}"
+            class="demo-login-button"
+        >
+            Manager Demo
+        </a>
+
+        <a
+            href="{% url 'demo_login' 'inspector' %}"
+            class="demo-login-button"
+        >
+            Inspector Demo
+        </a>
+
+        <a
+            href="{% url 'demo_login' 'safety' %}"
+            class="demo-login-button"
+        >
+            Safety Officer Demo
+        </a>
+
+        <a
+            href="{% url 'demo_login' 'contractor' %}"
+            class="demo-login-button"
+        >
+            Contractor Demo
+        </a>
+
+        <a
+            href="{% url 'demo_login' 'regulator' %}"
+            class="demo-login-button"
+        >
+            Regulator Demo
+        </a>
+
+    </div>
+
+</div>
+
+</div>
 
 </div>
 

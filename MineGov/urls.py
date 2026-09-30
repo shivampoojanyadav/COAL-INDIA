@@ -36,11 +36,6 @@ urlpatterns = [
         name="login"
     ),
 
-    path(
-        "logout/",
-        auth_views.LogoutView.as_view(),
-        name="logout"
-    ),
 
     path(
         "dashboard/",
@@ -135,6 +130,18 @@ urlpatterns = [
     path(
     "audit/",
     include("mines.audit_urls")
+    ),
+
+    path(
+    "demo/<str:role>/",
+    views.demo_login,
+    name="demo_login"
+    ),
+
+    path(
+    "logout/",
+    views.logout_view,
+    name="logout"
     ),
     
 ]

@@ -1,34 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Manager Dashboard | MineGov</title>
-</head>
+{% block content %}
 
-<body>
+<div class="page-header">
 
-    <h1>Mine Manager Dashboard</h1>
+    <div>
+        <h1>Mine Manager Dashboard</h1>
+        <p>
+            Monitor mine operations, compliance, inspections and violations.
+        </p>
+    </div>
 
-    <p>Welcome, {{ request.user.username }}</p>
+</div>
 
-    <p>Role: {{ request.user.get_role_display }}</p>
 
-    <hr>
+<div class="stats-grid">
 
-    <h2>Mine Operations</h2>
+    <div class="stat-card">
+        <div class="stat-card-title">
+            Total Mines
+        </div>
 
-    <ul>
-        <li>Mine Overview</li>
-        <li>Compliance Status</li>
-        <li>Open Violations</li>
-        <li>Corrective Actions</li>
-        <li>Inspection Reports</li>
-        <li>Operational Analytics</li>
-    </ul>
+        <div class="stat-card-value">
+            {{ total_mines }}
+        </div>
+    </div>
 
-    <a href="{% url 'logout' %}">Logout</a>
 
-</body>
+    <div class="stat-card">
+        <div class="stat-card-title">
+            Active Mines
+        </div>
 
-</html>
+        <div class="stat-card-value">
+            {{ active_mines }}
+        </div>
+    </div>
+
+
+    <div class="stat-card">
+        <div class="stat-card-title">
+            Open Violations
+        </div>
+
+        <div class="stat-card-value">
+            {{ open_violations }}
+        </div>
+    </div>
+
+
+    <div class="stat-card">
+        <div class="stat-card-title">
+            Overdue Compliance
+        </div>
+
+        <div class="stat-card-value">
+            {{ overdue_compliance }}
+        </div>
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <div class="section-header">
+
+        <div>
+            <h2>Mine Operations</h2>
+
+            <p>
+                Access the modules required for mine management.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="quick-actions">
+
+        <a href="{% url 'mine_list' %}" class="action-button">
+            Mine Overview
+        </a>
+
+
+        <a href="{% url 'compliance_list' %}" class="action-button">
+            Compliance
+        </a>
+
+
+        <a href="{% url 'inspection_list' %}" class="action-button">
+            Inspections
+        </a>
+
+
+        <a href="{% url 'violation_list' %}" class="action-button">
+            Violations
+        </a>
+
+
+        <a href="{% url 'contractor_list' %}" class="action-button">
+            Contractors
+        </a>
+
+
+        <a href="{% url 'analytics_dashboard' %}" class="action-button">
+            Analytics
+        </a>
+
+
+        <a href="{% url 'risk_dashboard' %}" class="action-button">
+            Risk Dashboard
+        </a>
+
+
+        <a href="{% url 'mine_map' %}" class="action-button">
+            GIS Map
+        </a>
+
+
+        <a href="{% url 'notification_list' %}" class="action-button">
+            Notifications
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
