@@ -70,7 +70,7 @@ export function Cell({
   )
 }
 
-/** The 4px amber rule — the one heavy line in the reference. */
+/** The 4px amber rule, the one heavy line in the reference. */
 export function BleedRule({ className }: { className?: string }) {
   return (
     <div aria-hidden="true" className={cn('w-full', className)}>

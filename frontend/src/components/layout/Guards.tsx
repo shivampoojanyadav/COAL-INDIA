@@ -1,5 +1,5 @@
 /* ============================================================================
-   ROUTE GUARDS — the React equivalents of the decorators in
+   ROUTE GUARDS, the React equivalents of the decorators in
    `mines/decorators.py`.
 
    `RequireAuth`  → `login_required`
@@ -55,7 +55,7 @@ export function RequireRole({ roles, children }: { roles: Role[]; children: Reac
       <div className="relative">
         <PipCorners />
         <div className="py-20">
-          <Eyebrow>403 — Restricted</Eyebrow>
+          <Eyebrow>403, Restricted</Eyebrow>
           <div className="mt-6">
             <DisplayTitle lines={['Not available', 'for your role.']} size="d3" />
           </div>

@@ -1,5 +1,5 @@
 /* ============================================================================
-   CONTRACTORS — mirrors `mines/contractor_list.html`,
+   CONTRACTORS, mirrors `mines/contractor_list.html`,
    `contractor_detail.html` and `contractor_form.html`.
 
    The point of this screen in the product is document currency: an expired

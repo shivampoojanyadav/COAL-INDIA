@@ -12,7 +12,7 @@
     grid-column: 1 / -1;
   }
 
-  /* Muted ink ramp — #181d18 alphas, so secondary text sits in the same family
+  /* Muted ink ramp, #181d18 alphas, so secondary text sits in the same family
      as the ink body copy rather than reading as a separate grey.
 
      Alphas are derived from the WCAG floor, not picked by eye. Measured over
@@ -27,7 +27,7 @@
      The names are legacy ramp positions and no longer match the alpha. They are
      kept because ~60 call sites depend on them; only the values moved.
 
-     20 and 30 are ORNAMENT ONLY — never apply them to text. 40 and up carry
+     20 and 30 are ORNAMENT ONLY, never apply them to text. 40 and up carry
      text and are safe for the 11px eyebrows. */
   .ink-20 {
     color: rgba(24, 29, 24, 0.2); /* ornament: borders, dividers, ghosts */
@@ -36,7 +36,7 @@
     color: rgba(24, 29, 24, 0.3); /* ornament: inactive icons, disabled glyphs */
   }
   .ink-40 {
-    color: rgba(24, 29, 24, 0.66); /* AA floor for small text — 5.02:1 */
+    color: rgba(24, 29, 24, 0.66); /* AA floor for small text, 5.02:1 */
   }
   .ink-50 {
     color: rgba(24, 29, 24, 0.74);

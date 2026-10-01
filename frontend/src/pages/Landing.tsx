@@ -1,5 +1,5 @@
 /* ============================================================================
-   LANDING PAGE — the public face of CoaliZEN.
+   LANDING PAGE, the public face of CoaliZEN.
 
    Section order follows ecosankalan.in one-for-one: fixed glass nav, split hero
    with blurred blobs and floating cards, problem band, six-feature grid,

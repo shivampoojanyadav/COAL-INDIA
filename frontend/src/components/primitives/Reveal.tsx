@@ -4,14 +4,14 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import { useReveal } from '@/hooks/useReveal'
 
 /* ============================================================================
-   MASKED REVEAL — Lusion splits every designed headline into one element per
+   MASKED REVEAL, Lusion splits every designed headline into one element per
    line so each can rise independently from below inside an overflow:hidden
    box. The `.mask-rise` class does the transform; this only supplies the
    `data-revealed` attribute and the per-line stagger delay.
    ========================================================================== */
 
 interface MaskLinesProps {
-  /** One entry per visual line. Never rely on \n — split deliberately. */
+  /** One entry per visual line. Never rely on \n, split deliberately. */
   lines: string[]
   className?: string
   lineClassName?: string
@@ -47,7 +47,7 @@ export function MaskLines({
 
 /**
  * Single-element reveal with a fade. Reveal is opacity-only, so the transition
- * goes on the wrapper that actually generates a box — the previous version put
+ * goes on the wrapper that actually generates a box, the previous version put
  * it on a `display:contents` child, where opacity has no effect and the reveal
  * silently did nothing.
  */
@@ -131,7 +131,7 @@ export function CharReveal({
   )
 }
 
-/** Infinite vertical roll ticker — Lusion's `-clone` marquee. */
+/** Infinite vertical roll ticker, Lusion's `-clone` marquee. */
 export function Marquee({
   children,
   className,
@@ -163,7 +163,7 @@ export function Marquee({
 }
 
 /**
- * Odometer — Lusion's `00 00 00` preloader counter. Six `1ch` slots clipped to
+ * Odometer, Lusion's `00 00 00` preloader counter. Six `1ch` slots clipped to
  * `.75em`, each sliding on translateY. Zero-padded so the width never shifts.
  */
 export function Odometer({

@@ -1,5 +1,5 @@
 /* ============================================================================
-   LANDING — ecosankalan.in's marketing layer, re-cut for CoaliZEN.
+   LANDING, ecosankalan.in's marketing layer, re-cut for CoaliZEN.
 
    Structure follows the reference section for section: fixed glass nav, split
    hero with blurred colour blobs and floating stat cards, problem stats, a
@@ -61,7 +61,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     NAV — fixed, glass, shrinks on scroll (the reference does this at 12px).
+     NAV, fixed, glass, shrinks on scroll (the reference does this at 12px).
      -------------------------------------------------------------------------- */
   .lp-nav {
     position: fixed;
@@ -145,7 +145,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     HERO — split layout, blurred organic blobs, floating glass cards
+     HERO, split layout, blurred organic blobs, floating glass cards
      -------------------------------------------------------------------------- */
   .lp-hero {
     position: relative;
@@ -478,7 +478,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     FEATURE GRID — six cards, 3-up
+     FEATURE GRID, six cards, 3-up
      -------------------------------------------------------------------------- */
   .lp-feature-grid {
     display: grid;
@@ -556,7 +556,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     PROCESS RAIL — five numbered steps
+     PROCESS RAIL, five numbered steps
      -------------------------------------------------------------------------- */
   .lp-steps {
     display: grid;
@@ -626,7 +626,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     AI / RISK-ENGINE CALLOUT — dark green band, two columns
+     AI / RISK-ENGINE CALLOUT, dark green band, two columns
      -------------------------------------------------------------------------- */
   .lp-ai {
     background-color: var(--lp-primary);
@@ -682,7 +682,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     IMPACT — four numbers plus a testimonial
+     IMPACT, four numbers plus a testimonial
      -------------------------------------------------------------------------- */
   .lp-impact-grid {
     display: grid;
@@ -869,7 +869,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     SCROLL REVEAL — the reference animates sections in on scroll
+     SCROLL REVEAL, the reference animates sections in on scroll
      -------------------------------------------------------------------------- */
   .lp-reveal {
     opacity: 0;

@@ -1,10 +1,10 @@
 /* ============================================================================
-   API LAYER — the single boundary between the UI and its data source.
+   API LAYER, the single boundary between the UI and its data source.
 
    Two drivers behind one interface:
 
-     mock  (default) — `src/lib/mock/*`, seeded, persisted to localStorage
-     live            — `fetch` against `VITE_API_BASE_URL`, e.g. Django REST
+     mock  (default), `src/lib/mock/*`, seeded, persisted to localStorage
+     live           , `fetch` against `VITE_API_BASE_URL`, e.g. Django REST
 
    Select with `VITE_DATA_SOURCE=live`. Every screen imports `api` from here and
    never touches the mock directly, so wiring the real backend later is a
@@ -147,7 +147,7 @@ const mock: ApiDriver = {
   async me() {
     await latency(60)
     // `currentUser` is module state, so it is empty after a reload. Rebuild it
-    // from the stored session id — the same thing `AuthContext` just read.
+    // from the stored session id, the same thing `AuthContext` just read.
     const user = currentUser ?? resolveStoredUser()
     if (!user) throw new ApiError('Not authenticated.', 401)
     currentUser = user
@@ -563,7 +563,7 @@ const mock: ApiDriver = {
       const mineViolations = db.violations.filter((v) => v.mine === mine.id)
       const open = mineViolations.filter((v) => v.status === 'OPEN' || v.status === 'IN_PROGRESS')
       return {
-        text: `${mine.name} (${mine.mine_code}) carries a risk score of ${mine.risk_score} — ${mine.risk_level}. ${mineViolations.length} violations are on record, ${open.length} of which remain open. The nearest compliance deadline is ${nearestDeadline(db, mine.id)}.`,
+        text: `${mine.name} (${mine.mine_code}) carries a risk score of ${mine.risk_score}, ${mine.risk_level}. ${mineViolations.length} violations are on record, ${open.length} of which remain open. The nearest compliance deadline is ${nearestDeadline(db, mine.id)}.`,
         citations: [
           { label: 'Mine register', value: mine.mine_code },
           { label: 'Violations', value: String(mineViolations.length) },

@@ -1,5 +1,5 @@
 /* ============================================================================
-   AUDIT TRAIL — mirrors `audit_logs.html`. Admin-only in the navigation, and
+   AUDIT TRAIL, mirrors `audit_logs.html`. Admin-only in the navigation, and
    enforced twice: `navForRole` filters the item out of the sidebar, and
    `CAN_VIEW_AUDIT` gates the route in `App.tsx`.
 

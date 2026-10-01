@@ -3,7 +3,7 @@
 
    Create and edit share one screen, so they share one piece of state too. Each
    registry page owns its own field shape and passes it in as `F`; this hook
-   only manages the lifecycle — open, patch, submit, close — plus the error
+   only manages the lifecycle, open, patch, submit, close, plus the error
    surfaced in the sheet footer.
    ========================================================================== */
 

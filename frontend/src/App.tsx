@@ -1,5 +1,5 @@
 /* ============================================================================
-   ROUTES — mirrors `CoaliZEN/urls.py` and `mines/urls.py` one-for-one, so the
+   ROUTES, mirrors `CoaliZEN/urls.py` and `mines/urls.py` one-for-one, so the
    React app and the Django templates describe the same product.
 
    The only intentional divergence: `/dashboard` is a role router in React (it

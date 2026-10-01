@@ -1,5 +1,5 @@
 /* ============================================================================
-   FORM SHEET — the create/edit surface used by every registry screen.
+   FORM SHEET, the create/edit surface used by every registry screen.
 
    A right-hand panel on desktop, full-bleed on mobile, drawn with the Lusion
    vocabulary: hairline border, mono eyebrow, masked display title, dot-filled

@@ -106,7 +106,7 @@ const fontFaces = [...css.matchAll(/@font-face\{([^}]*)\}/g)].map((m) => {
   return `${fam ? fam[1].replace(/['"]/g, '') : '?'} ${w ? w[1] : ''}`.trim()
 })
 console.log('\n=== FONT FACES IN BUILT CSS ===')
-console.log('  ' + (fontFaces.join('\n  ') || '(none — fonts must come from index.html)'))
+console.log('  ' + (fontFaces.join('\n  ') || '(none, fonts must come from index.html)'))
 
 // ---- 4. tailwind arbitrary/utility sanity --------------------------------
 console.log('\n=== KEY CUSTOM VARS PRESENT ===')

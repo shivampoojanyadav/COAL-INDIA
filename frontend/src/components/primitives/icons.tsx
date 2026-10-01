@@ -1,9 +1,9 @@
 import { cn } from '@/lib/cn'
 
 /* ============================================================================
-   ICON KIT — every glyph is stroke-based with `stroke-linecap:round`, exactly
+   ICON KIT, every glyph is stroke-based with `stroke-linecap:round`, exactly
    as in lusion's icon set. Width/height always mirror the viewBox. All paths
-   use `currentColor` (Lusion hard-codes #000/#fff here — we improved it).
+   use `currentColor` (Lusion hard-codes #000/#fff here, we improved it).
    ========================================================================== */
 
 type IconProps = {
@@ -48,7 +48,7 @@ function Svg({
   )
 }
 
-/** 16×16 right arrow — Lusion's `M2.343 8h11.314…` */
+/** 16×16 right arrow, Lusion's `M2.343 8h11.314…` */
 export function ArrowRight({ className, strokeWidth }: IconProps) {
   return (
     <Svg className={className} strokeWidth={strokeWidth}>

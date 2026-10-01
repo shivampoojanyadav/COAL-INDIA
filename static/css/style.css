@@ -276,14 +276,14 @@ table { width: 100%; border-collapse: collapse; background: var(--paper); }
 .stats-grid, .analytics-grid, .risk-kpis { display: flex; gap: 12px; margin-bottom: 20px; width: 100%; overflow-x: auto; }
 .stats-grid > *, .analytics-grid > *, .risk-kpis > * { flex: 1 1 0; min-width: 160px; }
 .stat-card, .analytics-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; min-height: 80px; counter-increment: kpi;
-  position: relative; overflow: hidden; transition: 0.2s ease; box-shadow: var(--shadow); }
+  position: relative; overflow: hidden; transition: 0.2s ease; box-shadow: var(--shadow); display: flex; flex-direction: column; }
 .stat-card:hover, .analytics-card:hover { 
   box-shadow: var(--shadow); }
 .stat-card::before, .analytics-card::before { display: none; }
 .stat-card::after, .analytics-card::after { display: none; }
 .stat-label, .analytics-card span, .stat-card h3 { font-family: var(--font-body); font-size: 11px; color: var(--muted); margin: 0 0 4px 0; display: block; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding-left: 0; }
 .stat-value, .analytics-card strong { font-family: var(--font-display); font-size: 26px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.2; color: var(--ink); padding-left: 0;
-  font-variant-numeric: tabular-nums; }
+  font-variant-numeric: tabular-nums; margin-top: auto; }
 .stat-description { font-size: 12px; color: var(--muted); margin-top: 4px; padding-left: 0; }
 .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-bottom: 20px; }
 
@@ -374,7 +374,7 @@ span.map-pill { cursor: default; border-style: dashed;  }
 .bf-blue { background: linear-gradient(90deg, #5b9bd5, #1d5fa8); }
 .bf-grey { background: linear-gradient(90deg, #b9bda9, #8a8f7d); }
 .bar-val { font-family: var(--font-display); font-size: 19px; text-align: right;
-  font-variant-numeric: tabular-nums; }
+  font-variant-numeric: tabular-nums; margin-top: auto; }
 
 /* ---------- Risk / notifications / misc ---------- */
 .risk-analysis-card { padding: 22px; margin-bottom: 14px; border: 1px solid var(--line);

@@ -1,5 +1,5 @@
 """
-ASGI config for MineGov project.
+ASGI config for CoaliZEN project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

@@ -16,7 +16,7 @@ import { Dot } from '@/components/primitives/Sticker'
      CRITICAL -> ink   #111827  17.7:1  <- maximum gravity
 
    Critical is ink rather than the danger red: ink-on-#d92d20 is 4.4:1, short
-   of AA at this size. These are FILLS — as text on cream the raw accents run
+   of AA at this size. These are FILLS, as text on cream the raw accents run
    1.30-3.00:1, so nothing here is ever used as a bare text colour.
    ========================================================================== */
 
@@ -103,7 +103,7 @@ export function DocumentTag({ status }: { status: DocumentStatus }) {
 }
 
 /* ============================================================================
-   STAT CARD — the primary dashboard surface.
+   STAT CARD, the primary dashboard surface.
    All-caps accent eyebrow, count-up numeral in the display voice, optional
    sparkline, optional delta. The reference puts these on cream cards with a
    4px coloured left stripe, which is carried over.
@@ -184,7 +184,7 @@ export function StatCard({
   )
 
   /* Every tone is a filled card, so none of them needs a border to stay
-     legible against the canvas — the reference's stat blocks are cream-on-
+     legible against the canvas, the reference's stat blocks are cream-on-
      cream and rely on the 4px left stripe instead. */
   const shell = cn(
     'group relative overflow-hidden rounded-card border border-line p-6 lg:p-7',
@@ -210,7 +210,7 @@ export function StatCard({
 }
 
 /* ============================================================================
-   PANEL — a cream card with a hairline edge, matching `.cpg-card`. The
+   PANEL, a cream card with a hairline edge, matching `.cpg-card`. The
    reference boxes its content this way rather than ruling it off with
    dividers.
    ========================================================================== */
@@ -255,7 +255,7 @@ export function Panel({
 }
 
 /* ============================================================================
-   EMPTY / LOADING / ERROR — the three states every data surface must handle.
+   EMPTY / LOADING / ERROR, the three states every data surface must handle.
    ========================================================================== */
 
 export function EmptyState({
@@ -321,7 +321,7 @@ export function ErrorState({
 }
 
 /* ============================================================================
-   DATA TABLE — hairline rows, mono uppercase head, no vertical rules.
+   DATA TABLE, hairline rows, mono uppercase head, no vertical rules.
    Lusion's `.dg-table` equivalent.
    ========================================================================== */
 

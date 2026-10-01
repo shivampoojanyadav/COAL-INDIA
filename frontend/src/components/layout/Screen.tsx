@@ -1,5 +1,5 @@
 /* ============================================================================
-   SCREEN SCAFFOLD — the shared frame for every list screen.
+   SCREEN SCAFFOLD, the shared frame for every list screen.
 
    All eight registry screens (mines, compliance, inspections, violations,
    contractors, documents, audit, notifications) share the same anatomy:

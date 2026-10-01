@@ -1,5 +1,5 @@
 /* ============================================================================
-   MINE DETAIL — mirrors `mine_detail.html`: the identity block, live risk, and
+   MINE DETAIL, mirrors `mine_detail.html`: the identity block, live risk, and
    every record attached to that mine. This is the screen that proves the data
    layer, because all six collections converge here.
    ========================================================================== */

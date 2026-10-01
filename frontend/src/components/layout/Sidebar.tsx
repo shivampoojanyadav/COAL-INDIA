@@ -1,5 +1,5 @@
 /* ============================================================================
-   SIDEBAR — the left rail.
+   SIDEBAR, the left rail.
 
    Built on the reference's Material 3 navigation pattern: a quiet list of
    tonal pills that fill green when active. The reference has no sidebar (it

@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "MineGov — coal mine safety governance platform. React + Tailwind frontend.",
+  "description": "MineGov, coal mine safety governance platform. React + Tailwind frontend.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

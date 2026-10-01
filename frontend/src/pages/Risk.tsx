@@ -1,11 +1,11 @@
 /* ============================================================================
-   RISK INTELLIGENCE — the differentiator. Mirrors `risk_dashboard.html`,
+   RISK INTELLIGENCE, the differentiator. Mirrors `risk_dashboard.html`,
    `risk_detail.html` and `predict_risk`.
 
    Three engines are shown side by side on purpose:
-     1. the rule-based score  — a faithful port of `risk_engine.py`
-     2. the ML prediction     — stands in for `mines/ml/predict.py`
-     3. the AI explanation    — a port of `ai_engine.generate_risk_explanation`
+     1. the rule-based score , a faithful port of `risk_engine.py`
+     2. the ML prediction    , stands in for `mines/ml/predict.py`
+     3. the AI explanation   , a port of `ai_engine.generate_risk_explanation`
 
    Showing all three, with their disagreement made explicit, is a far stronger
    demo than a single opaque number.
@@ -211,7 +211,7 @@ function HowItWorks() {
   const rows: { title: string; body: string }[] = [
     {
       title: 'Rule engine',
-      body: 'Open and in-progress violations are summed by severity — 5, 10, 20 and 35 points. Overdue compliance adds 10 each, capped at 30. Overdue inspections add 10 each, capped at 20. Expired contractor documents add 5 each, capped at 20. The total is clamped to 100.',
+      body: 'Open and in-progress violations are summed by severity, 5, 10, 20 and 35 points. Overdue compliance adds 10 each, capped at 30. Overdue inspections add 10 each, capped at 20. Expired contractor documents add 5 each, capped at 20. The total is clamped to 100.',
     },
     {
       title: 'ML prediction',

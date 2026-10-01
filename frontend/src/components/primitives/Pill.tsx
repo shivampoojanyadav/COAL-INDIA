@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { cn } from '@/lib/cn'
 
 /* ============================================================================
-   BUTTONS — the reference's four button families.
+   BUTTONS, the reference's four button families.
 
    Filled is the 135° green gradient with white text (9.52:1). Tonal is the
    light green container with ink. Outlined is a 1.5px primary border. Text is

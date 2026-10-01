@@ -1,5 +1,5 @@
 /* ============================================================================
-   ASYNC DATA HOOKS — the smallest thing that removes the
+   ASYNC DATA HOOKS, the smallest thing that removes the
    `useState` + `useEffect` + `try/catch` + `loading` + `error` boilerplate
    from every screen.
 
@@ -78,7 +78,7 @@ export function useAsync<T>(
 }
 
 /**
- * Debounces a rapidly changing value — search boxes, date pickers.
+ * Debounces a rapidly changing value, search boxes, date pickers.
  */
 export function useDebounced<T>(value: T, delay = 250): T {
   const [debounced, setDebounced] = useState(value)

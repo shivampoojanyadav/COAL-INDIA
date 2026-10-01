@@ -4,7 +4,7 @@
    The signed-in identity lives in `sessionStorage`, not `localStorage`, so
    closing the tab ends the session rather than leaving a terminal open.
 
-   Only the user id is stored — never a token, never a role. That is
+   Only the user id is stored, never a token, never a role. That is
    deliberate: a role change applied in the backend must take effect on the
    next `api.me()` rather than being trusted from whatever the client cached.
 

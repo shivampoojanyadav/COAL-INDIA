@@ -1,12 +1,12 @@
 /* ============================================================================
-   HERO FIELD — the landing page's WebGL background.
+   HERO FIELD, the landing page's WebGL background.
 
    A hand-rolled raymarched SDF, not a 3D library. Three.js would add ~150KB
    gzipped to a page whose whole point is that it loads fast, and the only
    primitive we want is one signed-distance field. The same reasoning as the
    hand-rolled SVG charts: off-the-shelf abstractions would fight us here.
 
-   The object is a slowly twisting torus band fused to a smaller sphere — an
+   The object is a slowly twisting torus band fused to a smaller sphere, an
    abstract, continuously-scored form that sits behind the hero copy and the
    console panel. It is deliberately low-contrast: it reads as depth and
    parallax, never as content competing with the headline.
@@ -97,7 +97,7 @@ float map(vec3 p, float t) {
 
 vec3 calcNormal(vec3 p, float t) {
   // Central differences. Two tetrahedral samples rather than the usual four
-  // axis probes — same silhouette, one fewer texture-free map() call.
+  // axis probes, same silhouette, one fewer texture-free map() call.
   vec2 e = vec2(1.0, -1.0) * 0.0012;
   return normalize(
     e.xyy * map(p + e.xyy, t) +
@@ -293,8 +293,8 @@ export function HeroField({ className }: { className?: string }) {
       if (disposed) return
       resize()
       gl.uniform2f(uRes, canvas.width, canvas.height)
-      // Reduced motion still gets a frame — just a single one at t=0, never a
-      // loop — so the hero is not empty for those users.
+      // Reduced motion still gets a frame, just a single one at t=0, never a
+      // loop, so the hero is not empty for those users.
       gl.uniform1f(uTime, (now - start) / 1000)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
 

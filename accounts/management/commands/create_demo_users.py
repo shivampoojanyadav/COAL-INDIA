@@ -4,39 +4,39 @@ from accounts.models import User
 
 class Command(BaseCommand):
 
-    help = "Create demo users for MineGov"
+    help = "Create demo users for CoaliZEN"
 
     def handle(self, *args, **kwargs):
 
         users = [
             {
                 "username": "admin",
-                "email": "admin@minegov.local",
+                "email": "admin@CoaliZEN.local",
                 "role": "ADMIN",
             },
             {
                 "username": "manager1",
-                "email": "manager@minegov.local",
+                "email": "manager@CoaliZEN.local",
                 "role": "MANAGER",
             },
             {
                 "username": "inspector1",
-                "email": "inspector@minegov.local",
+                "email": "inspector@CoaliZEN.local",
                 "role": "INSPECTOR",
             },
             {
                 "username": "safety1",
-                "email": "safety@minegov.local",
+                "email": "safety@CoaliZEN.local",
                 "role": "SAFETY_OFFICER",
             },
             {
                 "username": "contractor1",
-                "email": "contractor@minegov.local",
+                "email": "contractor@CoaliZEN.local",
                 "role": "CONTRACTOR",
             },
             {
                 "username": "regulator1",
-                "email": "regulator@minegov.local",
+                "email": "regulator@CoaliZEN.local",
                 "role": "REGULATOR",
             },
         ]

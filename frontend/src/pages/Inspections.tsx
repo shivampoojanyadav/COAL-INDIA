@@ -1,5 +1,5 @@
 /* ============================================================================
-   INSPECTIONS — mirrors `mines/inspection_list.html` and
+   INSPECTIONS, mirrors `mines/inspection_list.html` and
    `inspection_form.html`. An inspection with findings generates violations,
    which is why `violation_count` is denormalised onto the row.
    ========================================================================== */

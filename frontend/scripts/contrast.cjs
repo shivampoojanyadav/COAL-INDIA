@@ -117,7 +117,7 @@ const pairs = [
     .filter(([, fg]) => fg),
 ]
 
-console.log('WCAG CONTRAST AUDIT — EcoSankalan palette')
+console.log('WCAG CONTRAST AUDIT, EcoSankalan palette')
 console.log(`built from dist/assets/${cssFile}\n`)
 
 let aaFails = 0

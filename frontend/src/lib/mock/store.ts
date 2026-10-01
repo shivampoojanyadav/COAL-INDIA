@@ -1,10 +1,10 @@
 /* ============================================================================
-   MOCK STORE — a tiny in-memory "database" with localStorage persistence.
+   MOCK STORE, a tiny in-memory "database" with localStorage persistence.
 
    Why this exists: the Django backend renders HTML, so there is no JSON API to
    read. Rather than block the entire frontend on a DRF refactor, the app runs
    against this store. It obeys the same shapes as the ORM, so swapping in the
-   real backend later is a change to `api.ts` only — see `src/lib/api.ts`.
+   real backend later is a change to `api.ts` only, see `src/lib/api.ts`.
 
    Persistence is opt-out via `VITE_PERSIST_MOCKS=false`, which makes every
    reload return the pristine seed. That is what you want for a live demo.
@@ -50,7 +50,7 @@ export function saveDb(): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(db))
   } catch {
-    // Quota exceeded — the app stays functional, it just stops persisting.
+    // Quota exceeded, the app stays functional, it just stops persisting.
   }
 }
 

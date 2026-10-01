@@ -1,5 +1,5 @@
 /* ============================================================================
-   COMPONENTS — the reference's component vocabulary, adapted for a data tool.
+   COMPONENTS, the reference's component vocabulary, adapted for a data tool.
 
    1. .eco-card        white panel, 20px radius, tinted shadow
    2. .eco-btn-*       filled / tonal / outlined / text buttons
@@ -193,7 +193,7 @@
   }
 
   /* Risk severity. This is the one scale that is not interchangeable, so it
-     gets explicit steps rather than being aliased onto the generic hues —
+     gets explicit steps rather than being aliased onto the generic hues,
      aliasing meant MEDIUM and CRITICAL silently swapped meaning when the
      palette changed. Measured: low 12.9:1, medium 13.3:1, high 7.6:1,
      critical (white on #782c39) 18.1:1. */
@@ -263,7 +263,7 @@
     border-color: var(--color-outline-variant);
   }
   /* The tonal focus ring is 1.5:1 on white, so the global ink outline is what
-     actually satisfies WCAG 2.4.11 here — this just softens the box. */
+     actually satisfies WCAG 2.4.11 here, this just softens the box. */
   .field:focus {
     border-color: rgba(0, 81, 39, 0.4);
     box-shadow: 0 0 0 4px rgba(0, 81, 39, 0.08);
@@ -301,7 +301,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     5. NAV ROW — tonal active pill, the Material 3 navigation-bar pattern
+     5. NAV ROW, tonal active pill, the Material 3 navigation-bar pattern
      -------------------------------------------------------------------------- */
   .eco-nav-row {
     display: flex;
@@ -327,7 +327,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     6. GLASS — the reference's translucent panels
+     6. GLASS, the reference's translucent panels
      -------------------------------------------------------------------------- */
   .eco-glass {
     background: rgba(255, 255, 255, 0.72);
@@ -357,7 +357,7 @@
   /* --------------------------------------------------------------------------
      8. TYPOGRAPHY HELPERS
      -------------------------------------------------------------------------- */
-  /* Uppercase micro label — the reference uses these heavily. */
+  /* Uppercase micro label, the reference uses these heavily. */
   .eyebrow {
     font-size: 0.6875rem;
     font-weight: 600;
@@ -389,7 +389,7 @@
      and the older copy silently won on load order. */
 
   /* --------------------------------------------------------------------------
-     9. TABLE — the reference barely uses tables, but a register needs one.
+     9. TABLE, the reference barely uses tables, but a register needs one.
      -------------------------------------------------------------------------- */
   .dg-table {
     width: 100%;
@@ -465,7 +465,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     12. DOT — bare colour swatch, geometry only
+     12. DOT, bare colour swatch, geometry only
      -------------------------------------------------------------------------- */
   .dot-circle {
     display: inline-block;
@@ -476,7 +476,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     13. SECTION — the reference's landing rhythm, reused for page bands
+     13. SECTION, the reference's landing rhythm, reused for page bands
      -------------------------------------------------------------------------- */
   .section {
     padding: var(--base-padding-y) var(--base-padding-x);
@@ -500,7 +500,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     14. LINK UNDERLINE — amber-free here; the brand underline is the 2px
+     14. LINK UNDERLINE, amber-free here; the brand underline is the 2px
           primary line that wipes in from the left.
      -------------------------------------------------------------------------- */
   .link-underline {
@@ -665,7 +665,7 @@
 
 /* --------------------------------------------------------------------------
    Marquee track. Defined here rather than as a Tailwind `animate-*` utility so
-   the keyframe is emitted unconditionally — `Marquee` is used from several
+   the keyframe is emitted unconditionally, `Marquee` is used from several
    modules and tree-shaking must not be able to drop the motion.
    -------------------------------------------------------------------------- */
 .marquee {

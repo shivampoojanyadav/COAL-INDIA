@@ -1,5 +1,5 @@
 /* ============================================================================
-   COMPLIANCE — mirrors `mines/compliance_list.html` and `compliance_form.html`.
+   COMPLIANCE, mirrors `mines/compliance_list.html` and `compliance_form.html`.
    `monitoring_status` is a Django model property, recomputed by `risk.ts`; the
    screen therefore never trusts a stored value.
    ========================================================================== */

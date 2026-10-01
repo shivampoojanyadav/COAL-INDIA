@@ -1,5 +1,5 @@
 /* ============================================================================
-   ENVIRONMENT — one safe place to read Vite env vars.
+   ENVIRONMENT, one safe place to read Vite env vars.
 
    `import.meta.env` is replaced at build time by Vite and is always defined in
    the browser, but it is `undefined` under plain `node` (SSR, unit tests, the

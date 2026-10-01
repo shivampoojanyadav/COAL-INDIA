@@ -1,5 +1,5 @@
 /* ============================================================================
-   404 — the reference's end-panel treatment, rebuilt on the deep-green hero:
+   404, the reference's end-panel treatment, rebuilt on the deep-green hero:
    a full-bleed primary panel with masked display type, the pip row, and the
    rolling 404 counter behind the copy.
    ========================================================================== */

@@ -8,7 +8,7 @@ from mines.ml.dataset import build_mine_dataset
 
 class Command(BaseCommand):
 
-    help = "Generate the MineGov ML training dataset"
+    help = "Generate the CoaliZEN ML training dataset"
 
     def handle(self, *args, **options):
 

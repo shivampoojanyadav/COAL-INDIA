@@ -5,10 +5,10 @@ import type { ChartSlice, RiskLevel } from '@/lib/types'
 import { RISK_STYLE } from '../data/Data'
 
 /* ============================================================================
-   CHARTS — all hand-rolled SVG.
+   CHARTS, all hand-rolled SVG.
 
    No chart library: the Lusion aesthetic demands things off-the-shelf libs
-   fight you on — no gridlines, no axis boxes, 1px hairlines at 10% black,
+   fight you on, no gridlines, no axis boxes, 1px hairlines at 10% black,
    monochrome fills with exactly one accent, and bars that grow from a
    transform-origin rather than animating height.
    ========================================================================== */
@@ -107,7 +107,7 @@ export function Sparkline({
 /* --------------------------------------------------------------- bar series */
 
 /**
- * Horizontal bars that grow from `transform-origin:left` — never an animated
+ * Horizontal bars that grow from `transform-origin:left`, never an animated
  * width. Lusion's rule: no layout properties in transitions.
  */
 export function BarSeries({
@@ -375,7 +375,7 @@ export function LineChart({
   return (
     <div ref={ref} data-revealed={revealed} className={cn('w-full', className)}>
       <div className="flex gap-4">
-        {/* y axis — mono, 40% ink, no axis line */}
+        {/* y axis, mono, 40% ink, no axis line */}
         <div className="flex w-8 shrink-0 flex-col justify-between py-1 text-right">
           {ticks.map((t, i) => (
             <span key={i} className="eyebrow ink-40 tabular">
@@ -394,7 +394,7 @@ export function LineChart({
             role="img"
             aria-label={series.map((s) => s.name).join(', ')}
           >
-            {/* horizontal hairlines only — no vertical grid */}
+            {/* horizontal hairlines only, no vertical grid */}
             {ticks.map((t, i) => (
               <line
                 key={i}
@@ -460,7 +460,7 @@ export function LineChart({
         </div>
       </div>
 
-      {/* legend — mono uppercase, matching Lusion's metadata style */}
+      {/* legend, mono uppercase, matching Lusion's metadata style */}
       <div className="mt-5 flex flex-wrap items-center gap-5 pl-12">
         {series.map((s) => (
           <span key={s.name} className="eyebrow ink-50 inline-flex items-center gap-2">
@@ -475,7 +475,7 @@ export function LineChart({
 
 /* ---------------------------------------------------------------- heat strip */
 
-/** A row of risk cells — one per mine, ordered by score. Hover reveals the label. */
+/** A row of risk cells, one per mine, ordered by score. Hover reveals the label. */
 export function RiskHeatStrip({
   items,
   className,
@@ -492,7 +492,7 @@ export function RiskHeatStrip({
         <button
           key={item.id}
           type="button"
-          title={`${item.label} — ${item.score} (${item.level})`}
+          title={`${item.label}, ${item.score} (${item.level})`}
           onClick={onSelect ? () => onSelect(item.id) : undefined}
           className="group relative h-12 min-w-0 flex-1 origin-bottom transition-transform duration-300 ease-primary hover:scale-105"
           style={{

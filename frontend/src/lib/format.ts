@@ -1,5 +1,5 @@
 /* ============================================================================
-   Formatting — mirrors Django's behaviour so numbers/dates read identically
+   Formatting, mirrors Django's behaviour so numbers/dates read identically
    whichever data source is active.
    ========================================================================== */
 
@@ -37,7 +37,7 @@ export function formatDate(value: string | null | undefined): string {
   return `${String(d.getDate()).padStart(2, '0')} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`
 }
 
-/** `12 Mar` — for dense tables */
+/** `12 Mar`, for dense tables */
 export function formatDateShort(value: string | null | undefined): string {
   const d = parseDate(value)
   if (!d) return '—'
@@ -112,13 +112,13 @@ export function toNumber(value: string | number | null | undefined, fallback = 0
   return Number.isFinite(n) ? n : fallback
 }
 
-/** `78.4` — trims trailing zeros for score readouts */
+/** `78.4`, trims trailing zeros for score readouts */
 export function formatScore(value: number | string | null | undefined): string {
   const n = toNumber(value)
   return Number.isInteger(n) ? String(n) : n.toFixed(1)
 }
 
-/** `+4` / `−2` / `0` — lusion avoids unicode minus for legibility */
+/** `+4` / `−2` / `0`, lusion avoids unicode minus for legibility */
 export function formatDelta(value: number): string {
   if (value > 0) return `+${value}`
   if (value < 0) return `−${Math.abs(value)}`

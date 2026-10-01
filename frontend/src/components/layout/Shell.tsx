@@ -1,5 +1,5 @@
 /* ============================================================================
-   APP SHELL — sidebar + sticky topbar + scrolling content.
+   APP SHELL, sidebar + sticky topbar + scrolling content.
 
    Below `lg` the sidebar becomes an overlay drawer, matching Lusion's own
    full-screen menu. The drawer's scroll lock uses `useLockBodyScroll`, and the

@@ -1,5 +1,5 @@
 /* ============================================================================
-   NOTIFICATIONS — mirrors `notifications.html`. Per-recipient, because
+   NOTIFICATIONS, mirrors `notifications.html`. Per-recipient, because
    `AppNotification.recipient` is a FK to the user, not a broadcast table.
    ========================================================================== */
 
@@ -55,7 +55,7 @@ export function Notifications() {
   function markRead(id: number) {
     setLocallyRead((prev) => new Set(prev).add(id))
     void api.markNotificationRead(id).catch(() => {
-      /* optimistic — a failed write is corrected on the next load */
+      /* optimistic, a failed write is corrected on the next load */
     })
   }
 
@@ -69,7 +69,7 @@ export function Notifications() {
       <ScreenHeader
         eyebrow="Notifications · alerts"
         titleLines={['What needs', 'you now.']}
-        lede="Overdue compliance, expiring contractor documents, critical violations and scheduled risk recomputes — routed to the people who can act on them."
+        lede="Overdue compliance, expiring contractor documents, critical violations and scheduled risk recomputes, routed to the people who can act on them."
         actions={
           unread.length > 0 ? (
             <PillButton variant="outline" onClick={() => void markAll()}>

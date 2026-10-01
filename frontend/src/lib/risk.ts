@@ -1,5 +1,5 @@
 /* ============================================================================
-   Risk engine — a faithful TypeScript port of `mines/risk_engine.py`, plus
+   Risk engine, a faithful TypeScript port of `mines/risk_engine.py`, plus
    `mines/ai_engine.py` and the level thresholds in `mines/ml/predict.py`.
    Keeping the same arithmetic means the UI and the backend never disagree.
    ========================================================================== */

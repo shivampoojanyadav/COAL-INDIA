@@ -1,9 +1,9 @@
 /**
- * MineGov design system.
+ * CoaliZEN design system.
  *
  * Ported from ecosankalan.in: a Material 3 surface ladder built around a deep
  * regulator green, large soft radii, tinted shadows, glass panels and blurred
- * colour blobs. Two type voices — Plus Jakarta Sans for headings and figures,
+ * colour blobs. Two type voices, Plus Jakarta Sans for headings and figures,
  * Inter for body and UI. Light theme only, matching the reference.
  */
 
@@ -220,7 +220,7 @@ export default {
       },
 
       boxShadow: {
-        // Tinted, low-opacity shadows — grey ones muddied the green surfaces.
+        // Tinted, low-opacity shadows, grey ones muddied the green surfaces.
         card: '0 4px 24px rgba(27, 107, 58, 0.07)',
         'card-hover': '0 16px 50px rgba(27, 107, 58, 0.12)',
         lift: '0 20px 50px rgba(27, 107, 58, 0.07)',

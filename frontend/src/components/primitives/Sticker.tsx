@@ -1,7 +1,7 @@
 import { cn } from '@/lib/cn'
 
 /* ============================================================================
-   CHIPS & PIPS — the reference's badge vocabulary, plus the small ornament
+   CHIPS & PIPS, the reference's badge vocabulary, plus the small ornament
    primitives the existing pages already call.
 
    Material 3 does not use die-cut clip-path badges; it uses tonal chips with a
@@ -62,7 +62,7 @@ export function StatusPip({
   return <span className={cn('eco-chip', toneClass[tone], className)}>{children}</span>
 }
 
-/** A small circular swatch. Geometry only — callers set the fill. */
+/** A small circular swatch. Geometry only, callers set the fill. */
 export function Dot({ className }: { className?: string }) {
   return <span aria-hidden="true" className={cn('dot-circle', className)} />
 }

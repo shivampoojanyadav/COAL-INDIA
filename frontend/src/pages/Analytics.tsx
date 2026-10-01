@@ -1,5 +1,5 @@
 /* ============================================================================
-   ANALYTICS — mirrors `analytics_dashboard.html`. Fleet composition, output,
+   ANALYTICS, mirrors `analytics_dashboard.html`. Fleet composition, output,
    compliance trend and violation severity over time.
    ========================================================================== */
 

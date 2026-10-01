@@ -1,5 +1,5 @@
 /* ============================================================================
-   Domain types — 1:1 with the Django ORM in `mines/models.py` + `accounts/models.py`.
+   Domain types, 1:1 with the Django ORM in `mines/models.py` + `accounts/models.py`.
    Field names match the model field names so the DRF serializer swap is
    mechanical: Django emits snake_case, and nothing here needs renaming.
    ========================================================================== */

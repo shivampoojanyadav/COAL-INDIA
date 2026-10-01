@@ -1,5 +1,5 @@
 /* ============================================================================
-   TOPBAR — the sticky rail above the content.
+   TOPBAR, the sticky rail above the content.
 
    Lusion keeps its header to three things: the wordmark, a right-aligned
    "Menu"/"Contact" pair, and a scroll-progress hairline pinned to the bottom

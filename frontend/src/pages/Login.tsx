@@ -1,5 +1,5 @@
 /* ============================================================================
-   LOGIN — the first screen, so it establishes the EcoSankalan language:
+   LOGIN, the first screen, so it establishes the EcoSankalan language:
 
      • a deep-green hero carrying the 135° brand gradient, with the blurred
        green blob treatment lifted straight from the reference's hero
@@ -42,7 +42,7 @@ export function Login() {
   const from = (location.state as { from?: string } | null)?.from
 
   useEffect(() => {
-    document.title = 'Sign in — CoaliZEN'
+    document.title = 'Sign in, CoaliZEN'
   }, [])
 
   if (user) return <Navigate to={from ?? '/dashboard'} replace />
@@ -189,7 +189,7 @@ export function Login() {
 
               {DATA_SOURCE === 'mock' && (
                 <p className="mt-8 border-t border-line pt-6 text-[13px] leading-relaxed text-muted">
-                  Running on the seeded demo dataset — no backend required.
+                  Running on the seeded demo dataset, no backend required.
                 </p>
               )}
             </form>

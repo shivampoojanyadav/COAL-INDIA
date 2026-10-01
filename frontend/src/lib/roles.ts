@@ -1,5 +1,5 @@
 /* ============================================================================
-   Roles & permissions — a single source of truth mirroring the role ladders
+   Roles & permissions, a single source of truth mirroring the role ladders
    that are currently duplicated six times across `mines/views.py` and
    `accounts/views.py`.
 

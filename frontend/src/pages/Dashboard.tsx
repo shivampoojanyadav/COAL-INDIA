@@ -1,5 +1,5 @@
 /* ============================================================================
-   COMMAND CENTRE — one screen, six role lenses.
+   COMMAND CENTRE, one screen, six role lenses.
 
    Django has six separate dashboard views (`admin_dashboard`,
    `manager_dashboard`, …). Rather than six near-identical templates, this is
@@ -7,7 +7,7 @@
    attention queue) is identical, and each role gets its own stat row and its own
    primary action. Same information architecture, far less duplication.
 
-   The `?role=` / `:role` segment is a demo affordance — it lets a reviewer
+   The `?role=` / `:role` segment is a demo affordance, it lets a reviewer
    inspect every lens without signing out. It never overrides permissions.
    ========================================================================== */
 
@@ -122,7 +122,7 @@ export function Dashboard() {
         }
       />
 
-      {/* lens switcher — demo only */}
+      {/* lens switcher, demo only */}
       <div className="flex flex-wrap items-center gap-2 border-b border-line py-4">
         <span className="eyebrow ink-40 pr-2">Lens</span>
         {ROLES.map((r) => (
@@ -267,7 +267,7 @@ export function Dashboard() {
                   .slice(0, 6)
                   .map((i) => ({
                     id: i.id,
-                    title: `${i.inspection_type.replace(/_/g, ' ').toLowerCase()} — ${i.mine_name}`,
+                    title: `${i.inspection_type.replace(/_/g, ' ').toLowerCase()}, ${i.mine_name}`,
                     meta: `${relativeDays(i.inspection_date)} · ${i.inspector_name ?? 'unassigned'}`,
                     tag: (
                       <StatusPill

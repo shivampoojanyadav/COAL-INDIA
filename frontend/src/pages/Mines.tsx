@@ -1,5 +1,5 @@
 /* ============================================================================
-   MINE NETWORK — the register. Mirrors `mines/mine_list.html` plus the
+   MINE NETWORK, the register. Mirrors `mines/mine_list.html` plus the
    geospatial view. Registration is role-gated to admin and mine managers, which
    is enforced twice: `can()` hides the affordance and `api.guard()` rejects
    the write.
@@ -480,7 +480,7 @@ function MineMap({ mines, onSelect }: { mines: Mine[]; onSelect: (m: Mine) => vo
                 if (e.key === 'Enter' || e.key === ' ') onSelect(m)
               }}
             >
-              <title>{`${m.name} — risk ${m.risk_score} (${m.risk_level})`}</title>
+              <title>{`${m.name}, risk ${m.risk_score} (${m.risk_level})`}</title>
               <circle cx={x} cy={y} r={r + 6} fill={RISK_STYLE[m.risk_level].fg} opacity="0.12" />
               <circle cx={x} cy={y} r={r} fill={RISK_STYLE[m.risk_level].fg} opacity="0.9" />
             </g>

@@ -1,5 +1,5 @@
 /* ============================================================================
-   AI ASSISTANT — mirrors `assistant.html` and `api_query`.
+   AI ASSISTANT, mirrors `assistant.html` and `api_query`.
 
    The panel is deliberately honest about what it is: every answer is
    accompanied by the figures it was computed from, so a reviewer can check the
@@ -97,7 +97,7 @@ export function Assistant() {
         {turns.length === 0 ? (
           <div className="py-8">
             <p className="max-w-prose text-lead ink-70">
-              Ask a question about the mine network and get an answer computed from the register —
+              Ask a question about the mine network and get an answer computed from the register,
               every figure comes with its source counts.
             </p>
 

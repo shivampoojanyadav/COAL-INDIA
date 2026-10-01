@@ -1,5 +1,5 @@
 /* ============================================================================
-   SEED DATA — a deterministic dataset that mirrors the Django ORM exactly, so
+   SEED DATA, a deterministic dataset that mirrors the Django ORM exactly, so
    the UI is fully demonstrable with no database and no backend running.
 
    `mulberry32` gives us a fixed PRNG: the same dataset on every load, which

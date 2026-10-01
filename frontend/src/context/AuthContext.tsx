@@ -1,5 +1,5 @@
 /* ============================================================================
-   AUTH CONTEXT — the React-side equivalent of Django's request.user.
+   AUTH CONTEXT, the React-side equivalent of Django's request.user.
 
    The session is intentionally `sessionStorage`, not `localStorage`: closing
    the tab signs you out, which is the right behaviour for a regulator tool
@@ -59,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(restored)
         setCurrentUser(restored)
       } catch {
-        // Stale or revoked session — fall back to the login screen.
+        // Stale or revoked session, fall back to the login screen.
         clearSession()
       } finally {
         if (!cancelled) setBooting(false)

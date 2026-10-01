@@ -1,10 +1,10 @@
 /* ============================================================================
-   VIOLATIONS — mirrors `mines/violation_list.html`, `violation_detail.html`
+   VIOLATIONS, mirrors `mines/violation_list.html`, `violation_detail.html`
    and `violation_form.html`.
 
    Severity drives colour everywhere in the product (risk ramp), and the
    weighted severity total is the largest single contributor to a mine's risk
-   score — see `calculateMineRisk` in `src/lib/risk.ts`.
+   score, see `calculateMineRisk` in `src/lib/risk.ts`.
    ========================================================================== */
 
 import { useMemo, useState } from 'react'
