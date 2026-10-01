@@ -42,7 +42,7 @@ export function Login() {
   const from = (location.state as { from?: string } | null)?.from
 
   useEffect(() => {
-    document.title = 'Sign in — MineGov'
+    document.title = 'Sign in — CoaliZEN'
   }, [])
 
   if (user) return <Navigate to={from ?? '/dashboard'} replace />
@@ -81,9 +81,9 @@ export function Login() {
             <Link
               to="/"
               className="font-display text-[20px] font-bold tracking-tight text-white"
-              aria-label="MineGov home"
+              aria-label="CoaliZEN home"
             >
-              MineGov
+              CoaliZEN
             </Link>
             <Dot className="bg-primary-fixed" />
           </div>

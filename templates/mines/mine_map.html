@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Mine GIS Map | MineGov{% endblock %}
+{% block title %}Mine GIS Map | CoaliZEN{% endblock %}
 {% block page_title %}GIS Map{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -88,7 +88,7 @@
         maxZoom: 19,
         attribution: "Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics"
     });
-    var surveyGrid = L.gridLayer({ attribution: "MineGov survey grid (offline)" });
+    var surveyGrid = L.gridLayer({ attribution: "CoaliZEN survey grid (offline)" });
     surveyGrid.createTile = function (coords) {
         var size = this.getTileSize();
         var tile = L.DomUtil.create("canvas", "leaflet-tile");

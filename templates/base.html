@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}MineGov{% endblock %}</title>
+    <title>{% block title %}CoaliZEN{% endblock %}</title>
     <meta name="theme-color" content="#eae6d8">
     <link rel="icon" href="{% static 'img/logo.png' %}?v=8" type="image/png">
     <link rel="apple-touch-icon" href="{% static 'img/logo.png' %}?v=8">
@@ -17,7 +17,7 @@
 </head>
 <body>
 <div id="loader" aria-hidden="true">
-    <div class="load-top"><span>MineGov — Coal Governance OS</span><span class="load-pct" id="loadPct">00</span></div>
+    <div class="load-top"><span>CoaliZEN — Coal Governance OS</span><span class="load-pct" id="loadPct">00</span></div>
     <div class="load-word">FIELD<em>/</em>READY</div>
     <div class="load-bar"><i></i></div>
 </div>
@@ -161,7 +161,7 @@
                     <span></span><span></span><span></span>
                 </button>
                 <a class="topbar-brand" href="{% url 'dashboard' %}">
-                    <img src="{% static 'img/logo.png' %}?v=7" alt="MineGov"
+                    <img src="{% static 'img/logo.png' %}?v=7" alt="CoaliZEN"
                          onerror="this.onerror=null;this.src='{% static 'img/logo-mark-512.png' %}?v=7';">
                     <span>COAL<em>iZEN</em></span>
                 </a>
@@ -196,7 +196,7 @@
             </div>
             {% endif %}
             {% block content %}{% endblock %}
-            <div class="footer-note">MineGov · Coal Governance OS</div>
+            <div class="footer-note">CoaliZEN · Coal Governance OS</div>
         </section>
         <footer class="statusbar">
             <span class="statusbar-item"><span class="statusbar-dot" id="netDot"></span><span id="netText">Online</span></span>

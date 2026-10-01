@@ -70,18 +70,18 @@ function stampOffset(days: number, hour = 9): string {
 /* --------------------------------------------------------------- users */
 
 export const USERS: User[] = [
-  { id: 1, username: 'admin', first_name: 'Aarav', last_name: 'Sharma', email: 'admin@minegov.in', role: 'ADMIN', is_active: true, is_staff: true },
-  { id: 2, username: 'manager1', first_name: 'Priya', last_name: 'Raghunathan', email: 'priya@minegov.in', role: 'MANAGER', is_active: true, is_staff: false },
-  { id: 3, username: 'inspector1', first_name: 'Rohit', last_name: 'Banerjee', email: 'rohit@minegov.in', role: 'INSPECTOR', is_active: true, is_staff: false },
-  { id: 4, username: 'safety1', first_name: 'Meera', last_name: 'Nair', email: 'meera@minegov.in', role: 'SAFETY_OFFICER', is_active: true, is_staff: false },
-  { id: 5, username: 'contractor1', first_name: 'Suresh', last_name: 'Yadav', email: 'suresh@minegov.in', role: 'CONTRACTOR', is_active: true, is_staff: false },
-  { id: 6, username: 'regulator1', first_name: 'Ananya', last_name: 'Iyer', email: 'ananya@minegov.in', role: 'REGULATOR', is_active: true, is_staff: false },
-  { id: 7, username: 'manager2', first_name: 'Vikram', last_name: 'Singh', email: 'vikram@minegov.in', role: 'MANAGER', is_active: true, is_staff: false },
-  { id: 8, username: 'manager3', first_name: 'Deepa', last_name: 'Menon', email: 'deepa@minegov.in', role: 'MANAGER', is_active: true, is_staff: false },
-  { id: 9, username: 'inspector2', first_name: 'Karthik', last_name: 'Pillai', email: 'karthik@minegov.in', role: 'INSPECTOR', is_active: true, is_staff: false },
-  { id: 10, username: 'safety2', first_name: 'Ishita', last_name: 'Ghosh', email: 'ishita@minegov.in', role: 'SAFETY_OFFICER', is_active: true, is_staff: false },
-  { id: 11, username: 'contractor2', first_name: 'Ramesh', last_name: 'Kumar', email: 'ramesh@minegov.in', role: 'CONTRACTOR', is_active: true, is_staff: false },
-  { id: 12, username: 'regulator2', first_name: 'Kabir', last_name: 'Malhotra', email: 'kabir@minegov.in', role: 'REGULATOR', is_active: true, is_staff: false },
+  { id: 1, username: 'admin', first_name: 'Aarav', last_name: 'Sharma', email: 'admin@CoaliZEN.in', role: 'ADMIN', is_active: true, is_staff: true },
+  { id: 2, username: 'manager1', first_name: 'Priya', last_name: 'Raghunathan', email: 'priya@CoaliZEN.in', role: 'MANAGER', is_active: true, is_staff: false },
+  { id: 3, username: 'inspector1', first_name: 'Rohit', last_name: 'Banerjee', email: 'rohit@CoaliZEN.in', role: 'INSPECTOR', is_active: true, is_staff: false },
+  { id: 4, username: 'safety1', first_name: 'Meera', last_name: 'Nair', email: 'meera@CoaliZEN.in', role: 'SAFETY_OFFICER', is_active: true, is_staff: false },
+  { id: 5, username: 'contractor1', first_name: 'Suresh', last_name: 'Yadav', email: 'suresh@CoaliZEN.in', role: 'CONTRACTOR', is_active: true, is_staff: false },
+  { id: 6, username: 'regulator1', first_name: 'Ananya', last_name: 'Iyer', email: 'ananya@CoaliZEN.in', role: 'REGULATOR', is_active: true, is_staff: false },
+  { id: 7, username: 'manager2', first_name: 'Vikram', last_name: 'Singh', email: 'vikram@CoaliZEN.in', role: 'MANAGER', is_active: true, is_staff: false },
+  { id: 8, username: 'manager3', first_name: 'Deepa', last_name: 'Menon', email: 'deepa@CoaliZEN.in', role: 'MANAGER', is_active: true, is_staff: false },
+  { id: 9, username: 'inspector2', first_name: 'Karthik', last_name: 'Pillai', email: 'karthik@CoaliZEN.in', role: 'INSPECTOR', is_active: true, is_staff: false },
+  { id: 10, username: 'safety2', first_name: 'Ishita', last_name: 'Ghosh', email: 'ishita@CoaliZEN.in', role: 'SAFETY_OFFICER', is_active: true, is_staff: false },
+  { id: 11, username: 'contractor2', first_name: 'Ramesh', last_name: 'Kumar', email: 'ramesh@CoaliZEN.in', role: 'CONTRACTOR', is_active: true, is_staff: false },
+  { id: 12, username: 'regulator2', first_name: 'Kabir', last_name: 'Malhotra', email: 'kabir@CoaliZEN.in', role: 'REGULATOR', is_active: true, is_staff: false },
 ]
 
 export const DEMO_PASSWORDS: Record<string, string> = {

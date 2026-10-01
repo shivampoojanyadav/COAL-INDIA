@@ -13,7 +13,7 @@
    "current user" is in-memory and therefore lost on reload.
    ========================================================================== */
 
-export const SESSION_KEY = 'minegov.session'
+export const SESSION_KEY = 'CoaliZEN.session'
 
 export interface StoredSession {
   id: number

@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="page-header">
-    <h1>MineGov AI Assistant</h1>
+    <h1>CoaliZEN AI Assistant</h1>
     <p>
         Ask questions about mines, compliance, violations,
         contractors and risk.
@@ -16,7 +16,7 @@
         {% csrf_token %}
 
         <label for="question">
-            Ask MineGov
+            Ask CoaliZEN
         </label>
 
         <textarea
@@ -27,7 +27,7 @@
         >{{ question }}</textarea>
 
         <button type="submit" class="btn btn-primary">
-            Ask MineGov
+            Ask CoaliZEN
         </button>
     </form>
 
@@ -35,7 +35,7 @@
 
         <div class="assistant-answer">
 
-            <h3>MineGov Response</h3>
+            <h3>CoaliZEN Response</h3>
 
             <p>
                 {{ answer }}

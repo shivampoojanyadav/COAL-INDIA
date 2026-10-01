@@ -1,5 +1,5 @@
 /* ============================================================================
-   LANDING PAGE — the public face of MineGov.
+   LANDING PAGE — the public face of CoaliZEN.
 
    Section order follows ecosankalan.in one-for-one: fixed glass nav, split hero
    with blurred blobs and floating cards, problem band, six-feature grid,
@@ -206,14 +206,14 @@ function LandingNav() {
   return (
     <header className="lp-nav" data-scrolled={scrolled}>
       <div className="lp-nav-inner">
-        <Link to="/" className="lp-nav-brand" aria-label="MineGov home">
+        <Link to="/" className="lp-nav-brand" aria-label="CoaliZEN home">
           <span
             aria-hidden="true"
             className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white"
           >
             <ShieldGlyph className="h-5 w-5" />
           </span>
-          MineGov
+          CoaliZEN
         </Link>
 
         <nav aria-label="Landing">
@@ -296,7 +296,7 @@ function Hero() {
             </Reveal>
           </div>
 
-          {/* Console panel. The reference shows a phone screenshot here; MineGov
+          {/* Console panel. The reference shows a phone screenshot here; CoaliZEN
               is a wide data tool, so the same floating-card treatment is
               applied to a console panel instead of a portrait device frame. */}
           <div className="lp-console">
@@ -742,7 +742,7 @@ function LandingFooter() {
     },
     {
       title: 'Company',
-      links: ['About MineGov', 'Contact', 'Privacy', 'Terms'],
+      links: ['About CoaliZEN', 'Contact', 'Privacy', 'Terms'],
     },
   ]
 
@@ -758,7 +758,7 @@ function LandingFooter() {
               >
                 <ShieldGlyph className="h-5 w-5" />
               </span>
-              MineGov
+              CoaliZEN
             </Link>
             <p className="mt-5 max-w-xs text-[14px] leading-relaxed text-muted">
               A unified governance, compliance and predictive-safety platform for coal mining
@@ -783,7 +783,7 @@ function LandingFooter() {
         </div>
 
         <div className="lp-footer-bottom">
-          <p>© 2026 MineGov. Built for mine safety regulators and operators.</p>
+          <p>© 2026 CoaliZEN. Built for mine safety regulators and operators.</p>
           <p className="flex items-center gap-2">
             <MineGlyph className="h-4 w-4" />
             Reference design adapted from ecosankalan.in

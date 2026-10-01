@@ -611,7 +611,7 @@ async function http<T>(
     }
   }
 
-  const token = sessionStorage.getItem('minegov.token')
+  const token = sessionStorage.getItem('CoaliZEN.token')
   const res = await fetch(url.toString(), {
     ...init,
     headers: {
@@ -641,12 +641,12 @@ const live: ApiDriver = {
       method: 'POST',
       body: JSON.stringify({ username, password }),
     })
-    sessionStorage.setItem('minegov.token', body.token)
+    sessionStorage.setItem('CoaliZEN.token', body.token)
     return body.user
   },
   me: () => http<User>('auth/me/'),
   logout: async () => {
-    sessionStorage.removeItem('minegov.token')
+    sessionStorage.removeItem('CoaliZEN.token')
   },
   listMines: (params) => http<Mine[]>('mines/', { params }),
   getMine: (id) => http<Mine>(`mines/${id}/`),

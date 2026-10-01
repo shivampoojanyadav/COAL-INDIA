@@ -3,7 +3,7 @@
 
    Built on the reference's Material 3 navigation pattern: a quiet list of
    tonal pills that fill green when active. The reference has no sidebar (it
-   uses a glass top bar and a bottom nav), but MineGov has fifteen routes and
+   uses a glass top bar and a bottom nav), but CoaliZEN has fifteen routes and
    five role tiers, which needs a persistent rail on desktop. The visual
    language is the same as its nav rows.
    ========================================================================== */
@@ -41,14 +41,14 @@ export function Sidebar({
   return (
     <div className="flex h-full flex-col bg-surface-low">
       <div className="flex items-center px-6 pb-7 pt-7">
-        <Link to="/" className="flex items-center gap-2.5" onClick={onNavigate} aria-label="MineGov home">
+        <Link to="/" className="flex items-center gap-2.5" onClick={onNavigate} aria-label="CoaliZEN home">
           <span
             aria-hidden="true"
             className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white shadow-pill"
           >
             <ShieldGlyph className="h-5 w-5" />
           </span>
-          <span className="font-display text-[19px] font-bold tracking-tight text-primary">MineGov</span>
+          <span className="font-display text-[19px] font-bold tracking-tight text-primary">CoaliZEN</span>
         </Link>
       </div>
 

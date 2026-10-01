@@ -18,7 +18,7 @@ import {
 } from '@/lib/risk'
 import { MOCK_LATENCY, PERSIST_MOCKS } from '@/lib/env'
 
-const STORAGE_KEY = 'minegov.mockdb.v1'
+const STORAGE_KEY = 'CoaliZEN.mockdb.v1'
 
 function persistEnabled(): boolean {
   return PERSIST_MOCKS

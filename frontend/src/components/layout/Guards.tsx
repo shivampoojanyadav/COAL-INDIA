@@ -26,7 +26,7 @@ export function BootSplash() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-canvas px-[var(--base-padding-x)]">
       <div className="w-full max-w-md">
-        <Eyebrow className="mb-4">MineGov</Eyebrow>
+        <Eyebrow className="mb-4">CoaliZEN</Eyebrow>
         <LoadingState rows={3} />
       </div>
     </div>

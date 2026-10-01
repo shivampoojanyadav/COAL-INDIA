@@ -1,5 +1,5 @@
 /* ============================================================================
-   LANDING — ecosankalan.in's marketing layer, re-cut for MineGov.
+   LANDING — ecosankalan.in's marketing layer, re-cut for CoaliZEN.
 
    Structure follows the reference section for section: fixed glass nav, split
    hero with blurred colour blobs and floating stat cards, problem stats, a
@@ -258,7 +258,7 @@
   }
 
   /* ---- hero visual: a console card, not a phone mockup -------------------
-     The reference uses a phone screenshot. MineGov's product is a wide data
+     The reference uses a phone screenshot. CoaliZEN's product is a wide data
      console, so the same floating-card treatment is applied to a live-looking
      dashboard panel instead of a portrait device frame. */
   .lp-console {
