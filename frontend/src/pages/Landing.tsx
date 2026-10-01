@@ -14,6 +14,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { cn } from '@/lib/cn'
+import { HeroField } from '@/components/landing/HeroField'
 import {
   AlertGlyph,
   ArrowRight,
@@ -252,6 +253,11 @@ function LandingNav() {
 function Hero() {
   return (
     <section className="lp-hero">
+      {/* WebGL layer sits first, so both the blobs and every piece of hero
+          content paint over it. It is the only element here that can fail
+          silently, which is why it carries no layout responsibility. */}
+      <HeroField className="lp-hero-field" />
+
       <div aria-hidden="true" className="lp-hero-blob lp-hero-blob--1" />
       <div aria-hidden="true" className="lp-hero-blob lp-hero-blob--2" />
 

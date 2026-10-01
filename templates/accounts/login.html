@@ -14,37 +14,37 @@
         body { min-height: 100vh; display: flex; align-items: stretch; padding: 0; }
         .split { display: grid; grid-template-columns: 1.15fr 1fr; width: 100%; min-height: 100vh; }
         .side-visual { padding: 52px; display: flex; flex-direction: column; justify-content: space-between;
-            background: linear-gradient(165deg, #123524 0%, #0d2a1d 55%, #0a2017 100%);
+            background: linear-gradient(165deg, #2b130a 0%, #1a0a04 55%, #0f0502 100%);
             color: #eef3ea; border-right: 2px solid #17211b; position: relative; overflow: hidden; }
         .side-visual::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 6px;
-            background: linear-gradient(90deg, #37a05c, #e8960c); }
+            background: linear-gradient(90deg, #b34a1b, #e8960c); }
         .side-visual::after { content: ""; position: absolute; right: -120px; bottom: -120px; width: 420px;
             height: 420px; border-radius: 50%;
-            background: radial-gradient(circle, rgba(55,160,92,.35), transparent 70%); }
+            background: radial-gradient(circle, rgba(179,74,27,.35), transparent 70%); }
         .brand-row { display: flex; align-items: center; gap: 13px; position: relative; z-index: 1; }
         .brand-row img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; background: #000;
             border: 2px solid rgba(255,255,255,.4); }
         .brand-row b { font-family: "Unbounded", sans-serif; font-size: 22px; letter-spacing: -.01em; }
         .brand-row small { display: block; font-family: "JetBrains Mono", monospace; font-size: 9.5px;
-            letter-spacing: 2.2px; color: #9db8a4; text-transform: uppercase; }
+            letter-spacing: 2.2px; color: #b8a49d; text-transform: uppercase; }
         .hero { position: relative; z-index: 1; }
-        .hero .kicker { color: #8fd694; }
-        .hero .kicker::before { background: #8fd694; }
+        .hero .kicker { color: #f2a688; }
+        .hero .kicker::before { background: #f2a688; }
         .hero h1 { font-family: "Unbounded", sans-serif; font-weight: 700; letter-spacing: 0;
             line-height: 1.02; font-size: clamp(34px, 4.6vw, 62px); margin: 16px 0 18px; }
-        .hero h1 em { font-style: italic; color: #8fd694; }
-        .hero p { color: #b9c9bd; font-size: 14.5px; line-height: 1.7; max-width: 450px; }
+        .hero h1 em { font-style: italic; color: #f2a688; }
+        .hero p { color: #c9bdb9; font-size: 14.5px; line-height: 1.7; max-width: 450px; }
         .hero-meta { display: flex; gap: 30px; margin-top: 32px; }
         .hero-meta div b { display: block; font-family: "Unbounded", sans-serif; font-size: 30px; }
-        .hero-meta div span { font-family: "JetBrains Mono", monospace; font-size: 10px; color: #9db8a4;
+        .hero-meta div span { font-family: "JetBrains Mono", monospace; font-size: 10px; color: #b8a49d;
             text-transform: uppercase; letter-spacing: 2px; }
         .hero-foot { position: relative; z-index: 1; font-family: "JetBrains Mono", monospace; font-size: 10px;
-            letter-spacing: 2px; color: #7d9a86; text-transform: uppercase; }
+            letter-spacing: 2px; color: #9a867d; text-transform: uppercase; }
         .side-form { display: flex; align-items: center; justify-content: center; padding: 40px 28px; }
         .login-box { width: 100%; max-width: 400px; background: #fffdf6; border: 2px solid #17211b;
             border-radius: 22px; padding: 38px 34px; box-shadow: 8px 8px 0 rgba(23,33,27,.16); }
         .login-kicker { font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: 3px;
-            text-transform: uppercase; color: #1c6b3c; margin-bottom: 12px; }
+            text-transform: uppercase; color: #963a14; margin-bottom: 12px; }
         .login-box h2 { font-family: "Unbounded", sans-serif; font-size: 32px; letter-spacing: -.02em; }
         .login-box p.sub { color: #75806f; font-size: 13.5px; margin: 8px 0 22px; }
         .form-group { margin-bottom: 15px; }
@@ -55,11 +55,11 @@
             background: #fff; color: #17211b; font-family: inherit; }
         .form-group select option { background: #fff; }
         .form-group input:focus, .form-group select:focus { outline: none;
-            box-shadow: 3px 3px 0 #1c6b3c; border-color: #1c6b3c; }
-        .login-button { width: 100%; padding: 15px; border: 2px solid #0f4426; border-radius: 999px;
-            background: #1c6b3c; color: #fff; font-size: 14.5px; font-weight: 700; cursor: pointer;
-            margin-top: 6px; box-shadow: 3px 3px 0 #0f4426; transition: .16s ease; }
-        .login-button:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #0f4426; }
+            box-shadow: 3px 3px 0 #963a14; border-color: #963a14; }
+        .login-button { width: 100%; padding: 15px; border: 2px solid #4f1c08; border-radius: 999px;
+            background: #963a14; color: #fff; font-size: 14.5px; font-weight: 700; cursor: pointer;
+            margin-top: 6px; box-shadow: 3px 3px 0 #4f1c08; transition: .16s ease; }
+        .login-button:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #4f1c08; }
         .login-button:active { transform: translate(2px,2px); box-shadow: none; }
         .hint { margin-top: 14px; font-size: 11.5px; color: #a8b09e; text-align: center;
             font-family: "JetBrains Mono", monospace; }
@@ -127,12 +127,12 @@
 <script>
 (function () {
     var creds = {
-        admin:      { u: "admin",       p: "CoaliZEN@123" },
-        manager:    { u: "manager1",    p: "CoaliZEN@123" },
-        inspector:  { u: "inspector1",  p: "CoaliZEN@123" },
-        safety:     { u: "safety1",     p: "CoaliZEN@123" },
-        contractor: { u: "contractor1", p: "CoaliZEN@123" },
-        regulator:  { u: "regulator1",  p: "CoaliZEN@123" }
+        admin:      { u: "admin",       p: "MineGov@123" },
+        manager:    { u: "manager1",    p: "MineGov@123" },
+        inspector:  { u: "inspector1",  p: "MineGov@123" },
+        safety:     { u: "safety1",     p: "MineGov@123" },
+        contractor: { u: "contractor1", p: "MineGov@123" },
+        regulator:  { u: "regulator1",  p: "MineGov@123" }
     };
     var role = document.getElementById("id_role");
     var user = document.getElementById("id_username");

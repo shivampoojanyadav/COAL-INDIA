@@ -16,17 +16,17 @@
 
 :root {
   /* ---- brand ------------------------------------------------------------ */
-  --color-primary: #005127;
-  --color-primary-dark: #003818;
-  --color-primary-light: #1b6b3a;
-  --color-primary-container: #1b6b3a;
-  --color-primary-fixed: #a5f4b6;
-  --color-primary-fixed-dim: #8ad89c;
+  --color-primary: #963a14;
+  --color-primary-dark: #6e270b;
+  --color-primary-light: #b34a1b;
+  --color-primary-container: #b34a1b;
+  --color-primary-fixed: #fad4c4;
+  --color-primary-fixed-dim: #f2a688;
   --color-on-primary: #ffffff;
 
-  --color-secondary: #1b6d24;
-  --color-secondary-container: #a0f399;
-  --color-on-secondary-container: #217128;
+  --color-secondary: #b34a1b;
+  --color-secondary-container: #fad4c4;
+  --color-on-secondary-container: #471b07;
 
   /* Warm counterweight, used for risk and error accents. */
   --color-tertiary: #782c39;

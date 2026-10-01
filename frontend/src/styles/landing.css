@@ -15,7 +15,7 @@
   /* Root wrapper. The reference scopes the whole marketing page here so its
      tokens never leak into the authenticated app. */
   .lp-root {
-    --lp-primary: #005127;
+    --lp-primary: #963a14;
     --lp-primary-light: #1b6b3a;
     --lp-primary-fixed: #a5f4b6;
     --lp-primary-fixed-dim: #8ad89c;
@@ -152,6 +152,41 @@
     overflow: hidden;
     padding-top: calc(80px + 4rem);
     padding-bottom: var(--lp-section);
+  }
+
+  /* WebGL field. Absolutely positioned and behind everything, so the canvas
+     never claims a size of its own and the hero keeps its original layout if
+     the context fails to initialise.
+
+     `display: block` matters: the inline default adds a few px of baseline gap
+     under the canvas, which would offset the absolutely-positioned siblings
+     from the container edge. */
+  .lp-hero-field {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* The raymarch fades its own silhouette in the fragment shader, but the
+     canvas still occupies the full box. On small screens the form is pushed
+     further off-canvas in the shader, so mask the edges here too or the
+     bounding box shows as a faint seam over the page background. */
+  @media (max-width: 1023px) {
+    .lp-hero-field {
+      opacity: 0.7;
+    }
+  }
+  @media (max-width: 767px) {
+    /* Below the split-hero breakpoint the headline spans full width and the
+       form would sit directly under the text. Drop it further rather than
+       compete. */
+    .lp-hero-field {
+      opacity: 0.45;
+    }
   }
 
   .lp-hero-blobs {
@@ -872,5 +907,13 @@
     transform: none !important;
     animation: none !important;
     transition-duration: 1ms !important;
+  }
+
+  /* The WebGL field renders a single static frame for these users, driven by
+     the JS gate in HeroField. The rule here is belt-and-braces: if the effect
+     query resolves before the media listener attaches, this is what stops the
+     field from reading as motion. */
+  .lp-hero-field {
+    opacity: 0.5;
   }
 }

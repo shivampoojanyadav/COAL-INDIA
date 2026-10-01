@@ -74,7 +74,7 @@ export function Sidebar({
             if (onNavigate) onNavigate()
           }}
           color="#181d18"
-          accentColor="#005127"
+          accentColor="#963a14"
           lineColor="#e0e4dd"
           width={272}
           rowHeight={38}
