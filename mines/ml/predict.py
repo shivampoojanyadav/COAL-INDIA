@@ -23,7 +23,15 @@ FEATURES = [
 ]
 
 
+_model_cache = None
+
+
 def get_model():
+
+    global _model_cache
+
+    if _model_cache is not None:
+        return _model_cache
 
     model_path = os.path.join(
         settings.BASE_DIR,
@@ -31,7 +39,15 @@ def get_model():
         "mine_risk_model.pkl"
     )
 
-    return joblib.load(model_path)
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(
+            f"ML model not found at {model_path}. "
+            "Run: python manage.py generate_ml_dataset and train the model."
+        )
+
+    _model_cache = joblib.load(model_path)
+
+    return _model_cache
 
 
 def get_mine_features(mine):

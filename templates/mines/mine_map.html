@@ -1,82 +1,45 @@
 {% extends "base.html" %}
-
-{% block title %}Mine GIS Map{% endblock %}
-
+{% block title %}Mine GIS Map | COALiZEN{% endblock %}
+{% block page_title %}GIS Map{% endblock %}
 {% block extra_css %}
-
-<link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-/>
-
-<style>
-    #mine-map {
-        height: 650px;
-        width: 100%;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    .map-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .map-legend {
-        margin-top: 15px;
-        padding: 15px;
-        border: 1px solid #e1e6ed;
-        border-radius: 8px;
-        background: #ffffff;
-    }
-</style>
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 {% endblock %}
-
-
 {% block content %}
-
-<div class="map-header">
-
+<div class="page-header">
     <div>
         <h1>Mine GIS Map</h1>
-        <p>
-            Geographic view of registered mining sites.
-        </p>
+        <p>Geographic view of registered mining sites. {{ mines|length }} mine(s) with coordinates.</p>
     </div>
-
-    <a href="{% url 'mine_list' %}">
-        Back to Mines
-    </a>
-
+    <a href="{% url 'mine_list' %}" class="btn">Back to Mines</a>
 </div>
-
-
 <div class="content-card">
-
     <div id="mine-map"></div>
-
     <div class="map-legend">
-
-        <strong>Map Information</strong>
-
-        <p>
-            Click a mine marker to view its details.
-        </p>
-
+        <strong>Legend:</strong>
+        <span class="dot dot-active"></span> Active
+        <span class="dot dot-maint"></span> Maintenance
+        <span class="dot dot-inactive"></span> Inactive
+        <span class="map-note">Click a marker for details.</span>
     </div>
-
+    <div class="basemap-bar">
+        <span id="map-source-pill" class="map-pill">Basemap: Esri Streets</span>
+        <button type="button" class="map-pill pill-active" data-basemap="streets">Streets</button>
+        <button type="button" class="map-pill" data-basemap="osm">OSM</button>
+        <button type="button" class="map-pill" data-basemap="sat">Satellite</button>
+    </div>
+    <div id="map-source-note" class="map-note" style="display:none;">
+        Remote tiles are unreachable from this network — showing the offline survey grid. Markers still work.
+    </div>
+    <div id="map-empty" class="empty-state" style="display:none;">
+        No mines have latitude/longitude yet. Edit a mine and set coordinates (e.g. 23.7957, 86.4304).
+    </div>
 </div>
-
-
+{% endblock %}
+{% block extra_js %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-
 <script>
-
-    const mines = [
+(function () {
+    var raw = [
         {% for mine in mines %}
         {
             id: {{ mine.id }},
@@ -84,71 +47,125 @@
             code: "{{ mine.mine_code|escapejs }}",
             state: "{{ mine.state|escapejs }}",
             district: "{{ mine.district|escapejs }}",
-            status: "{{ mine.get_status_display|escapejs }}",
-            latitude: {{ mine.latitude }},
-            longitude: {{ mine.longitude }}
-        },
+            status: "{{ mine.status|escapejs }}",
+            statusLabel: "{{ mine.get_status_display|escapejs }}",
+            latitude: "{{ mine.latitude|default_if_none:'' }}",
+            longitude: "{{ mine.longitude|default_if_none:'' }}"
+        }{% if not forloop.last %},{% endif %}
         {% endfor %}
     ];
+    var mines = raw.map(function (m) {
+        m.latitude = parseFloat(m.latitude);
+        m.longitude = parseFloat(m.longitude);
+        return m;
+    }).filter(function (m) { return isFinite(m.latitude) && isFinite(m.longitude); });
 
-
-    const map = L.map("mine-map").setView(
-        [22.5, 80.0],
-        5
-    );
-
-
-    L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            attribution:
-                '&copy; OpenStreetMap contributors'
+    if (!mines.length) {
+        document.getElementById("map-empty").style.display = "block";
+    }
+    var el = document.getElementById("mine-map");
+    var map;
+    try {
+        map = L.map("mine-map").setView([22.9734, 78.6569], 5);
+    } catch (e) {
+        el.innerHTML = "<div class='empty-state'>Map library failed to load. Check internet connection.</div>";
+        return;
+    }
+    // Basemap strategy: Esri Streets is the default (keyless, rarely rate-limited).
+    // OSM stays one tap away. If every remote host fails, a local survey grid
+    // is drawn so markers and positions are still fully usable in the demo.
+    var osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+    });
+    var esriStreets = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
+        maxZoom: 19,
+        attribution: "Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics"
+    });
+    var esriSat = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+        maxZoom: 19,
+        attribution: "Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics"
+    });
+    var surveyGrid = L.gridLayer({ attribution: "COALiZEN survey grid (offline)" });
+    surveyGrid.createTile = function (coords) {
+        var size = this.getTileSize();
+        var tile = L.DomUtil.create("canvas", "leaflet-tile");
+        tile.width = size.x; tile.height = size.y;
+        var ctx = tile.getContext("2d");
+        ctx.fillStyle = "#ece5cf"; ctx.fillRect(0, 0, size.x, size.y);
+        ctx.strokeStyle = "rgba(23,33,27,.14)"; ctx.lineWidth = 1;
+        var step = 32, i;
+        for (i = 0; i <= size.x; i += step) {
+            ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, size.y); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(size.x, i); ctx.stroke();
         }
-    ).addTo(map);
-
-
-    mines.forEach(function(mine) {
-
-        const marker = L.marker([
-            mine.latitude,
-            mine.longitude
-        ]).addTo(map);
-
-
-        marker.bindPopup(`
-            <strong>${mine.name}</strong>
-            <br>
-            Mine Code: ${mine.code}
-            <br>
-            State: ${mine.state}
-            <br>
-            District: ${mine.district}
-            <br>
-            Status: ${mine.status}
-            <br><br>
-            <a href="/mines/${mine.id}/">
-                View Mine Details
-            </a>
-        `);
-
+        ctx.fillStyle = "rgba(23,33,27,.45)"; ctx.font = "11px monospace";
+        ctx.fillText("GRID " + coords.z + "/" + coords.x + "/" + coords.y, 10, 20);
+        return tile;
+    };
+    var layers = { streets: esriStreets, osm: osm, sat: esriSat, grid: surveyGrid };
+    var layerNames = { streets: "Esri Streets", osm: "OSM Standard", sat: "Esri Satellite", grid: "Survey grid (offline)" };
+    var active = "streets";
+    var failures = { streets: 0, osm: 0, sat: 0 };
+    var pill = document.getElementById("map-source-pill");
+    function setPill(text) { if (pill) pill.textContent = "Basemap: " + text; }
+    function showLayer(key) {
+        try { map.eachLayer(function (l) { if (l && l._url) map.removeLayer(l); }); } catch (e) {}
+        if (map.hasLayer(surveyGrid)) { try { map.removeLayer(surveyGrid); } catch (e) {} }
+        layers[key].addTo(map);
+        active = key;
+        setPill(layerNames[key]);
+        var note = document.getElementById("map-source-note");
+        if (note) note.style.display = (key === "grid") ? "block" : "none";
+        document.querySelectorAll("[data-basemap]").forEach(function (btn) {
+            btn.classList.toggle("pill-active", btn.getAttribute("data-basemap") === key);
+        });
+    }
+    ["streets", "osm", "sat"].forEach(function (key) {
+        layers[key].on("tileerror", function () {
+            failures[key]++;
+            if (key === active && failures[key] >= 6) {
+                if (key === "streets") showLayer("osm");
+                else if (key === "osm") showLayer("sat");
+                else showLayer("grid");
+            }
+        });
+    });
+    // Start on Esri: immune to the OSM 403 policy blocks in the screenshot.
+    esriStreets.addTo(map);
+    setPill(layerNames.streets);
+    document.querySelectorAll("[data-basemap]").forEach(function (btn) {
+        btn.addEventListener("click", function () { showLayer(btn.getAttribute("data-basemap")); });
     });
 
-
-    if (mines.length > 0) {
-
-        const bounds = mines.map(function(mine) {
-            return [
-                mine.latitude,
-                mine.longitude
-            ];
-        });
-
-        map.fitBounds(bounds, {
-            padding: [30, 30]
-        });
-
+    function colorFor(status) {
+        if (status === "ACTIVE") return "#16a34a";
+        if (status === "MAINTENANCE") return "#f59e0b";
+        return "#ef4444";
     }
-
+    mines.forEach(function (mine) {
+        var icon = L.divIcon({
+            className: "leaflet-div-icon",
+            html: "<div class='mk' style='background:" + colorFor(mine.status) + "'></div>",
+            iconSize: [18, 18],
+            iconAnchor: [9, 9],
+            popupAnchor: [0, -10]
+        });
+        L.marker([mine.latitude, mine.longitude], { icon: icon }).addTo(map)
+            .bindPopup("<strong>" + mine.name + "</strong><br>Mine Code: " + mine.code +
+                "<br>State: " + mine.state + "<br>District: " + mine.district +
+                "<br>Status: " + mine.statusLabel +
+                "<br><br><a href='/mines/" + mine.id + "/'>View Mine Details</a>");
+    });
+    if (mines.length) {
+        try {
+            map.fitBounds(mines.map(function (m) { return [m.latitude, m.longitude]; }), { padding: [40, 40] });
+        } catch (e) {}
+        if (mines.length === 1) { map.setZoom(11); }
+    }
+    setTimeout(function () { try { map.invalidateSize(); } catch (e) {} }, 200);
+})();
 </script>
-
 {% endblock %}

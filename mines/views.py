@@ -48,7 +48,10 @@ from django.shortcuts import (
 @login_required
 def mine_list(request):
 
-    if request.user.role not in ["ADMIN", "MANAGER"]:
+    if request.user.role not in [
+        "ADMIN", "MANAGER", "INSPECTOR",
+        "SAFETY_OFFICER", "CONTRACTOR", "REGULATOR",
+    ]:
         return redirect("unauthorized")
 
     mines = Mine.objects.select_related("manager").all()
@@ -223,6 +226,7 @@ def mine_detail(request, mine_id):
         "MANAGER",
         "INSPECTOR",
         "SAFETY_OFFICER",
+        "CONTRACTOR",
         "REGULATOR",
     ]:
         return redirect("unauthorized")
@@ -249,6 +253,7 @@ def compliance_list(request):
         "INSPECTOR",
         "SAFETY_OFFICER",
         "REGULATOR",
+        "CONTRACTOR",
     ]:
         return redirect("unauthorized")
 
@@ -285,7 +290,8 @@ def compliance_create(request):
         form = ComplianceForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            create_audit_log(request.user, "CREATE", f"Created compliance {obj.requirement} for {obj.mine.name}", "Compliance", obj.id)
 
             return redirect("compliance_list")
 
@@ -310,6 +316,7 @@ def inspection_list(request):
         "INSPECTOR",
         "SAFETY_OFFICER",
         "REGULATOR",
+        "CONTRACTOR",
     ]
 
     if request.user.role not in allowed_roles:
@@ -357,7 +364,8 @@ def inspection_create(request):
         form = InspectionForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            create_audit_log(request.user, "CREATE", f"Scheduled inspection for {obj.mine.name} on {obj.inspection_date}", "Inspection", obj.id)
             return redirect("inspection_list")
 
     else:
@@ -381,6 +389,7 @@ def inspection_detail(request, inspection_id):
         "INSPECTOR",
         "SAFETY_OFFICER",
         "REGULATOR",
+        "CONTRACTOR",
     ]
 
     if request.user.role not in allowed_roles:
@@ -411,6 +420,7 @@ def violation_list(request):
         "INSPECTOR",
         "SAFETY_OFFICER",
         "REGULATOR",
+        "CONTRACTOR",
     ]
 
     if request.user.role not in allowed_roles:
@@ -466,7 +476,8 @@ def violation_create(request):
         form = ViolationForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            create_audit_log(request.user, "CREATE", f"Recorded violation {obj.title} at {obj.mine.name}", "Violation", obj.id)
             return redirect("violation_list")
 
     else:
@@ -490,6 +501,7 @@ def violation_detail(request, violation_id):
         "INSPECTOR",
         "SAFETY_OFFICER",
         "REGULATOR",
+        "CONTRACTOR",
     ]
 
     if request.user.role not in allowed_roles:
@@ -522,6 +534,7 @@ def contractor_list(request):
         "INSPECTOR",
         "SAFETY_OFFICER",
         "REGULATOR",
+        "CONTRACTOR",
     ]
 
     if request.user.role not in allowed_roles:
@@ -567,7 +580,8 @@ def contractor_create(request):
         form = ContractorForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            create_audit_log(request.user, "CREATE", f"Added contractor {obj.company_name} ({obj.contractor_code})", "Contractor", obj.id)
             return redirect("contractor_list")
 
     else:
@@ -591,6 +605,7 @@ def contractor_detail(request, contractor_id):
         "INSPECTOR",
         "SAFETY_OFFICER",
         "REGULATOR",
+        "CONTRACTOR",
     ]
 
     if request.user.role not in allowed_roles:
@@ -624,7 +639,8 @@ def contractor_document_create(request):
         form = ContractorDocumentForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            create_audit_log(request.user, "CREATE", f"Added contractor {obj.company_name} ({obj.contractor_code})", "Contractor", obj.id)
             return redirect("contractor_list")
 
     else:
@@ -801,15 +817,36 @@ def notification_list(request):
 
     generate_notifications(request.user)
 
+    from django.core.paginator import Paginator
+
     notifications = Notification.objects.filter(
         recipient=request.user
     ).order_by("-created_at")
+
+    # Cap growth: keep only latest 500 per user.
+    try:
+        ids_to_keep = list(
+            notifications.values_list("id", flat=True)[:500]
+        )
+        if ids_to_keep:
+            Notification.objects.filter(
+                recipient=request.user
+            ).exclude(id__in=ids_to_keep).delete()
+            notifications = Notification.objects.filter(
+                recipient=request.user
+            ).order_by("-created_at")
+    except Exception:
+        pass
+
+    paginator = Paginator(notifications, 50)
+    page_obj = paginator.get_page(request.GET.get("page"))
 
     return render(
         request,
         "notifications/notification_list.html",
         {
-            "notifications": notifications,
+            "notifications": page_obj.object_list,
+            "page_obj": page_obj,
         }
     )
 
@@ -838,6 +875,7 @@ def mine_map(request):
         "MANAGER",
         "INSPECTOR",
         "SAFETY_OFFICER",
+        "CONTRACTOR",
         "REGULATOR",
     ]
 
@@ -868,6 +906,7 @@ def risk_dashboard(request):
         "INSPECTOR",
         "SAFETY_OFFICER",
         "REGULATOR",
+        "CONTRACTOR",
     ]
 
     if request.user.role not in allowed_roles:
@@ -878,46 +917,53 @@ def risk_dashboard(request):
     risk_data = []
 
     for mine in mines:
+        result = update_mine_risk(mine)
 
-       result = update_mine_risk(mine)
-       ml_result = predict_mine_risk(mine)
+        try:
+            ml_result = predict_mine_risk(mine)
+        except Exception:
+            # ML model missing/corrupt or sklearn mismatch:
+            # fall back to rule-based score so page never 500s.
+            ml_result = {
+                "score": result["score"],
+                "level": result["level"],
+                "features": {},
+                "fallback": True,
+            }
 
-       ai_result = generate_risk_explanation(
+        ai_result = generate_risk_explanation(
             result,
             ml_result
         )
 
-    previous_record = (
-        mine.risk_history
-        .exclude(
-            risk_score=result["score"],
-            risk_level=result["level"]
-        )
-        .first()
-    )
+        # Change vs second-latest history entry (latest is the one
+        # just written by update_mine_risk, if anything changed).
+        try:
+            recent = list(
+                mine.risk_history.order_by("-recorded_at")[:2]
+            )
+            if len(recent) >= 2:
+                risk_change = (
+                    float(result["score"])
+                    - float(recent[1].risk_score)
+                )
+            else:
+                risk_change = 0
+        except Exception:
+            risk_change = 0
 
-    if previous_record:
-
-        risk_change = (
-            float(result["score"])
-            - float(previous_record.risk_score)
-        )
-
-    else:
-
-        risk_change = 0
-
-    risk_data.append({
-        "mine": mine,
-        "score": result["score"],
-        "level": result["level"],
-        "factors": result["factors"],
-        "risk_change": risk_change,
-        "ml_score": ml_result["score"],
-        "ml_level": ml_result["level"],
-        "explanations": ai_result["explanations"],
-        "recommendations": ai_result["recommendations"],
-    })
+        risk_data.append({
+            "mine": mine,
+            "score": result["score"],
+            "level": result["level"],
+            "factors": result["factors"],
+            "risk_change": risk_change,
+            "ml_score": ml_result.get("score", result["score"]),
+            "ml_level": ml_result.get("level", result["level"]),
+            "ml_fallback": ml_result.get("fallback", False),
+            "explanations": ai_result["explanations"],
+            "recommendations": ai_result["recommendations"],
+        })
 
     return render(
         request,
@@ -937,6 +983,7 @@ def mine_risk_history(request, mine_id):
         "INSPECTOR",
         "SAFETY_OFFICER",
         "REGULATOR",
+        "CONTRACTOR",
     ]
 
     if request.user.role not in allowed_roles:
@@ -960,9 +1007,18 @@ def mine_risk_history(request, mine_id):
         }
     )
 
+@login_required
 def analytics_dashboard(request):
-    if not request.user.is_authenticated:
-        return redirect("login")
+    allowed_roles = [
+        "ADMIN",
+        "MANAGER",
+        "INSPECTOR",
+        "SAFETY_OFFICER",
+        "REGULATOR",
+        "CONTRACTOR",
+    ]
+    if request.user.role not in allowed_roles:
+        return redirect("unauthorized")
 
     mines = Mine.objects.all()
 
@@ -1222,9 +1278,18 @@ def analytics_dashboard(request):
     )
 
 
+@login_required
 def mine_compliance_report(request, mine_id):
-    if not request.user.is_authenticated:
-        return redirect("login")
+    allowed_roles = [
+        "ADMIN",
+        "MANAGER",
+        "INSPECTOR",
+        "SAFETY_OFFICER",
+        "REGULATOR",
+        "CONTRACTOR",
+    ]
+    if request.user.role not in allowed_roles:
+        return redirect("unauthorized")
 
     mine = get_object_or_404(Mine, id=mine_id)
 
@@ -1326,7 +1391,7 @@ def ai_assistant(request):
             count = Mine.objects.count()
 
             answer = (
-                f"MineGov currently has {count} "
+                f"COALiZEN currently has {count} "
                 f"registered mine(s)."
             )
 
@@ -1342,7 +1407,7 @@ def ai_assistant(request):
             count = Contractor.objects.count()
 
             answer = (
-                f"MineGov currently has {count} "
+                f"COALiZEN currently has {count} "
                 f"contractor(s)."
             )
 

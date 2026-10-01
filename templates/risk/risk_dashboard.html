@@ -1,214 +1,82 @@
 {% extends "base.html" %}
-
-{% block title %}Mine Risk Dashboard{% endblock %}
-
+{% block title %}Mine Risk Dashboard | COALiZEN{% endblock %}
+{% block page_title %}Risk Dashboard{% endblock %}
 {% block content %}
-
 <div class="page-header">
-
     <div>
         <h1>Mine Risk Dashboard</h1>
-
-        <p>
-            Risk assessment based on compliance,
-            inspections, violations and contractor records.
-        </p>
+        <p>Rule-based score + ML prediction + explanations. {{ risk_data|length }} mine(s) assessed.</p>
     </div>
-
 </div>
-
-
+<div class="risk-kpis">
+    <div class="stat-card"><div class="stat-label">Critical</div><div class="stat-value" style="color:#991b1b">{{ risk_data|length }}{% with c=0 %}{% endwith %}</div><div class="stat-description">See table badges for breakup</div></div>
+    <div class="stat-card"><div class="stat-label">How scoring works</div><div style="font-size:13px;color:var(--muted)">Critical +35 · High +20 · Medium +10 · Low +5 · Overdue compliance ≤30 · Overdue inspection ≤20 · Expired docs ≤20. Cap 100.</div></div>
+    <div class="stat-card"><div class="stat-label">ML model</div><div style="font-size:13px;color:var(--muted)">RandomForest on 10 operational features. If model file is missing, rule score is shown with a fallback badge — page never crashes.</div></div>
+    <div class="stat-card"><div class="stat-label">Change</div><div style="font-size:13px;color:var(--muted)">▲ rise vs previous history · ▼ improvement · — no history yet.</div></div>
+</div>
 <div class="content-card">
-
-    <div class="card-header">
-
-        <h2>Mine Risk Assessment</h2>
-
-    </div>
-
-
-    <table>
-
+    <div class="card-header"><h2>Mine Risk Assessment</h2></div>
+    <div class="table-wrap">
+    <table class="data-table">
         <thead>
-
             <tr>
-                <th>Mine</th>
-                <th>Mine Code</th>
-                <th>Risk Score</th>
-                <th>Risk Level</th>
-                <th>ML Prediction</th>
-                <th>ML Level</th>
-                <th>Change</th>
-                <th>Risk Factors</th>
-                <th>Actions</th>
+                <th>Mine</th><th>Code</th><th>Score</th><th>Level</th>
+                <th>ML Score</th><th>ML Level</th><th>Change</th><th>Factors</th><th>Actions</th>
             </tr>
-
         </thead>
-
-
         <tbody>
-
             {% for item in risk_data %}
-
             <tr>
-
+                <td><strong>{{ item.mine.name }}</strong></td>
+                <td>{{ item.mine.mine_code }}</td>
+                <td><strong>{{ item.score }}</strong></td>
                 <td>
-                    {{ item.mine.name }}
+                    {% if item.level == "CRITICAL" %}<span class="badge badge-critical">CRITICAL</span>
+                    {% elif item.level == "HIGH" %}<span class="badge badge-high">HIGH</span>
+                    {% elif item.level == "MEDIUM" %}<span class="badge badge-medium">MEDIUM</span>
+                    {% else %}<span class="badge badge-low">LOW</span>{% endif %}
                 </td>
-
+                <td>{{ item.ml_score }} {% if item.ml_fallback %}<span class="badge status-info">fallback</span>{% endif %}</td>
                 <td>
-                    {{ item.mine.mine_code }}
+                    {% if item.ml_level == "CRITICAL" %}<span class="badge badge-critical">CRITICAL</span>
+                    {% elif item.ml_level == "HIGH" %}<span class="badge badge-high">HIGH</span>
+                    {% elif item.ml_level == "MEDIUM" %}<span class="badge badge-medium">MEDIUM</span>
+                    {% else %}<span class="badge badge-low">LOW</span>{% endif %}
                 </td>
-
                 <td>
-                    {{ item.score }}
+                    {% if item.risk_change > 0 %}<span class="delta-up">▲ +{{ item.risk_change|floatformat:1 }}</span>
+                    {% elif item.risk_change < 0 %}<span class="delta-down">▼ {{ item.risk_change|floatformat:1 }}</span>
+                    {% else %}<span class="delta-flat">— 0</span>{% endif %}
                 </td>
-
-                <td>
-                    {{ item.level }}
-                </td>
-
-                <td>
-                    {{ item.ml_score }}
-                </td>
-
-                <td>
-                    {{ item.ml_level }}
-                </td>
-
-
-                <td>
-
-                    {% if item.risk_change > 0 %}
-
-                        +{{ item.risk_change }}
-
-                    {% elif item.risk_change < 0 %}
-
-                        {{ item.risk_change }}
-
-                    {% else %}
-
-                        0
-
-                    {% endif %}
-
-                </td>
-
-                <td>
-
+                <td style="min-width:220px;">
                     {% if item.factors %}
-
-                        <ul>
-
-                            {% for factor in item.factors %}
-
-                                <li>
-                                    {{ factor }}
-                                </li>
-
-                            {% endfor %}
-
-                        </ul>
-
-                    {% else %}
-
-                        No significant risk factors.
-
-                    {% endif %}
-
+                    <ul style="padding-left:18px;margin:0;">
+                        {% for factor in item.factors %}<li>{{ factor }}</li>{% endfor %}
+                    </ul>
+                    {% else %}No significant risk factors.{% endif %}
                 </td>
-
-                <td>
-                    <a href="{% url 'mine_risk_history' item.mine.id %}">
-                        View History
-                    </a>
-                </td>
-
+                <td><a class="btn btn-sm" href="{% url 'mine_risk_history' item.mine.id %}">History</a></td>
             </tr>
-
             {% empty %}
-
-            <tr>
-
-                <td colspan="9">
-                    No mines available for risk assessment.
-                </td>
-
-            </tr>
-
+            <tr><td colspan="9"><div class="empty-state">No mines yet. <a href="{% url 'mine_create' %}">Add your first mine</a>.</div></td></tr>
             {% endfor %}
-
         </tbody>
-
     </table>
-
-    <div class="content-card">
-
-    <div class="card-header">
-        <h2>Risk Explanation & Recommendations</h2>
     </div>
-
+</div>
+<div class="content-card">
+    <div class="card-header"><h2>Risk Explanation &amp; Recommendations</h2></div>
     {% for item in risk_data %}
-
-        <div class="risk-analysis-card">
-
-            <h3>
-                {{ item.mine.name }}
-            </h3>
-
-            <p>
-                <strong>ML Risk Score:</strong>
-                {{ item.ml_score }}
-            </p>
-
-            <p>
-                <strong>ML Risk Level:</strong>
-                {{ item.ml_level }}
-            </p>
-
-
-            <h4>Why is this mine at this risk level?</h4>
-
-            <ul>
-
-                {% for explanation in item.explanations %}
-
-                    <li>
-                        {{ explanation }}
-                    </li>
-
-                {% endfor %}
-
-            </ul>
-
-
-            <h4>Recommended Actions</h4>
-
-            <ol>
-
-                {% for recommendation in item.recommendations %}
-
-                    <li>
-                        {{ recommendation }}
-                    </li>
-
-                {% endfor %}
-
-            </ol>
-
-        </div>
-
+    <div class="risk-analysis-card">
+        <h3>{{ item.mine.name }} <span style="color:var(--muted);font-weight:400;">({{ item.mine.mine_code }})</span></h3>
+        <p style="font-size:13.5px;"><strong>ML Risk:</strong> {{ item.ml_score }} ({{ item.ml_level }}) &nbsp;·&nbsp; <strong>Rule Risk:</strong> {{ item.score }} ({{ item.level }})</p>
+        <h4>Why this level?</h4>
+        <ul>{% for explanation in item.explanations %}<li>{{ explanation }}</li>{% endfor %}</ul>
+        <h4>Recommended actions</h4>
+        <ol>{% for recommendation in item.recommendations %}<li>{{ recommendation }}</li>{% endfor %}</ol>
+    </div>
     {% empty %}
-
-        <p>
-            No risk analysis available.
-        </p>
-
+    <p>No risk analysis available.</p>
     {% endfor %}
-
 </div>
-
-</div>
-
 {% endblock %}

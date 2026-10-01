@@ -1,8 +1,8 @@
-# MineGov
+# COALiZEN
 
 ## Smart Governance Platform for Mining Operations
 
-MineGov is a web-based mining governance and monitoring platform designed to help government authorities, mine managers, inspectors, safety officers, contractors, and regulators manage mining operations from a centralized system.
+COALiZEN is a web-based mining governance and monitoring platform designed to help government authorities, mine managers, inspectors, safety officers, contractors, and regulators manage mining operations from a centralized system.
 
 The platform combines **mine management, compliance monitoring, inspections, violation tracking, contractor management, GIS visualization, risk assessment, machine learning, and AI-assisted risk explanations** into a single Django-based application.
 
@@ -12,7 +12,7 @@ The platform combines **mine management, compliance monitoring, inspections, vio
 
 ### 1. Role-Based Access Control
 
-MineGov supports multiple user roles with different responsibilities:
+COALiZEN supports multiple user roles with different responsibilities:
 
 - Admin
 - Mine Manager
@@ -47,7 +47,7 @@ Mine status includes:
 
 ### 3. Compliance Management
 
-MineGov provides centralized compliance tracking.
+COALiZEN provides centralized compliance tracking.
 
 Users can:
 
@@ -101,7 +101,7 @@ Inspection statuses include:
 
 ### 5. Violation Management
 
-MineGov provides a centralized violation tracking system.
+COALiZEN provides a centralized violation tracking system.
 
 Users can:
 
@@ -156,7 +156,7 @@ Contractor statuses include:
 
 ### 7. Contractor Document Monitoring
 
-MineGov tracks important contractor documents such as:
+COALiZEN tracks important contractor documents such as:
 
 - Licenses
 - Safety certificates
@@ -176,7 +176,7 @@ This helps authorities identify contractor compliance issues before they become 
 
 ### 8. GIS Mine Map
 
-MineGov provides a GIS-based visualization of registered mines.
+COALiZEN provides a GIS-based visualization of registered mines.
 
 The map displays:
 
@@ -192,7 +192,7 @@ The GIS functionality is implemented using **Leaflet.js** and **OpenStreetMap**.
 
 ### 9. Notification System
 
-MineGov generates notifications for important events such as:
+COALiZEN generates notifications for important events such as:
 
 - Overdue compliance requirements
 - Compliance requirements due soon
@@ -209,7 +209,7 @@ Unread notification counts are also displayed in the navigation panel.
 
 ### 10. Mine Risk Assessment
 
-MineGov includes a rule-based risk assessment engine.
+COALiZEN includes a rule-based risk assessment engine.
 
 The risk score considers factors such as:
 
@@ -234,7 +234,7 @@ The system also stores historical risk assessments for individual mines.
 
 ### 11. Machine Learning Risk Prediction
 
-MineGov includes a machine learning component for mine risk prediction.
+COALiZEN includes a machine learning component for mine risk prediction.
 
 The current implementation uses a **Random Forest Regressor**.
 

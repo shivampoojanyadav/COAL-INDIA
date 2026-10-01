@@ -55,12 +55,11 @@ def build_mine_dataset():
             status="COMPLETED"
         ).count()
 
+        today = timezone.localdate()
+
         overdue_inspections = mine.inspections.filter(
             status="SCHEDULED",
-            inspection_date__lt=__import__(
-                "django.utils.timezone",
-                fromlist=["localdate"]
-            ).localdate()
+            inspection_date__lt=today
         ).count()
 
         # -----------------------------
@@ -69,10 +68,7 @@ def build_mine_dataset():
 
         expired_documents = ContractorDocument.objects.filter(
             contractor__mine=mine,
-            expiry_date__lt=__import__(
-                "django.utils.timezone",
-                fromlist=["localdate"]
-            ).localdate()
+            expiry_date__lt=today
         ).count()
 
         # -----------------------------

@@ -458,6 +458,14 @@ class ContractorDocument(models.Model):
 
         return "VALID"
 
+    def save(self, *args, **kwargs):
+        # Keep stored status in sync with expiry date.
+        try:
+            self.status = self.calculated_status
+        except Exception:
+            pass
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.contractor.company_name} - {self.document_type}"
 

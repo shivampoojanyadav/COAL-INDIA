@@ -4,7 +4,7 @@ from accounts.models import User
 
 class Command(BaseCommand):
 
-    help = "Create demo users for MineGov"
+    help = "Create demo users for COALiZEN"
 
     def handle(self, *args, **kwargs):
 

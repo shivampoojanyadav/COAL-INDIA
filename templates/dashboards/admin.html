@@ -2,7 +2,7 @@
 
 
 {% block title %}
-Admin Dashboard | MineGov
+Admin Dashboard | COALiZEN
 {% endblock %}
 
 
@@ -18,33 +18,13 @@ Admin Dashboard
     <h1>System Overview</h1>
 
     <p>
-        Monitor and manage governance operations across the MineGov platform.
+        Monitor and manage governance operations across the COALiZEN platform.
     </p>
 
 </div>
 
 
 <div class="stats-grid">
-
-
-    <div class="stat-card">
-
-        <div class="stat-label">
-            Total Mines
-        </div>
-
-        <div class="stat-value">
-            {{ total_mines }}
-        </div>
-
-        <div class="stat-description">
-            Registered mining sites
-        </div>
-
-    </div>
-
-
-   <div class="stats-grid">
 
     <div class="stat-card">
         <h3>Total Mines</h3>
@@ -124,7 +104,7 @@ Admin Dashboard
     <div class="section-header">
         <div>
             <h2>Quick Actions</h2>
-            <p>Frequently used MineGov operations.</p>
+            <p>Frequently used COALiZEN operations.</p>
         </div>
     </div>
 
@@ -170,7 +150,7 @@ Admin Dashboard
                 Recent Activities
             </div>
 
-            <a href="#" class="card-link">
+            <a href="{% url 'audit_logs' %}" class="card-link">
                 View all
             </a>
 
@@ -194,19 +174,41 @@ Admin Dashboard
 
             <tbody>
 
-                <tr>
+                {% for log in recent_audits %}
 
-                    <td>No activities available</td>
+                    <tr>
 
-                    <td>-</td>
+                        <td>{{ log.description|truncatechars:60 }}</td>
 
-                    <td>
-                        <span class="status status-info">
-                            Waiting
-                        </span>
-                    </td>
+                        <td>
+                            {% if log.user %}{{ log.user.username }}{% else %}-{% endif %}
+                        </td>
 
-                </tr>
+                        <td>
+                            <span class="status status-info">
+                                {{ log.action }}
+                            </span>
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td>No activities recorded yet</td>
+
+                        <td>-</td>
+
+                        <td>
+                            <span class="status status-info">
+                                Waiting
+                            </span>
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
 
             </tbody>
 
@@ -228,124 +230,40 @@ Admin Dashboard
 
         <div class="alert-list">
 
-            <div class="alert-item">
+            {% for alert in live_alerts %}
 
-                <div class="alert-title">
-                    No active alerts
+                <div class="alert-item">
+
+                    <div class="alert-title">
+                        {{ alert.title }} — {{ alert.count }}
+                    </div>
+
+                    <div class="alert-description">
+                        {{ alert.detail }}
+                    </div>
+
                 </div>
 
-                <div class="alert-description">
-                    System alerts will appear here.
+            {% empty %}
+
+                <div class="alert-item">
+
+                    <div class="alert-title">
+                        All clear
+                    </div>
+
+                    <div class="alert-description">
+                        No overdue items across mines right now.
+                    </div>
+
                 </div>
 
-            </div>
+            {% endfor %}
 
         </div>
 
     </div>
 
-
-</div>
-
-
-<div class="card">
-
-    <div class="card-header">
-
-        <div class="card-title">
-            System Modules
-        </div>
-
-    </div>
-
-
-    <table class="data-table">
-
-        <thead>
-
-            <tr>
-
-                <th>Module</th>
-                <th>Description</th>
-                <th>Status</th>
-
-            </tr>
-
-        </thead>
-
-
-        <tbody>
-
-            <tr>
-
-                <td>User Management</td>
-
-                <td>
-                    Manage platform users and roles.
-                </td>
-
-                <td>
-                    <span class="status status-success">
-                        Active
-                    </span>
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>Mine Management</td>
-
-                <td>
-                    Manage mining sites and subsidiaries.
-                </td>
-
-                <td>
-                    <span class="status status-info">
-                        Ready
-                    </span>
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>Compliance Management</td>
-
-                <td>
-                    Track statutory requirements and deadlines.
-                </td>
-
-                <td>
-                    <span class="status status-info">
-                        Ready
-                    </span>
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td>Inspection Management</td>
-
-                <td>
-                    Manage field inspections and observations.
-                </td>
-
-                <td>
-                    <span class="status status-info">
-                        Ready
-                    </span>
-                </td>
-
-            </tr>
-
-        </tbody>
-
-    </table>
 
 </div>
 
@@ -355,8 +273,22 @@ Admin Dashboard
         <h2>Mine Status Overview</h2>
     </div>
 
-    <div style="max-width: 500px; margin: auto;">
-        <canvas id="mineStatusChart"></canvas>
+    <div class="bars">
+        <div class="bar-row">
+            <span class="bar-label">Active</span>
+            <div class="bar-track"><div class="bar-fill bf-green" style="width: {% widthratio active_mines total_mines 100 %}%;"></div></div>
+            <b class="bar-val">{{ active_mines|default:0 }}</b>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Inactive</span>
+            <div class="bar-track"><div class="bar-fill bf-red" style="width: {% widthratio inactive_mines total_mines 100 %}%;"></div></div>
+            <b class="bar-val">{{ inactive_mines|default:0 }}</b>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Maintenance</span>
+            <div class="bar-track"><div class="bar-fill bf-amber" style="width: {% widthratio maintenance_mines total_mines 100 %}%;"></div></div>
+            <b class="bar-val">{{ maintenance_mines|default:0 }}</b>
+        </div>
     </div>
 
 </div>
@@ -369,103 +301,30 @@ Admin Dashboard
 
     </div>
 
-    <div style="max-width: 700px; margin: auto;">
-
-        <canvas id="riskChart"></canvas>
-
+    <div class="bars">
+        <div class="bar-row">
+            <span class="bar-label">Low</span>
+            <div class="bar-track"><div class="bar-fill bf-green" style="width: {% widthratio risk_summary.LOW total_mines 100 %}%;"></div></div>
+            <b class="bar-val">{{ risk_summary.LOW|default:0 }}</b>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Medium</span>
+            <div class="bar-track"><div class="bar-fill bf-amber" style="width: {% widthratio risk_summary.MEDIUM total_mines 100 %}%;"></div></div>
+            <b class="bar-val">{{ risk_summary.MEDIUM|default:0 }}</b>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">High</span>
+            <div class="bar-track"><div class="bar-fill bf-orange" style="width: {% widthratio risk_summary.HIGH total_mines 100 %}%;"></div></div>
+            <b class="bar-val">{{ risk_summary.HIGH|default:0 }}</b>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Critical</span>
+            <div class="bar-track"><div class="bar-fill bf-red" style="width: {% widthratio risk_summary.CRITICAL total_mines 100 %}%;"></div></div>
+            <b class="bar-val">{{ risk_summary.CRITICAL|default:0 }}</b>
+        </div>
     </div>
 
 </div>
-
-<script>
-
-    const riskChart =
-        document.getElementById("riskChart");
-
-    new Chart(riskChart, {
-
-        type: "bar",
-
-        data: {
-
-            labels: [
-                "Low",
-                "Medium",
-                "High",
-                "Critical"
-            ],
-
-            datasets: [{
-
-                label: "Number of Mines",
-
-                data: [
-                    {{ risk_summary.LOW }},
-                    {{ risk_summary.MEDIUM }},
-                    {{ risk_summary.HIGH }},
-                    {{ risk_summary.CRITICAL }}
-                ]
-
-            }]
-
-        },
-
-        options: {
-
-            responsive: true,
-
-            scales: {
-
-                y: {
-                    beginAtZero: true
-                }
-
-            }
-
-        }
-
-    });
-
-</script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-
-    const mineStatusChart =
-        document.getElementById("mineStatusChart");
-
-    new Chart(mineStatusChart, {
-
-        type: "doughnut",
-
-        data: {
-
-            labels: [
-                "Active",
-                "Inactive",
-                "Maintenance"
-            ],
-
-            datasets: [{
-                data: [
-                    {{ active_mines }},
-                    {{ inactive_mines }},
-                    {{ maintenance_mines }}
-                ]
-            }]
-
-        },
-
-        options: {
-            responsive: true,
-            maintainAspectRatio: true
-        }
-
-    });
-
-</script>
 
 <div class="content-card">
 
@@ -473,64 +332,30 @@ Admin Dashboard
         <h2>Compliance & Violation Overview</h2>
     </div>
 
-    <div style="max-width: 700px; margin: auto;">
-        <canvas id="issueChart"></canvas>
+    <div class="bars">
+        <div class="bar-row">
+            <span class="bar-label">Overdue compliance</span>
+            <div class="bar-track"><div class="bar-fill bf-red" style="width: {% widthratio overdue_compliance issue_total 100 %}%;"></div></div>
+            <b class="bar-val">{{ overdue_compliance|default:0 }}</b>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Open violations</span>
+            <div class="bar-track"><div class="bar-fill bf-orange" style="width: {% widthratio open_violations issue_total 100 %}%;"></div></div>
+            <b class="bar-val">{{ open_violations|default:0 }}</b>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Upcoming inspections</span>
+            <div class="bar-track"><div class="bar-fill bf-blue" style="width: {% widthratio upcoming_inspections issue_total 100 %}%;"></div></div>
+            <b class="bar-val">{{ upcoming_inspections|default:0 }}</b>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Expired documents</span>
+            <div class="bar-track"><div class="bar-fill bf-amber" style="width: {% widthratio expired_documents issue_total 100 %}%;"></div></div>
+            <b class="bar-val">{{ expired_documents|default:0 }}</b>
+        </div>
     </div>
 
 </div>
-
-
-<script>
-
-    const issueChart =
-        document.getElementById("issueChart");
-
-    new Chart(issueChart, {
-
-        type: "bar",
-
-        data: {
-
-            labels: [
-                "Overdue Compliance",
-                "Open Violations",
-                "Upcoming Inspections",
-                "Expired Documents"
-            ],
-
-            datasets: [{
-
-                label: "Count",
-
-                data: [
-                    {{ overdue_compliance }},
-                    {{ open_violations }},
-                    {{ upcoming_inspections }},
-                    {{ expired_documents }}
-                ]
-
-            }]
-
-        },
-
-        options: {
-
-            responsive: true,
-
-            scales: {
-
-                y: {
-                    beginAtZero: true
-                }
-
-            }
-
-        }
-
-    });
-
-</script>
-
 
 
 {% endblock %}

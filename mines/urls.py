@@ -29,13 +29,14 @@ urlpatterns = [
         name="mine_delete"
     ),
 
-    path(
-    "<int:mine_id>/",
-    views.mine_detail,
-    name="mine_detail"
-    ),
-
+    # NOTE: static routes must come before <int:mine_id>/ patterns.
     path("map/", views.mine_map, name="mine_map"),
+
+    path(
+        "<int:mine_id>/",
+        views.mine_detail,
+        name="mine_detail"
+    ),
 
     path(
     "<int:mine_id>/compliance-report/",

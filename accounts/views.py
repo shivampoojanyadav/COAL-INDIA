@@ -19,6 +19,30 @@ from mines.models import (
     Violation,
 )
 
+def landing(request):
+    if request.user.is_authenticated:
+        return redirect("dashboard")
+
+    total_mines = Mine.objects.count()
+    total_compliance = Compliance.objects.count()
+    completed_compliance = Compliance.objects.filter(status="COMPLETED").count()
+    compliance_rate = (
+        round(completed_compliance / total_compliance * 100)
+        if total_compliance else 0
+    )
+    inspections_done = Inspection.objects.filter(status="COMPLETED").count()
+    open_violations = Violation.objects.filter(
+        status__in=["OPEN", "IN_PROGRESS"]
+    ).count()
+
+    return render(request, "landing/landing.html", {
+        "total_mines": total_mines,
+        "compliance_rate": compliance_rate,
+        "inspections_done": inspections_done,
+        "open_violations": open_violations,
+    })
+
+
 @login_required
 def dashboard_redirect(request):
     user = request.user
@@ -105,6 +129,37 @@ def admin_dashboard(request):
 
         risk_summary[result["level"]] += 1
 
+    from mines.models import AuditLog
+
+    recent_audits = AuditLog.objects.select_related("user").order_by(
+        "-created_at"
+    )[:6]
+
+    critical_open = Violation.objects.filter(
+        severity="CRITICAL",
+        status__in=["OPEN", "IN_PROGRESS"],
+    ).count()
+
+    live_alerts = []
+    if overdue_compliance:
+        live_alerts.append({
+            "title": "Overdue compliance",
+            "count": overdue_compliance,
+            "detail": "Requirements past their due date need immediate action.",
+        })
+    if critical_open:
+        live_alerts.append({
+            "title": "Open critical violations",
+            "count": critical_open,
+            "detail": "Critical-severity violations awaiting resolution.",
+        })
+    if expired_documents:
+        live_alerts.append({
+            "title": "Expired contractor documents",
+            "count": expired_documents,
+            "detail": "Renew documents before operations are affected.",
+        })
+
     context = {
         "total_mines": total_mines,
         "active_mines": active_mines,
@@ -117,6 +172,14 @@ def admin_dashboard(request):
         "active_contractors": active_contractors,
         "expired_documents": expired_documents,
         "risk_summary": risk_summary,
+        "recent_audits": recent_audits,
+        "live_alerts": live_alerts,
+        # Scale denominator for the CSS overview bars (never zero).
+        "issue_total": max(
+            1,
+            overdue_compliance + open_violations
+            + upcoming_inspections + expired_documents,
+        ),
     }
 
     return render(
@@ -200,6 +263,15 @@ def unauthorized(request):
 
 
 def demo_login(request, role):
+    import os
+
+    # Password-less demo login is only allowed in DEBUG mode or when
+    # explicitly enabled. Never enable ALLOW_DEMO_LOGIN in production.
+    allow_demo = os.environ.get("ALLOW_DEMO_LOGIN", "") == "True"
+    from django.conf import settings as _settings
+
+    if not (_settings.DEBUG or allow_demo):
+        return redirect("login")
 
     demo_users = {
         "admin": "admin",

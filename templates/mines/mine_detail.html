@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block title %}
-{{ mine.name }} | MineGov
+{{ mine.name }} | COALiZEN
 {% endblock %}
 
 
@@ -228,13 +228,38 @@ Mine Details
         );
 
 
-        L.tileLayer(
-            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        var esriStreets = L.tileLayer(
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
             {
+                maxZoom: 19,
                 attribution:
-                    '&copy; OpenStreetMap contributors'
+                    "Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics"
             }
+        );
+        var osm = L.tileLayer(
+            "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                maxZoom: 19,
+                attribution:
+                    "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+            }
+        );
+        // Default Esri: immune to OSM 403 policy blocks. OSM one tap away.
+        esriStreets.addTo(map);
+        L.control.layers(
+            { "Streets (Esri)": esriStreets, "Streets (OSM)": osm },
+            null, { position: "topright" }
         ).addTo(map);
+        var esriErrors = 0;
+        esriStreets.on("tileerror", function () {
+            esriErrors++;
+            if (esriErrors >= 6 && map.hasLayer(esriStreets)) {
+                try {
+                    map.removeLayer(esriStreets);
+                    osm.addTo(map);
+                } catch (e) {}
+            }
+        });
 
 
         L.marker(

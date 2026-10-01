@@ -12,6 +12,26 @@ from .models import (
 
 class MineForm(forms.ModelForm):
 
+    def clean_latitude(self):
+        value = self.cleaned_data.get("latitude")
+        if value is not None and not (-90 <= float(value) <= 90):
+            raise forms.ValidationError("Latitude must be between -90 and 90.")
+        return value
+
+    def clean_longitude(self):
+        value = self.cleaned_data.get("longitude")
+        if value is not None and not (-180 <= float(value) <= 180):
+            raise forms.ValidationError("Longitude must be between -180 and 180.")
+        return value
+
+    def clean(self):
+        cleaned = super().clean()
+        # Limit manager dropdown to MANAGER users even outside admin.
+        manager = cleaned.get("manager")
+        if manager is not None and getattr(manager, "role", None) != "MANAGER":
+            self.add_error("manager", "Manager must be a user with MANAGER role.")
+        return cleaned
+
     class Meta:
         model = Mine
 
@@ -168,6 +188,26 @@ class InspectionForm(forms.ModelForm):
 
 class ViolationForm(forms.ModelForm):
 
+    def clean(self):
+        cleaned = super().clean()
+        inspection = cleaned.get("inspection")
+        mine = cleaned.get("mine")
+        if inspection is not None and mine is not None:
+            if inspection.mine_id != mine.id:
+                raise forms.ValidationError(
+                    "Selected inspection belongs to a different mine. "
+                    f"Inspection is for '{inspection.mine}', "
+                    f"but violation mine is '{mine}'."
+                )
+        due = cleaned.get("due_date")
+        resolved = cleaned.get("resolved_date")
+        if due and resolved and resolved < due:
+            self.add_error(
+                "resolved_date",
+                "Resolved date cannot be before due date."
+            )
+        return cleaned
+
     class Meta:
         model = Violation
 
@@ -262,6 +302,27 @@ class ContractorForm(forms.ModelForm):
 
 
 class ContractorDocumentForm(forms.ModelForm):
+
+    def clean(self):
+        from datetime import date, timedelta
+        cleaned = super().clean()
+        # Auto-sync status from expiry date so DB never drifts.
+        expiry = cleaned.get("expiry_date")
+        if expiry:
+            today = date.today()
+            if expiry < today:
+                cleaned["status"] = "EXPIRED"
+            elif expiry <= today + timedelta(days=30):
+                cleaned["status"] = "EXPIRING"
+            else:
+                cleaned["status"] = "VALID"
+        issue = cleaned.get("issue_date")
+        if issue and expiry and expiry < issue:
+            self.add_error(
+                "expiry_date",
+                "Expiry date cannot be before issue date."
+            )
+        return cleaned
 
     class Meta:
         model = ContractorDocument

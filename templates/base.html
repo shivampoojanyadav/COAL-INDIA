@@ -1,173 +1,254 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>
-        {% block title %}
-        MineGov
-        {% endblock %}
-    </title>
-
+    <title>{% block title %}COALiZEN{% endblock %}</title>
+    <meta name="theme-color" content="#eae6d8">
+    <link rel="icon" href="{% static 'img/logo.png' %}?v=8" type="image/png">
+    <link rel="apple-touch-icon" href="{% static 'img/logo.png' %}?v=8">
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% block extra_css %}
-    {% endblock %}
-
+    {% block extra_css %}{% endblock %}
 </head>
-
 <body>
-
-<div class="app-container">
-
-    <!-- Sidebar -->
-
-    <aside class="sidebar">
-
-        <div class="logo-section">
-
-            <div class="logo">
-                MineGov
-            </div>
-
-            <div class="logo-subtitle">
-                Smart Governance Platform
-            </div>
-
-        </div>
-
-<nav class="navigation">
-
-    <div class="navigation-title">
-        Main Menu
-    </div>
-
-    <a href="{% url 'dashboard' %}" class="nav-link">
-        Dashboard
-    </a>
-
-    <a href="{% url 'mine_list' %}" class="nav-link">
-        Mines
-    </a>
-
-    <a href="{% url 'compliance_list' %}" class="nav-link">
-        Compliance
-    </a>
-
-    <a href="{% url 'inspection_list' %}" class="nav-link">
-        Inspections
-    </a>
-
-    <a href="{% url 'violation_list' %}" class="nav-link">
-        Violations
-    </a>
-
-    <a href="{% url 'notification_list' %}" class="nav-link">
-        Notifications
-        {% if unread_notifications > 0 %}
-            <span class="notification-badge">
-                {{ unread_notifications }}
-            </span>
-        {% endif %}
-    </a>
-
-    <a href="{% url 'contractor_list' %}" class="nav-link">
-        Contractors
-    </a>
-
-    <a href="{% url 'mine_map' %}" class="nav-link">
-        GIS Map
-    </a>
-
-    <a href="{% url 'analytics_dashboard' %}" class="nav-link">
-        Analytics
-    </a>
-
-    <a href="{% url 'ai_assistant' %}" class="nav-link">
-        AI Assistant
-    </a>
-
-    <a href="{% url 'audit_logs' %}" class="nav-link">
-        Audit Logs
-    </a>
-
-    <a href="{% url 'risk_dashboard' %}" class="nav-link">
-        Risk Dashboard
-    </a>
-
-    <a href="#" class="nav-link">
-        Reports
-    </a>
-
-</nav>
-
-    </aside>
-
-
-    <!-- Main Content -->
-
-    <main class="main-content">
-
-
-        <!-- Topbar -->
-
-        <header class="topbar">
-
-            <div class="page-title">
-
-                {% block page_title %}
-                Dashboard
-                {% endblock %}
-
-            </div>
-
-
-            <div class="user-section">
-
-                <div class="user-info">
-
-                    <div class="user-name">
-                        {{ request.user.username }}
-                    </div>
-
-                    <div class="user-role">
-                        {{ request.user.get_role_display }}
-                    </div>
-
-                </div>
-
-                <a
-                    href="{% url 'logout' %}"
-                    class="logout-button"
-                >
-                    Logout
-                </a>
-
-            </div>
-
-        </header>
-
-
-        <!-- Page Content -->
-
-        <section class="page-content">
-
-            {% block content %}
-
-            {% endblock %}
-
-        </section>
-
-
-    </main>
-
+<div id="loader" aria-hidden="true">
+    <div class="load-top"><span>COALiZEN — Coal Governance OS</span><span class="load-pct" id="loadPct">00</span></div>
+    <div class="load-word">FIELD<em>/</em>READY</div>
+    <div class="load-bar"><i></i></div>
 </div>
 
-</body>
+<div class="app-container">
+    {% with current=request.resolver_match.url_name %}
+    <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+    <aside class="drawer" id="drawer" aria-label="Modules">
+        <div class="drawer-head">
+            <span>Modules</span>
+            <button class="menu-close" id="drawerClose" type="button">CLOSE</button>
+        </div>
+        <div class="drawer-group">Operate</div>
+        <div class="tile-grid">
+            <a class="tile {% if current in 'dashboard admin_dashboard manager_dashboard inspector_dashboard safety_dashboard contractor_dashboard regulator_dashboard' %}active{% endif %}" href="{% url 'dashboard' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><span class="tile-name">Dashboard</span><span class="tile-desc">Command overview</span></a>
+            <a class="tile {% if current in 'mine_list mine_detail mine_create mine_edit' %}active{% endif %}" href="{% url 'mine_list' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12L4 7.5M12 12v9"/></svg></span><span class="tile-name">Mines</span><span class="tile-desc">Sites &amp; registry</span></a>
+            <a class="tile {% if current == 'mine_map' %}active{% endif %}" href="{% url 'mine_map' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 10-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span class="tile-name">GIS Map</span><span class="tile-desc">Field geography</span></a>
+            <a class="tile {% if current in 'contractor_list contractor_detail contractor_create' %}active{% endif %}" href="{% url 'contractor_list' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2M3 12h18"/></svg></span><span class="tile-name">Contractors</span><span class="tile-desc">Crews &amp; documents</span></a>
+        </div>
+        <div class="drawer-group">Assure</div>
+        <div class="tile-grid">
+            <a class="tile {% if current in 'compliance_list compliance_create' %}active{% endif %}" href="{% url 'compliance_list' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span class="tile-name">Compliance</span><span class="tile-desc">Statutory duties</span></a>
+            <a class="tile {% if current in 'inspection_list inspection_detail inspection_create' %}active{% endif %}" href="{% url 'inspection_list' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span><span class="tile-name">Inspections</span><span class="tile-desc">Field checks</span></a>
+            <a class="tile {% if current in 'violation_list violation_detail violation_create' %}active{% endif %}" href="{% url 'violation_list' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.5"/></svg></span><span class="tile-name">Violations</span><span class="tile-desc">Findings &amp; fixes</span></a>
+            <a class="tile {% if current in 'risk_dashboard mine_risk_history' %}active{% endif %}" href="{% url 'risk_dashboard' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span><span class="tile-name">Risk</span><span class="tile-desc">Scores &amp; history</span></a>
+        </div>
+        <div class="drawer-group">Insight</div>
+        <div class="tile-grid">
+            <a class="tile {% if current == 'analytics_dashboard' %}active{% endif %}" href="{% url 'analytics_dashboard' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span class="tile-name">Analytics</span><span class="tile-desc">Performance view</span></a>
+            <a class="tile {% if current in 'notification_list' %}active{% endif %}" href="{% url 'notification_list' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M10 21a2 2 0 004 0"/></svg></span><span class="tile-name">Alerts</span><span class="tile-desc">Notifications{% if unread_notifications > 0 %} ({{ unread_notifications }}){% endif %}</span></a>
+            <a class="tile {% if current == 'ai_assistant' %}active{% endif %}" href="{% url 'ai_assistant' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></span><span class="tile-name">Assistant</span><span class="tile-desc">Ask the data</span></a>
+            {% if request.user.role == "ADMIN" %}
+            <a class="tile {% if current == 'audit_logs' %}active{% endif %}" href="{% url 'audit_logs' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h7M9 17h7"/></svg></span><span class="tile-name">Audit</span><span class="tile-desc">Trail of record</span></a>
+            {% endif %}
+        </div>
+    </aside>
+    {% endwith %}
 
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="hamburger" id="drawerOpen" type="button" aria-label="Open menu">
+                    <span></span><span></span><span></span>
+                </button>
+                <a class="topbar-brand" href="{% url 'dashboard' %}">
+                    <img src="{% static 'img/logo.png' %}?v=7" alt="COALiZEN"
+                         onerror="this.onerror=null;this.src='{% static 'img/logo-mark-512.png' %}?v=7';">
+                    <span>COAL<em>iZEN</em></span>
+                </a>
+                <div class="page-title">{% block page_title %}Dashboard{% endblock %}</div>
+                <span class="env-pill"><span class="env-dot"></span>Field build</span>
+            </div>
+            <div class="user-section">
+                <button class="cmdk-btn" id="cmdkOpen" type="button" aria-label="Search pages">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+                    <span class="cmdk-ph">Search pages…</span><kbd>Ctrl K</kbd>
+                </button>
+                {% if request.user.is_authenticated %}
+                <div class="user-chip">
+                    <div class="avatar">{{ request.user.username|slice:":1"|upper }}</div>
+                    <div class="user-meta">
+                        <div class="user-name">{{ request.user.username }}</div>
+                        <div class="user-role">{{ request.user.get_role_display }}</div>
+                    </div>
+                </div>
+                <a href="{% url 'logout' %}" class="logout-button">Logout</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="logout-button">Login</a>
+                {% endif %}
+            </div>
+        </header>
+        <section class="page-content">
+            {% if messages %}
+            <div style="margin-bottom:14px;">
+                {% for message in messages %}
+                <div class="content-card" style="padding:12px 16px;border-left:5px solid var(--forest);">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+            <div class="footer-note">COALiZEN · Coal Governance OS</div>
+        </section>
+        <footer class="statusbar">
+            <span class="statusbar-item"><span class="statusbar-dot" id="netDot"></span><span id="netText">Online</span></span>
+            <span class="statusbar-item statusbar-hide-mobile">Coal Governance OS · v7</span>
+            <span class="statusbar-item"><span id="clock">--:--</span></span>
+        </footer>
+    </main>
+</div>
+
+<div class="cmdk-backdrop" id="cmdkBackdrop" hidden>
+    <div class="cmdk" role="dialog" aria-label="Jump to page">
+        <input class="cmdk-input" id="cmdkInput" type="text" placeholder="Type a page name…" autocomplete="off">
+        <div class="cmdk-list" id="cmdkList"></div>
+    </div>
+</div>
+
+<script>
+/* Preloader: quick counter, skipped on repeat views in the same tab. */
+(function () {
+  var loader = document.getElementById("loader");
+  if (!loader) return;
+  if (window.sessionStorage && sessionStorage.getItem("czLoaded")) {
+    loader.style.display = "none";
+    return;
+  }
+  var pct = document.getElementById("loadPct"), n = 0;
+  var timer = setInterval(function () {
+    n += Math.ceil(Math.random() * 22);
+    if (n >= 100) {
+      n = 100;
+      clearInterval(timer);
+      setTimeout(function () {
+        loader.classList.add("done");
+        try { sessionStorage.setItem("czLoaded", "1"); } catch (e) {}
+        setTimeout(function () { loader.style.display = "none"; }, 750);
+      }, 250);
+    }
+    if (pct) pct.textContent = (n < 10 ? "0" : "") + n;
+  }, 130);
+})();
+/* Left tile drawer. */
+(function () {
+  var drawer = document.getElementById("drawer");
+  var backdrop = document.getElementById("drawerBackdrop");
+  if (!drawer || !backdrop) return;
+  function open() {
+    drawer.classList.add("open");
+    backdrop.hidden = false;
+    document.body.classList.add("drawer-open");
+  }
+  function close() {
+    drawer.classList.remove("open");
+    backdrop.hidden = true;
+    document.body.classList.remove("drawer-open");
+  }
+  var opener = document.getElementById("drawerOpen");
+  if (opener) opener.addEventListener("click", function () {
+    drawer.classList.contains("open") ? close() : open();
+  });
+  var closer = document.getElementById("drawerClose");
+  if (closer) closer.addEventListener("click", close);
+  backdrop.addEventListener("click", close);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") close();
+  });
+})();
+/* Count-up for [data-count] KPI numbers (progressive enhancement only). */
+(function () {
+  function animate(el) {
+    var target = parseFloat(el.getAttribute("data-count"));
+    if (!isFinite(target)) return;
+    var dur = 900, t0 = null;
+    function step(ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    if ("requestAnimationFrame" in window) requestAnimationFrame(step);
+    else el.textContent = target;
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("[data-count]").forEach(animate);
+  });
+})();
+/* Command palette + status bar clock + connectivity (no backend needed). */
+(function () {
+  var pages = [
+    { t: "Dashboard", u: "{% url 'dashboard' %}", g: "Operate" },
+    { t: "Mines", u: "{% url 'mine_list' %}", g: "Operate" },
+    { t: "GIS Map", u: "{% url 'mine_map' %}", g: "Operate" },
+    { t: "Contractors", u: "{% url 'contractor_list' %}", g: "Operate" },
+    { t: "Compliance", u: "{% url 'compliance_list' %}", g: "Assure" },
+    { t: "Inspections", u: "{% url 'inspection_list' %}", g: "Assure" },
+    { t: "Violations", u: "{% url 'violation_list' %}", g: "Assure" },
+    { t: "Risk Dashboard", u: "{% url 'risk_dashboard' %}", g: "Assure" },
+    { t: "Analytics", u: "{% url 'analytics_dashboard' %}", g: "Insight" },
+    { t: "Notifications", u: "{% url 'notification_list' %}", g: "Insight" },
+    { t: "AI Assistant", u: "{% url 'ai_assistant' %}", g: "Insight" }
+  ];
+  var backdrop = document.getElementById("cmdkBackdrop");
+  var input = document.getElementById("cmdkInput");
+  var list = document.getElementById("cmdkList");
+  var openBtn = document.getElementById("cmdkOpen");
+  function render(filter) {
+    var q = (filter || "").toLowerCase();
+    var hits = pages.filter(function (p) { return p.t.toLowerCase().indexOf(q) !== -1; });
+    list.innerHTML = "";
+    if (!hits.length) {
+      list.innerHTML = "<div class='cmdk-empty'>No matching page.</div>";
+      return;
+    }
+    hits.forEach(function (p, i) {
+      var a = document.createElement("a");
+      a.className = "cmdk-item" + (i === 0 ? " cmdk-active" : "");
+      a.href = p.u;
+      a.innerHTML = "<span>" + p.t + "</span><span class='cmdk-group'>" + p.g + "</span>";
+      list.appendChild(a);
+    });
+  }
+  function open() { backdrop.hidden = false; render(""); input.value = ""; setTimeout(function () { input.focus(); }, 30); }
+  function close() { backdrop.hidden = true; }
+  if (openBtn) openBtn.addEventListener("click", open);
+  if (backdrop) backdrop.addEventListener("click", function (e) { if (e.target === backdrop) close(); });
+  document.addEventListener("keydown", function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); backdrop.hidden ? open() : close(); }
+    else if (e.key === "Escape" && !backdrop.hidden) close();
+    else if (e.key === "Enter" && !backdrop.hidden) {
+      var first = list.querySelector(".cmdk-item");
+      if (first) window.location.href = first.href;
+    }
+  });
+  if (input) input.addEventListener("input", function () { render(input.value); });
+  function tick() {
+    var el = document.getElementById("clock");
+    if (el) {
+      var d = new Date();
+      var hh = String(d.getHours()).padStart(2, "0"), mm = String(d.getMinutes()).padStart(2, "0");
+      el.textContent = hh + ":" + mm;
+    }
+  }
+  tick(); setInterval(tick, 30000);
+  function net() {
+    var dot = document.getElementById("netDot"), txt = document.getElementById("netText");
+    var online = navigator.onLine !== false;
+    if (dot) dot.style.background = online ? "#37a05c" : "#b4232a";
+    if (txt) txt.textContent = online ? "Online" : "Offline";
+  }
+  net(); window.addEventListener("online", net); window.addEventListener("offline", net);
+})();
+</script>
+{% block extra_js %}{% endblock %}
+</body>
 </html>
