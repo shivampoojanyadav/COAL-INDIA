@@ -1,0 +1,742 @@
+/* ============================================================================
+   COMPONENTS — the reference's component vocabulary, adapted for a data tool.
+
+   1. .eco-card        white panel, 20px radius, tinted shadow
+   2. .eco-btn-*       filled / tonal / outlined / text buttons
+   3. .eco-chip        pill label for status and filters
+   4. .field           text input, focused tonal border
+   5. .eco-nav-row     navigation item with tonal active pill
+   6. .eco-glass       translucent panel with backdrop blur
+   7. .eco-stat        metric tile
+   8. reveal helpers   opacity + rise, fail-open without JS
+
+   Colour rule: accents are FILLS carrying ink. `primary-container` is the one
+   exception and takes white text only (ink on it is 2.62:1).
+   ========================================================================== */
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     1. CARD
+     -------------------------------------------------------------------------- */
+  .eco-card {
+    background-color: var(--color-card);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    transition:
+      box-shadow var(--dur-base) var(--ease-primary),
+      transform var(--dur-base) var(--ease-primary),
+      border-color var(--dur-base) var(--ease-primary);
+  }
+  .eco-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--hairline-strong);
+  }
+
+  /* Large radius variant used by landing feature cards. */
+  .eco-card--lg {
+    border-radius: var(--radius-lg);
+    padding: 2.25rem 2rem;
+  }
+
+  /* Flat card for surfaces that sit on a card already. */
+  .eco-card--flat {
+    box-shadow: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     2. BUTTONS
+     Filled is a 135° green gradient, exactly like the reference. Outlined is
+     a 1.5px primary border. Tonal is a light green fill with ink text.
+     -------------------------------------------------------------------------- */
+  .eco-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: theme('fontFamily.body');
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    border-radius: var(--radius-full);
+    padding: 0.75rem 1.75rem;
+    white-space: nowrap;
+    transition:
+      transform var(--dur-base) var(--ease-primary),
+      box-shadow var(--dur-base) var(--ease-primary),
+      background-color var(--dur-base) var(--ease-primary);
+  }
+  .eco-btn:disabled,
+  .eco-btn[aria-disabled='true'] {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .eco-btn--filled {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    color: var(--color-on-primary);
+    box-shadow: var(--shadow-primary);
+  }
+  .eco-btn--filled:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary-lg);
+  }
+  .eco-btn--filled:active {
+    transform: translateY(0);
+  }
+
+  .eco-btn--tonal {
+    background-color: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+  }
+  .eco-btn--tonal:hover {
+    background-color: var(--color-primary-fixed);
+  }
+
+  .eco-btn--outlined {
+    background: transparent;
+    border: 1.5px solid var(--color-primary);
+    color: var(--color-primary);
+  }
+  .eco-btn--outlined:hover {
+    background-color: rgba(0, 81, 39, 0.05);
+  }
+
+  .eco-btn--text {
+    background: transparent;
+    color: var(--color-primary);
+    padding-inline: 0.75rem;
+  }
+  .eco-btn--text:hover {
+    background-color: var(--color-surface-container);
+  }
+
+  .eco-btn--danger {
+    background: var(--color-danger);
+    color: var(--color-on-primary);
+  }
+  .eco-btn--danger:hover {
+    background: var(--color-on-error-container);
+    transform: translateY(-2px);
+  }
+
+  /* Large hero CTA. The reference uses a 20px radius here rather than a pill. */
+  .eco-btn--lg {
+    padding: 1rem 2.25rem;
+    border-radius: var(--radius-card);
+    font-size: 0.9375rem;
+  }
+
+  .eco-btn--sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+  }
+
+  /* Square-ish button for icon-only controls. */
+  .eco-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-full);
+    color: var(--color-ink);
+    transition: background-color var(--dur-base) var(--ease-primary);
+  }
+  .eco-icon-btn:hover {
+    background-color: var(--color-surface-container);
+  }
+
+  /* --------------------------------------------------------------------------
+     3. CHIP / BADGE
+     -------------------------------------------------------------------------- */
+  .eco-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: var(--radius-full);
+    font-family: theme('fontFamily.body');
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    background-color: var(--color-surface-container);
+    color: var(--color-ink);
+    white-space: nowrap;
+  }
+
+  /* Tinted variants. Each carries ink, all measured above 5.8:1. */
+  .eco-chip--green {
+    background-color: var(--color-primary-fixed);
+    color: var(--color-ink);
+  }
+  .eco-chip--lime {
+    background-color: var(--color-secondary-container);
+    color: var(--color-ink);
+  }
+  .eco-chip--rose {
+    background-color: var(--color-tertiary-fixed);
+    color: var(--color-ink);
+  }
+  .eco-chip--amber {
+    background-color: var(--color-risk-high);
+    color: var(--color-ink);
+  }
+  /* The one white-text chip. */
+  .eco-chip--solid {
+    background-color: var(--color-primary-container);
+    color: var(--color-on-primary);
+  }
+  .eco-chip--danger {
+    background-color: var(--color-danger-container);
+    color: var(--color-on-error-container);
+  }
+
+  /* Risk severity. This is the one scale that is not interchangeable, so it
+     gets explicit steps rather than being aliased onto the generic hues —
+     aliasing meant MEDIUM and CRITICAL silently swapped meaning when the
+     palette changed. Measured: low 12.9:1, medium 13.3:1, high 7.6:1,
+     critical (white on #782c39) 18.1:1. */
+  .eco-chip--risk-low {
+    background-color: var(--color-risk-low);
+    color: var(--color-ink);
+  }
+  .eco-chip--risk-medium {
+    background-color: var(--color-risk-medium);
+    color: var(--color-ink);
+  }
+  .eco-chip--risk-high {
+    background-color: var(--color-risk-high);
+    color: var(--color-ink);
+  }
+  .eco-chip--risk-critical {
+    background-color: var(--color-risk-critical);
+    color: var(--color-on-primary);
+  }
+
+  /* Filter pill, driven by data-active so JSX stays declarative. */
+  .eco-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    background: transparent;
+    border: 1px solid var(--hairline);
+    transition:
+      background-color var(--dur-base) var(--ease-primary),
+      color var(--dur-base) var(--ease-primary),
+      border-color var(--dur-base) var(--ease-primary);
+  }
+  .eco-filter:hover {
+    background-color: var(--color-surface-container);
+    color: var(--color-ink);
+  }
+  .eco-filter[data-active='true'] {
+    background-color: var(--color-primary-container);
+    border-color: transparent;
+    color: var(--color-on-primary);
+  }
+
+  /* --------------------------------------------------------------------------
+     4. FIELD
+     -------------------------------------------------------------------------- */
+  .field {
+    width: 100%;
+    background-color: var(--color-card);
+    border: 1px solid rgba(191, 201, 189, 0.45);
+    border-radius: var(--radius-sm);
+    padding: 0.8125rem 1rem;
+    font-size: 0.9375rem;
+    color: var(--color-ink);
+    transition:
+      border-color var(--dur-base) var(--ease-primary),
+      box-shadow var(--dur-base) var(--ease-primary);
+  }
+  .field::placeholder {
+    color: var(--color-outline);
+  }
+  .field:hover {
+    border-color: var(--color-outline-variant);
+  }
+  /* The tonal focus ring is 1.5:1 on white, so the global ink outline is what
+     actually satisfies WCAG 2.4.11 here — this just softens the box. */
+  .field:focus {
+    border-color: rgba(0, 81, 39, 0.4);
+    box-shadow: 0 0 0 4px rgba(0, 81, 39, 0.08);
+    outline: none;
+  }
+  .field:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+  }
+  .field[aria-invalid='true'] {
+    border-color: var(--color-danger);
+  }
+  .field[aria-invalid='true']:focus {
+    box-shadow: 0 0 0 4px rgba(186, 26, 26, 0.1);
+  }
+  textarea.field {
+    min-height: 6rem;
+    resize: vertical;
+  }
+  select.field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' stroke='%23707a6f' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+    background-size: 12px;
+    padding-right: 2.5rem;
+  }
+
+  .field-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  /* --------------------------------------------------------------------------
+     5. NAV ROW — tonal active pill, the Material 3 navigation-bar pattern
+     -------------------------------------------------------------------------- */
+  .eco-nav-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6875rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    transition:
+      background-color var(--dur-base) var(--ease-primary),
+      color var(--dur-base) var(--ease-primary);
+  }
+  .eco-nav-row:hover {
+    background-color: var(--color-surface-container);
+    color: var(--color-ink);
+  }
+  .eco-nav-row[data-active='true'] {
+    /* Tonal fill + primary label: 7.35:1, comfortably AA. */
+    background-color: var(--color-primary-fixed);
+    color: var(--color-primary);
+  }
+
+  /* --------------------------------------------------------------------------
+     6. GLASS — the reference's translucent panels
+     -------------------------------------------------------------------------- */
+  .eco-glass {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  /* --------------------------------------------------------------------------
+     7. STAT TILE
+     -------------------------------------------------------------------------- */
+  .eco-stat {
+    background-color: var(--color-card);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    transition:
+      box-shadow var(--dur-base) var(--ease-primary),
+      transform var(--dur-base) var(--ease-primary);
+  }
+  .eco-stat:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+
+  /* --------------------------------------------------------------------------
+     8. TYPOGRAPHY HELPERS
+     -------------------------------------------------------------------------- */
+  /* Uppercase micro label — the reference uses these heavily. */
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* Section heading used above every card group. */
+  .eco-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+
+  /* The muted ink ramp (.ink-20 … .ink-90) lives in index.css. It was
+     previously duplicated here, which meant two values had to be kept in sync
+     and the older copy silently won on load order. */
+
+  /* --------------------------------------------------------------------------
+     9. TABLE — the reference barely uses tables, but a register needs one.
+     -------------------------------------------------------------------------- */
+  .dg-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  .dg-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: var(--color-card);
+    border-bottom: 1px solid var(--hairline);
+    padding: 0.875rem 1rem;
+    text-align: left;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+  .dg-table tbody td {
+    border-bottom: 1px solid var(--hairline);
+    padding: 0.875rem 1rem;
+    vertical-align: middle;
+  }
+  .dg-table tbody tr {
+    transition: background-color var(--dur-fast) var(--ease-primary);
+  }
+  .dg-table tbody tr:hover {
+    background-color: var(--color-surface-low);
+  }
+  .dg-table tbody tr:focus-within {
+    background-color: var(--color-surface-low);
+  }
+  .dg-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  .dg-table .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* --------------------------------------------------------------------------
+     10. SKELETON
+     -------------------------------------------------------------------------- */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-surface-container) 25%,
+      var(--color-surface-high) 50%,
+      var(--color-surface-container) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shift 1.4s ease-in-out infinite;
+    border-radius: var(--radius-sm);
+  }
+
+  /* --------------------------------------------------------------------------
+     11. PROGRESS
+     -------------------------------------------------------------------------- */
+  .eco-progress {
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-surface-container);
+    overflow: hidden;
+  }
+  .eco-progress__fill {
+    height: 100%;
+    border-radius: var(--radius-full);
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    transition: width var(--dur-slower) var(--ease-primary);
+  }
+
+  /* --------------------------------------------------------------------------
+     12. DOT — bare colour swatch, geometry only
+     -------------------------------------------------------------------------- */
+  .dot-circle {
+    display: inline-block;
+    width: 0.625rem;
+    height: 0.625rem;
+    flex-shrink: 0;
+    border-radius: 100%;
+  }
+
+  /* --------------------------------------------------------------------------
+     13. SECTION — the reference's landing rhythm, reused for page bands
+     -------------------------------------------------------------------------- */
+  .section {
+    padding: var(--base-padding-y) var(--base-padding-x);
+  }
+  .section--canvas {
+    background-color: var(--color-canvas);
+  }
+  .section--card {
+    background-color: var(--color-surface-low);
+  }
+  /* The 12-column track every `Cell` places itself on. */
+  .section__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (min-width: 1024px) {
+    .section__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 2.5rem;
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     14. LINK UNDERLINE — amber-free here; the brand underline is the 2px
+          primary line that wipes in from the left.
+     -------------------------------------------------------------------------- */
+  .link-underline {
+    position: relative;
+    text-decoration: none;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background-color: var(--color-primary-light);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform var(--dur-fast) var(--ease-primary);
+  }
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* --------------------------------------------------------------------------
+     15. REVEAL
+     -------------------------------------------------------------------------- */
+  .mask-rise,
+  .mask-fade {
+    opacity: 0;
+    display: inline-block;
+    transition:
+      opacity var(--dur-slow) var(--ease-expo),
+      transform var(--dur-slow) var(--ease-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .mask-rise {
+    transform: translateY(1rem);
+  }
+  .mask-fade {
+    transform: none;
+  }
+  [data-revealed='true'] .mask-rise,
+  [data-revealed='true'] .mask-fade,
+  .mask-rise[data-revealed='true'],
+  .mask-fade[data-revealed='true'] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Fail open. If the bundle never runs the `.no-js` class survives and forces
+     every reveal visible, so a blocked script degrades to a readable page. */
+  .no-js .mask-rise,
+  .no-js .mask-fade,
+  .no-js .mask-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     16. MODAL / SHEET
+     -------------------------------------------------------------------------- */
+  .eco-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background-color: rgba(24, 29, 24, 0.4);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    animation: eco-fade-in var(--dur-base) var(--ease-expo);
+  }
+  .eco-modal {
+    background-color: var(--color-card);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-modal);
+    animation: eco-pop-in var(--dur-slow) var(--ease-expo);
+  }
+  /* Bottom sheet on small screens, matching the reference's community sheet. */
+  @media (max-width: 640px) {
+    .eco-modal--sheet {
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      animation: eco-sheet-up var(--dur-slow) var(--ease-expo);
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     17. ODOMETER
+     -------------------------------------------------------------------------- */
+  .odometer {
+    display: inline-flex;
+    align-items: stretch;
+    font-variant-numeric: tabular-nums;
+    font-family: theme('fontFamily.mono');
+  }
+  .odometer__digit {
+    position: relative;
+    display: inline-block;
+    width: 1ch;
+    overflow: hidden;
+  }
+  .odometer__strip {
+    display: block;
+    transition: transform var(--dur-slow) var(--ease-expo);
+  }
+}
+
+@layer utilities {
+  /* Reveal on scroll, driven by IntersectionObserver adding data-revealed. */
+  .mask-reveal {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition:
+      opacity var(--dur-slower) var(--ease-expo),
+      transform var(--dur-slower) var(--ease-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-revealed='true'].mask-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .span-all {
+    grid-column: 1 / -1;
+  }
+
+  /* Filter / lens toggle pills. The reference switches between tonal fills
+     and outlined chips for these; `.pill-tag--active` is the tonal state. */
+  .pill-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    min-height: 2.125rem;
+    padding: 0.375rem 0.9375rem;
+    border-radius: var(--radius-full);
+    border: 1.5px solid var(--color-outline-variant);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    transition:
+      background-color var(--dur-base) var(--ease-primary),
+      border-color var(--dur-base) var(--ease-primary),
+      color var(--dur-base) var(--ease-primary);
+  }
+  .pill-tag:hover {
+    background-color: var(--color-surface-container);
+    color: var(--color-ink);
+  }
+  .pill-tag--active {
+    border-color: transparent;
+    background-color: var(--color-primary-fixed);
+    color: var(--color-primary);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Marquee track. Defined here rather than as a Tailwind `animate-*` utility so
+   the keyframe is emitted unconditionally — `Marquee` is used from several
+   modules and tree-shaking must not be able to drop the motion.
+   -------------------------------------------------------------------------- */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll linear infinite;
+}
+.marquee > * {
+  flex-shrink: 0;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes skeleton-shift {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes eco-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes eco-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes eco-sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mask-rise,
+  .mask-fade,
+  .mask-reveal,
+  .skeleton,
+  .eco-overlay,
+  .eco-modal,
+  .marquee,
+  .animate-float-bob,
+  .odometer__strip {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition-duration: 1ms !important;
+  }
+}

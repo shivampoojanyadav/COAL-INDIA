@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#eae6d8">
-    <title>COALiZEN — Coal Governance OS</title>
+    <title>MineGov — Coal Governance OS</title>
     <link rel="icon" href="{% static 'img/logo.png' %}?v=8" type="image/png">
     <link rel="apple-touch-icon" href="{% static 'img/logo.png' %}?v=8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <style>
-        @import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: "Space Grotesk", system-ui, sans-serif; color: #141310; background:
+        body { font-family: "Inter", system-ui, sans-serif; color: #191c1b; background:
             radial-gradient(1000px 440px at 92% -6%, rgba(28,107,60,.1), transparent 60%),
             radial-gradient(820px 460px at -4% 18%, rgba(232,150,12,.1), transparent 60%), #eae6d8;
             -webkit-font-smoothing: antialiased; }
@@ -22,68 +22,68 @@
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         /* topbar */
         .nav { display: flex; align-items: center; justify-content: space-between; gap: 14px;
-            padding: 16px 0; border-bottom: 2px solid #141310; position: sticky; top: 0;
+            padding: 16px 0; border-bottom: 1px solid var(--line, #d6dbd6); position: sticky; top: 0;
             background: rgba(234,230,216,.92); backdrop-filter: blur(12px); z-index: 20; }
         .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; }
-        .brand img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; background: #0d2a1d; border: 2px solid #141310; }
-        .brand b { font-family: "Unbounded", sans-serif; font-size: 19px; }
-        .brand b em { font-style: normal; color: #1c6b3c; }
-        .nav-links { display: flex; gap: 26px; font-family: "JetBrains Mono", monospace; font-size: 11px;
+        .brand img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; background: #005127; border: 1px solid var(--line, #d6dbd6); }
+        .brand b { font-family: "Plus+Jakarta+Sans", sans-serif; font-size: 19px; }
+        .brand b em { font-style: normal; color: #005127; }
+        .nav-links { display: flex; gap: 26px; font-family: "ui-monospace, SFMono-Regular, Consolas, monospace", monospace; font-size: 11px;
             letter-spacing: 2px; text-transform: uppercase; }
         .nav-links a { text-decoration: none; opacity: .75; }
-        .nav-links a:hover { opacity: 1; color: #1c6b3c; }
+        .nav-links a:hover { opacity: 1; color: #005127; }
         .btn { display: inline-block; text-decoration: none; font-weight: 700; font-size: 14px;
-            padding: 13px 26px; border-radius: 999px; border: 2px solid #141310; color: #141310;
-            background: #fdfcf4; box-shadow: 3px 3px 0 #141310; transition: .16s ease; }
-        .btn:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #141310; }
-        .btn-solid { background: #1c6b3c; border-color: #1c6b3c; color: #fff; }
+            padding: 13px 26px; border-radius: 999px; border: 1px solid var(--line, #d6dbd6); color: #191c1b;
+            background: #ffffff; box-shadow: 0 4px 12px rgba(27, 107, 58, 0.1); transition: .16s ease; }
+        .btn:hover { transform: translate(-1px,-1px); box-shadow: 0 8px 24px rgba(27, 107, 58, 0.15); }
+        .btn-solid { background: #005127; border-color: #005127; color: #fff; }
         /* hero */
         .hero { padding: clamp(50px, 8vw, 110px) 0 40px; animation: rise .6s ease both; }
-        .kicker { font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 3px;
-            text-transform: uppercase; color: #1c6b3c; display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-        .kicker::before { content: ""; width: 36px; height: 2px; background: #1c6b3c; }
-        .hero h1 { font-family: "Unbounded", sans-serif; font-weight: 800; letter-spacing: 0;
+        .kicker { font-family: "ui-monospace, SFMono-Regular, Consolas, monospace", monospace; font-size: 11px; letter-spacing: 3px;
+            text-transform: uppercase; color: #005127; display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .kicker::before { content: ""; width: 36px; height: 2px; background: #005127; }
+        .hero h1 { font-family: "Plus+Jakarta+Sans", sans-serif; font-weight: 800; letter-spacing: 0;
             font-size: clamp(38px, 7vw, 96px); line-height: .98; }
-        .hero h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1.5px #1c6b3c; }
-        .hero p { margin-top: 20px; max-width: 620px; font-size: 16px; line-height: 1.65; color: #3c3a32; }
+        .hero h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1.5px #005127; }
+        .hero p { margin-top: 20px; max-width: 620px; font-size: 16px; line-height: 1.65; color: #404940; }
         .cta-row { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
         .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 44px 0 10px; }
-        .stat { background: #fdfcf4; border: 2px solid #141310; border-radius: 18px; padding: 20px;
-            box-shadow: 5px 5px 0 rgba(20,19,16,.85); }
-        .stat span { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 2px;
-            text-transform: uppercase; color: #7a7565; }
-        .stat b { display: block; font-family: "Unbounded", sans-serif; font-size: 38px; margin-top: 8px; }
+        .stat { background: #ffffff; border: 1px solid var(--line, #d6dbd6); border-radius: 18px; padding: 20px;
+            box-shadow: 0 6px 32px rgba(27, 107, 58, 0.11); }
+        .stat span { font-family: "ui-monospace, SFMono-Regular, Consolas, monospace", monospace; font-size: 10px; letter-spacing: 2px;
+            text-transform: uppercase; color: #707a6f; }
+        .stat b { display: block; font-family: "Plus+Jakarta+Sans", sans-serif; font-size: 38px; margin-top: 8px; }
         /* ticker */
-        .ticker { overflow: hidden; border-top: 2px solid #141310; border-bottom: 2px solid #141310;
-            margin: 40px 0; padding: 14px 0; font-family: "Unbounded", sans-serif; font-size: 14px;
-            letter-spacing: .06em; white-space: nowrap; background: #141310; color: #eae6d8; }
+        .ticker { overflow: hidden; border-top: 1px solid var(--line, #d6dbd6); border-bottom: 1px solid var(--line, #d6dbd6);
+            margin: 40px 0; padding: 14px 0; font-family: "Plus+Jakarta+Sans", sans-serif; font-size: 14px;
+            letter-spacing: .06em; white-space: nowrap; background: #191c1b; color: #ffffff; }
         .ticker-inner { display: inline-block; animation: marquee 28s linear infinite; }
-        .ticker-inner b { color: #e8960c; }
+        .ticker-inner b { color: #a5f4b6; }
         /* sections */
         section.block { padding: 30px 0; }
-        section.block h2 { font-family: "Unbounded", sans-serif; font-size: clamp(26px, 3.6vw, 44px);
+        section.block h2 { font-family: "Plus+Jakarta+Sans", sans-serif; font-size: clamp(26px, 3.6vw, 44px);
             letter-spacing: 0; margin-bottom: 8px; }
-        section.block > p { color: #3c3a32; max-width: 640px; line-height: 1.65; }
+        section.block > p { color: #404940; max-width: 640px; line-height: 1.65; }
         .grid6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 26px; }
-        .mod { background: #fdfcf4; border: 2px solid #141310; border-radius: 18px; padding: 24px 22px;
-            box-shadow: 5px 5px 0 rgba(20,19,16,.85); transition: .18s ease; position: relative; }
-        .mod:hover { transform: translate(-2px,-3px); box-shadow: 7px 9px 0 rgba(20,19,16,.9); }
-        .mod i { font-style: normal; font-family: "Unbounded", sans-serif; font-size: 13px; color: #a39d88; }
-        .mod h3 { font-family: "Unbounded", sans-serif; font-size: 18px; margin: 12px 0 8px; }
-        .mod p { font-size: 13.5px; color: #3c3a32; line-height: 1.6; }
+        .mod { background: #ffffff; border: 1px solid var(--line, #d6dbd6); border-radius: 18px; padding: 24px 22px;
+            box-shadow: 0 6px 32px rgba(27, 107, 58, 0.11); transition: .18s ease; position: relative; }
+        .mod:hover { transform: translate(-2px,-3px); box-shadow: 0 6px 32px rgba(27, 107, 58, 0.11); }
+        .mod i { font-style: normal; font-family: "Plus+Jakarta+Sans", sans-serif; font-size: 13px; color: #bfc9bd; }
+        .mod h3 { font-family: "Plus+Jakarta+Sans", sans-serif; font-size: 18px; margin: 12px 0 8px; }
+        .mod p { font-size: 13.5px; color: #404940; line-height: 1.6; }
         .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 26px; }
-        .step { border-top: 3px solid #141310; padding-top: 16px; }
-        .step b { font-family: "Unbounded", sans-serif; font-size: 15px; display: block; margin-bottom: 8px; }
-        .step b span { color: #e8960c; }
-        .step p { font-size: 13.5px; color: #3c3a32; line-height: 1.6; }
-        .cta-band { margin: 46px 0 20px; background: #0d2a1d; color: #eef3ea; border: 2px solid #141310;
+        .step { border-top: 2px solid var(--moss, #1b6d24); padding-top: 16px; }
+        .step b { font-family: "Plus+Jakarta+Sans", sans-serif; font-size: 15px; display: block; margin-bottom: 8px; }
+        .step b span { color: #a5f4b6; }
+        .step p { font-size: 13.5px; color: #404940; line-height: 1.6; }
+        .cta-band { margin: 46px 0 20px; background: #005127; color: #eef3ea; border: 1px solid var(--line, #d6dbd6);
             border-radius: 22px; padding: clamp(28px, 5vw, 56px); display: flex; justify-content: space-between;
-            align-items: center; gap: 20px; flex-wrap: wrap; box-shadow: 7px 7px 0 rgba(20,19,16,.85); }
-        .cta-band h2 { font-family: "Unbounded", sans-serif; font-size: clamp(24px, 3.4vw, 40px); }
+            align-items: center; gap: 20px; flex-wrap: wrap; box-shadow: 0 6px 32px rgba(27, 107, 58, 0.11); }
+        .cta-band h2 { font-family: "Plus+Jakarta+Sans", sans-serif; font-size: clamp(24px, 3.4vw, 40px); }
         .cta-band p { color: #b9c9bd; margin-top: 10px; }
-        .cta-band .btn { border-color: #e8960c; }
-        footer { padding: 26px 0 40px; font-family: "JetBrains Mono", monospace; font-size: 10.5px;
-            letter-spacing: 1.6px; text-transform: uppercase; color: #7a7565;
+        .cta-band .btn { border-color: #a5f4b6; }
+        footer { padding: 26px 0 40px; font-family: "ui-monospace, SFMono-Regular, Consolas, monospace", monospace; font-size: 10.5px;
+            letter-spacing: 1.6px; text-transform: uppercase; color: #707a6f;
             display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
         @media (max-width: 900px) { .stats, .grid6, .steps { grid-template-columns: 1fr 1fr; } .nav-links { display: none; } }
         @media (max-width: 600px) { .stats, .grid6, .steps { grid-template-columns: 1fr; } }
@@ -93,9 +93,9 @@
 <div class="wrap">
     <nav class="nav">
         <a class="brand" href="{% url 'landing' %}">
-            <img src="{% static 'img/logo.png' %}?v=7" alt="COALiZEN"
+            <img src="{% static 'img/logo.png' %}?v=7" alt="MineGov"
                  onerror="this.onerror=null;this.src='{% static 'img/logo-mark-512.png' %}?v=7';">
-            <b>COAL<em>iZEN</em></b>
+            <b>Mine<em>Gov</em></b>
         </a>
         <div class="nav-links">
             <a href="#modules">Modules</a>
@@ -108,7 +108,7 @@
     <header class="hero">
         <div class="kicker">Coal Governance OS</div>
         <h1>Every coalfield.<br><em>One console.</em></h1>
-        <p>COALiZEN integrates statutory compliance, inspections, violations, contractors and risk
+        <p>MineGov integrates statutory compliance, inspections, violations, contractors and risk
            intelligence into a single digital ecosystem — built for transparency, accountability
            and sustainable mining operations.</p>
         <div class="cta-row">
@@ -164,11 +164,11 @@
             <h2>See your coalfields live.</h2>
             <p>Sign in with your role — dashboards adapt to what you are responsible for.</p>
         </div>
-        <a class="btn btn-solid" href="{% url 'login' %}">Sign in to COALiZEN</a>
+        <a class="btn btn-solid" href="{% url 'login' %}">Sign in to MineGov</a>
     </div>
 
     <footer>
-        <span>COALiZEN · Coal Governance OS</span>
+        <span>MineGov · Coal Governance OS</span>
         <span>Transparency · Accountability · Sustainability</span>
     </footer>
 </div>

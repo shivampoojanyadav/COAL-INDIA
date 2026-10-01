@@ -16,7 +16,7 @@ from mines.risk_engine import update_mine_risk
 
 
 class Command(BaseCommand):
-    help = "Seed COALiZEN demo mines, compliance, inspections, violations, contractors"
+    help = "Seed MineGov demo mines, compliance, inspections, violations, contractors"
 
     def handle(self, *args, **kwargs):
         manager = User.objects.filter(role="MANAGER").first()

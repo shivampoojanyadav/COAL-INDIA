@@ -1,5 +1,6 @@
+{% extends "base.html" %}
 {% block title %}
-{{ page_title }} | COALiZEN
+{{ page_title }} | MineGov
 {% endblock %}
 
 
@@ -15,7 +16,7 @@
     <h1>Add New Mine</h1>
 
     <p>
-        Register a new mining site in the COALiZEN system.
+        Register a new mining site in the MineGov system.
     </p>
 
 </div>
@@ -41,17 +42,9 @@
 
         {% for field in form %}
 
-            <div style="margin-bottom: 20px;">
+            <div>
 
-                <label
-                    for="{{ field.id_for_label }}"
-                    style="
-                        display: block;
-                        margin-bottom: 7px;
-                        font-size: 14px;
-                        font-weight: 600;
-                    "
-                >
+                <label for="{{ field.id_for_label }}">
                     {{ field.label }}
                 </label>
 
@@ -61,11 +54,7 @@
 
                 {% if field.help_text %}
 
-                    <small style="
-                        display: block;
-                        margin-top: 5px;
-                        color: #6b7280;
-                    ">
+                    <small class="help-text">
                         {{ field.help_text }}
                     </small>
 
@@ -74,14 +63,8 @@
 
                 {% if field.errors %}
 
-                    <div style="
-                        margin-top: 5px;
-                        color: #b91c1c;
-                        font-size: 13px;
-                    ">
-
+                    <div class="errorlist">
                         {{ field.errors }}
-
                     </div>
 
                 {% endif %}
@@ -91,37 +74,14 @@
         {% endfor %}
 
 
-        <div style="
-            display: flex;
-            gap: 10px;
-            margin-top: 25px;
-        ">
+        <div style="margin-top: 25px; display: flex; gap: 10px;">
 
-            <button
-                type="submit"
-                style="
-                    padding: 11px 22px;
-                    border: none;
-                    border-radius: 6px;
-                    background: #173f5f;
-                    color: white;
-                    cursor: pointer;
-                "
-            >
+            <button type="submit" class="btn btn-primary">
                 Save Mine
             </button>
 
 
-            <a
-                href="{% url 'mine_list' %}"
-                style="
-                    padding: 11px 22px;
-                    border: 1px solid #d1d5db;
-                    border-radius: 6px;
-                    text-decoration: none;
-                    color: #374151;
-                "
-            >
+            <a href="{% url 'mine_list' %}" class="btn">
                 Cancel
             </a>
 

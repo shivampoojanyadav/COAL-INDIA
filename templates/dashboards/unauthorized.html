@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Access Denied | COALiZEN</title>
-</head>
-
-<body>
-
-    <h1>Access Denied</h1>
-
-    <p>You do not have permission to access this page.</p>
-
-    <a href="{% url 'dashboard' %}">
-        Return to Dashboard
-    </a>
-
-</body>
-
-</html>
+{% extends "base.html" %}
+{% block title %}Access Denied | MineGov{% endblock %}
+{% block page_title %}Access Denied{% endblock %}
+{% block content %}
+<div class="card" style="text-align: center; padding: 40px;">
+    <h1 style="margin-bottom: 15px;">Access Denied</h1>
+    <p style="margin-bottom: 25px;">You do not have permission to access this page.</p>
+    <a href="{% url 'dashboard' %}" class="btn btn-primary">Return to Dashboard</a>
+</div>
+{% endblock %}

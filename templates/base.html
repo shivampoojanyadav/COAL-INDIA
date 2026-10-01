@@ -4,18 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}COALiZEN{% endblock %}</title>
+    <title>{% block title %}MineGov{% endblock %}</title>
     <meta name="theme-color" content="#eae6d8">
     <link rel="icon" href="{% static 'img/logo.png' %}?v=8" type="image/png">
     <link rel="apple-touch-icon" href="{% static 'img/logo.png' %}?v=8">
     <link rel="preconnect" href="https://unpkg.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/branched-menu.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
 <div id="loader" aria-hidden="true">
-    <div class="load-top"><span>COALiZEN — Coal Governance OS</span><span class="load-pct" id="loadPct">00</span></div>
+    <div class="load-top"><span>MineGov — Coal Governance OS</span><span class="load-pct" id="loadPct">00</span></div>
     <div class="load-word">FIELD<em>/</em>READY</div>
     <div class="load-bar"><i></i></div>
 </div>
@@ -24,34 +26,132 @@
     {% with current=request.resolver_match.url_name %}
     <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
     <aside class="drawer" id="drawer" aria-label="Modules">
+        
         <div class="drawer-head">
             <span>Modules</span>
             <button class="menu-close" id="drawerClose" type="button">CLOSE</button>
         </div>
-        <div class="drawer-group">Operate</div>
-        <div class="tile-grid">
-            <a class="tile {% if current in 'dashboard admin_dashboard manager_dashboard inspector_dashboard safety_dashboard contractor_dashboard regulator_dashboard' %}active{% endif %}" href="{% url 'dashboard' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><span class="tile-name">Dashboard</span><span class="tile-desc">Command overview</span></a>
-            <a class="tile {% if current in 'mine_list mine_detail mine_create mine_edit' %}active{% endif %}" href="{% url 'mine_list' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12L4 7.5M12 12v9"/></svg></span><span class="tile-name">Mines</span><span class="tile-desc">Sites &amp; registry</span></a>
-            <a class="tile {% if current == 'mine_map' %}active{% endif %}" href="{% url 'mine_map' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 10-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span class="tile-name">GIS Map</span><span class="tile-desc">Field geography</span></a>
-            <a class="tile {% if current in 'contractor_list contractor_detail contractor_create' %}active{% endif %}" href="{% url 'contractor_list' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2M3 12h18"/></svg></span><span class="tile-name">Contractors</span><span class="tile-desc">Crews &amp; documents</span></a>
-        </div>
-        <div class="drawer-group">Assure</div>
-        <div class="tile-grid">
-            <a class="tile {% if current in 'compliance_list compliance_create' %}active{% endif %}" href="{% url 'compliance_list' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span class="tile-name">Compliance</span><span class="tile-desc">Statutory duties</span></a>
-            <a class="tile {% if current in 'inspection_list inspection_detail inspection_create' %}active{% endif %}" href="{% url 'inspection_list' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span><span class="tile-name">Inspections</span><span class="tile-desc">Field checks</span></a>
-            <a class="tile {% if current in 'violation_list violation_detail violation_create' %}active{% endif %}" href="{% url 'violation_list' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.5"/></svg></span><span class="tile-name">Violations</span><span class="tile-desc">Findings &amp; fixes</span></a>
-            <a class="tile {% if current in 'risk_dashboard mine_risk_history' %}active{% endif %}" href="{% url 'risk_dashboard' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span><span class="tile-name">Risk</span><span class="tile-desc">Scores &amp; history</span></a>
-        </div>
-        <div class="drawer-group">Insight</div>
-        <div class="tile-grid">
-            <a class="tile {% if current == 'analytics_dashboard' %}active{% endif %}" href="{% url 'analytics_dashboard' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span class="tile-name">Analytics</span><span class="tile-desc">Performance view</span></a>
-            <a class="tile {% if current in 'notification_list' %}active{% endif %}" href="{% url 'notification_list' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M10 21a2 2 0 004 0"/></svg></span><span class="tile-name">Alerts</span><span class="tile-desc">Notifications{% if unread_notifications > 0 %} ({{ unread_notifications }}){% endif %}</span></a>
-            <a class="tile {% if current == 'ai_assistant' %}active{% endif %}" href="{% url 'ai_assistant' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></span><span class="tile-name">Assistant</span><span class="tile-desc">Ask the data</span></a>
-            {% if request.user.role == "ADMIN" %}
-            <a class="tile {% if current == 'audit_logs' %}active{% endif %}" href="{% url 'audit_logs' %}"><span class="tile-ico"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h7M9 17h7"/></svg></span><span class="tile-name">Audit</span><span class="tile-desc">Trail of record</span></a>
-            {% endif %}
-        </div>
-    </aside>
+        <nav class="branched-menu" id="branchedMenu">
+            <span class="branched-menu__marker" id="bmMarker" aria-hidden="true"></span>
+            
+            <div class="branched-menu__section open" data-section="operate">
+                <button class="branched-menu__head" type="button">Operate</button>
+                <div class="branched-menu__body">
+                    <div class="branched-menu__fold">
+                        <div class="branched-menu__tree" style="height: 156px;">
+                            <svg class="branched-menu__lines" width="40" height="156" aria-hidden="true">
+                                <path class="branched-menu__base" d="M 14 0 V 114" />
+                                <path class="branched-menu__base" d="M 14 14 A 10 10 0 0 0 24 24 H 32" />
+                                <path class="branched-menu__base" d="M 14 50 A 10 10 0 0 0 24 60 H 32" />
+                                <path class="branched-menu__base" d="M 14 86 A 10 10 0 0 0 24 96 H 32" />
+                                <path class="branched-menu__base" d="M 14 122 A 10 10 0 0 0 24 132 H 32" />
+                                
+                                <path class="branched-menu__reach" data-key="dashboard admin_dashboard manager_dashboard inspector_dashboard safety_dashboard contractor_dashboard regulator_dashboard" d="M 14 0 V 14 A 10 10 0 0 0 24 24 H 32" style="stroke-dasharray: 41.7; stroke-dashoffset: 41.7" />
+                                <path class="branched-menu__reach" data-key="mine_list mine_detail mine_create mine_edit" d="M 14 0 V 50 A 10 10 0 0 0 24 60 H 32" style="stroke-dasharray: 77.7; stroke-dashoffset: 77.7" />
+                                <path class="branched-menu__reach" data-key="mine_map" d="M 14 0 V 86 A 10 10 0 0 0 24 96 H 32" style="stroke-dasharray: 113.7; stroke-dashoffset: 113.7" />
+                                <path class="branched-menu__reach" data-key="contractor_list contractor_detail contractor_create" d="M 14 0 V 122 A 10 10 0 0 0 24 132 H 32" style="stroke-dasharray: 149.7; stroke-dashoffset: 149.7" />
+                            </svg>
+                            <a class="branched-menu__item {% if current in 'dashboard admin_dashboard manager_dashboard inspector_dashboard safety_dashboard contractor_dashboard regulator_dashboard' %}active{% endif %}" href="{% url 'dashboard' %}" data-key="dashboard admin_dashboard manager_dashboard inspector_dashboard safety_dashboard contractor_dashboard regulator_dashboard">
+                                <span class="branched-menu__icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+                                <span class="branched-menu__label">Dashboard</span>
+                            </a>
+                            <a class="branched-menu__item {% if current in 'mine_list mine_detail mine_create mine_edit' %}active{% endif %}" href="{% url 'mine_list' %}" data-key="mine_list mine_detail mine_create mine_edit">
+                                <span class="branched-menu__icon"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12L4 7.5M12 12v9"/></svg></span>
+                                <span class="branched-menu__label">Mines</span>
+                            </a>
+                            <a class="branched-menu__item {% if current == 'mine_map' %}active{% endif %}" href="{% url 'mine_map' %}" data-key="mine_map">
+                                <span class="branched-menu__icon"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 10-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+                                <span class="branched-menu__label">GIS Map</span>
+                            </a>
+                            <a class="branched-menu__item {% if current in 'contractor_list contractor_detail contractor_create' %}active{% endif %}" href="{% url 'contractor_list' %}" data-key="contractor_list contractor_detail contractor_create">
+                                <span class="branched-menu__icon"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2M3 12h18"/></svg></span>
+                                <span class="branched-menu__label">Contractors</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="branched-menu__section open" data-section="assure">
+                <button class="branched-menu__head" type="button">Assure</button>
+                <div class="branched-menu__body">
+                    <div class="branched-menu__fold">
+                        <div class="branched-menu__tree" style="height: 156px;">
+                            <svg class="branched-menu__lines" width="40" height="156" aria-hidden="true">
+                                <path class="branched-menu__base" d="M 14 0 V 114" />
+                                <path class="branched-menu__base" d="M 14 14 A 10 10 0 0 0 24 24 H 32" />
+                                <path class="branched-menu__base" d="M 14 50 A 10 10 0 0 0 24 60 H 32" />
+                                <path class="branched-menu__base" d="M 14 86 A 10 10 0 0 0 24 96 H 32" />
+                                <path class="branched-menu__base" d="M 14 122 A 10 10 0 0 0 24 132 H 32" />
+                                
+                                <path class="branched-menu__reach" data-key="compliance_list compliance_create" d="M 14 0 V 14 A 10 10 0 0 0 24 24 H 32" style="stroke-dasharray: 41.7; stroke-dashoffset: 41.7" />
+                                <path class="branched-menu__reach" data-key="inspection_list inspection_detail inspection_create" d="M 14 0 V 50 A 10 10 0 0 0 24 60 H 32" style="stroke-dasharray: 77.7; stroke-dashoffset: 77.7" />
+                                <path class="branched-menu__reach" data-key="violation_list violation_detail violation_create" d="M 14 0 V 86 A 10 10 0 0 0 24 96 H 32" style="stroke-dasharray: 113.7; stroke-dashoffset: 113.7" />
+                                <path class="branched-menu__reach" data-key="risk_dashboard mine_risk_history" d="M 14 0 V 122 A 10 10 0 0 0 24 132 H 32" style="stroke-dasharray: 149.7; stroke-dashoffset: 149.7" />
+                            </svg>
+                            <a class="branched-menu__item {% if current in 'compliance_list compliance_create' %}active{% endif %}" href="{% url 'compliance_list' %}" data-key="compliance_list compliance_create">
+                                <span class="branched-menu__icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
+                                <span class="branched-menu__label">Compliance</span>
+                            </a>
+                            <a class="branched-menu__item {% if current in 'inspection_list inspection_detail inspection_create' %}active{% endif %}" href="{% url 'inspection_list' %}" data-key="inspection_list inspection_detail inspection_create">
+                                <span class="branched-menu__icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+                                <span class="branched-menu__label">Inspections</span>
+                            </a>
+                            <a class="branched-menu__item {% if current in 'violation_list violation_detail violation_create' %}active{% endif %}" href="{% url 'violation_list' %}" data-key="violation_list violation_detail violation_create">
+                                <span class="branched-menu__icon"><svg viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.5"/></svg></span>
+                                <span class="branched-menu__label">Violations</span>
+                            </a>
+                            <a class="branched-menu__item {% if current in 'risk_dashboard mine_risk_history' %}active{% endif %}" href="{% url 'risk_dashboard' %}" data-key="risk_dashboard mine_risk_history">
+                                <span class="branched-menu__icon"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>
+                                <span class="branched-menu__label">Risk</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="branched-menu__section open" data-section="insight">
+                <button class="branched-menu__head" type="button">Insight</button>
+                <div class="branched-menu__body">
+                    <div class="branched-menu__fold">
+                        <div class="branched-menu__tree" style="height: 156px;">
+                            <svg class="branched-menu__lines" width="40" height="156" aria-hidden="true">
+                                <path class="branched-menu__base" d="M 14 0 V 114" />
+                                <path class="branched-menu__base" d="M 14 14 A 10 10 0 0 0 24 24 H 32" />
+                                <path class="branched-menu__base" d="M 14 50 A 10 10 0 0 0 24 60 H 32" />
+                                <path class="branched-menu__base" d="M 14 86 A 10 10 0 0 0 24 96 H 32" />
+                                <path class="branched-menu__base" d="M 14 122 A 10 10 0 0 0 24 132 H 32" />
+                                
+                                <path class="branched-menu__reach" data-key="analytics_dashboard" d="M 14 0 V 14 A 10 10 0 0 0 24 24 H 32" style="stroke-dasharray: 41.7; stroke-dashoffset: 41.7" />
+                                <path class="branched-menu__reach" data-key="notification_list" d="M 14 0 V 50 A 10 10 0 0 0 24 60 H 32" style="stroke-dasharray: 77.7; stroke-dashoffset: 77.7" />
+                                <path class="branched-menu__reach" data-key="ai_assistant" d="M 14 0 V 86 A 10 10 0 0 0 24 96 H 32" style="stroke-dasharray: 113.7; stroke-dashoffset: 113.7" />
+                                <path class="branched-menu__reach" data-key="audit_logs" d="M 14 0 V 122 A 10 10 0 0 0 24 132 H 32" style="stroke-dasharray: 149.7; stroke-dashoffset: 149.7" />
+                            </svg>
+                            <a class="branched-menu__item {% if current == 'analytics_dashboard' %}active{% endif %}" href="{% url 'analytics_dashboard' %}" data-key="analytics_dashboard">
+                                <span class="branched-menu__icon"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+                                <span class="branched-menu__label">Analytics</span>
+                            </a>
+                            <a class="branched-menu__item {% if current in 'notification_list' %}active{% endif %}" href="{% url 'notification_list' %}" data-key="notification_list">
+                                <span class="branched-menu__icon"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M10 21a2 2 0 004 0"/></svg></span>
+                                <span class="branched-menu__label">Alerts</span>
+                            </a>
+                            <a class="branched-menu__item {% if current == 'ai_assistant' %}active{% endif %}" href="{% url 'ai_assistant' %}" data-key="ai_assistant">
+                                <span class="branched-menu__icon"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></span>
+                                <span class="branched-menu__label">Assistant</span>
+                            </a>
+                            {% if request.user.role == "ADMIN" %}
+                            <a class="branched-menu__item {% if current == 'audit_logs' %}active{% endif %}" href="{% url 'audit_logs' %}" data-key="audit_logs">
+                                <span class="branched-menu__icon"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h7M9 17h7"/></svg></span>
+                                <span class="branched-menu__label">Audit</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+      </aside>
     {% endwith %}
 
     <main class="main-content">
@@ -61,7 +161,7 @@
                     <span></span><span></span><span></span>
                 </button>
                 <a class="topbar-brand" href="{% url 'dashboard' %}">
-                    <img src="{% static 'img/logo.png' %}?v=7" alt="COALiZEN"
+                    <img src="{% static 'img/logo.png' %}?v=7" alt="MineGov"
                          onerror="this.onerror=null;this.src='{% static 'img/logo-mark-512.png' %}?v=7';">
                     <span>COAL<em>iZEN</em></span>
                 </a>
@@ -96,7 +196,7 @@
             </div>
             {% endif %}
             {% block content %}{% endblock %}
-            <div class="footer-note">COALiZEN · Coal Governance OS</div>
+            <div class="footer-note">MineGov · Coal Governance OS</div>
         </section>
         <footer class="statusbar">
             <span class="statusbar-item"><span class="statusbar-dot" id="netDot"></span><span id="netText">Online</span></span>
@@ -137,7 +237,61 @@
     if (pct) pct.textContent = (n < 10 ? "0" : "") + n;
   }, 130);
 })();
-/* Left tile drawer. */
+
+  /* Branched Menu interactions */
+  (function() {
+    var menu = document.getElementById("branchedMenu");
+    if(!menu) return;
+    
+    // Toggle sections
+    var heads = menu.querySelectorAll('.branched-menu__head');
+    heads.forEach(function(head) {
+      head.addEventListener('click', function() {
+        var section = this.closest('.branched-menu__section');
+        section.classList.toggle('open');
+        updateMarker();
+      });
+    });
+
+    var marker = document.getElementById("bmMarker");
+    var activeItem = menu.querySelector('.branched-menu__item.active');
+    
+    // Set stroke dashoffset to 0 for active reach
+    if(activeItem) {
+      var key = activeItem.getAttribute("data-key");
+      var section = activeItem.closest('.branched-menu__section');
+      var reaches = section.querySelectorAll('.branched-menu__reach');
+      reaches.forEach(function(r) {
+        if(r.getAttribute("data-key") === key) {
+          setTimeout(function() {
+            r.style.strokeDashoffset = '0';
+          }, 100);
+        }
+      });
+    }
+
+    function updateMarker(glide) {
+      if(!marker || !activeItem) return;
+      var section = activeItem.closest('.branched-menu__section');
+      var isOpen = section.classList.contains('open');
+      if(!glide) marker.style.transition = 'none';
+      if(isOpen) {
+        marker.style.top = (section.offsetTop + activeItem.offsetTop + (activeItem.offsetHeight - 16)/2 + 2) + 'px';
+        marker.setAttribute('data-on', 'true');
+      } else {
+        marker.removeAttribute('data-on');
+      }
+      if(!glide) {
+        void marker.offsetHeight;
+        marker.style.transition = '';
+      }
+    }
+    
+    updateMarker(true);
+    window.addEventListener('resize', function() { updateMarker(false); });
+  })();
+
+  /* Left tile drawer. */
 (function () {
   var drawer = document.getElementById("drawer");
   var backdrop = document.getElementById("drawerBackdrop");

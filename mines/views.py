@@ -1391,7 +1391,7 @@ def ai_assistant(request):
             count = Mine.objects.count()
 
             answer = (
-                f"COALiZEN currently has {count} "
+                f"MineGov currently has {count} "
                 f"registered mine(s)."
             )
 
@@ -1407,7 +1407,7 @@ def ai_assistant(request):
             count = Contractor.objects.count()
 
             answer = (
-                f"COALiZEN currently has {count} "
+                f"MineGov currently has {count} "
                 f"contractor(s)."
             )
 

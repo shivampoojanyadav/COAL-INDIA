@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block title %}
-{{ mine.name }} | COALiZEN
+{{ mine.name }} | MineGov
 {% endblock %}
 
 
@@ -195,7 +195,7 @@ Mine Details
         Back to Mines
     </a>
 
-    <a href="{% url 'mine_risk_history' mine.id %}">
+    <a href="{% url 'mine_risk_history' mine.id %}" style="height: 40px; background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 60px;">
         Risk History
     </a>
 

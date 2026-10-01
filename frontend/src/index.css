@@ -1,0 +1,115 @@
+@import './styles/tokens.css';
+@import './styles/base.css';
+@import './styles/components.css';
+@import './styles/landing.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .span-all {
+    grid-column: 1 / -1;
+  }
+
+  /* Muted ink ramp — #181d18 alphas, so secondary text sits in the same family
+     as the ink body copy rather than reading as a separate grey.
+
+     Alphas are derived from the WCAG floor, not picked by eye. Measured over
+     the three surfaces these actually land on (canvas #f7faf3, card #ffffff,
+     surface-low #ebefe8), surface-low is the worst case:
+
+       alpha 0.40 -> 2.43:1   FAIL
+       alpha 0.55 -> 3.70:1   large text only
+       alpha 0.60 -> 4.28:1   still short of AA
+       alpha 0.65 -> 5.02:1   first step that clears AA everywhere
+
+     The names are legacy ramp positions and no longer match the alpha. They are
+     kept because ~60 call sites depend on them; only the values moved.
+
+     20 and 30 are ORNAMENT ONLY — never apply them to text. 40 and up carry
+     text and are safe for the 11px eyebrows. */
+  .ink-20 {
+    color: rgba(24, 29, 24, 0.2); /* ornament: borders, dividers, ghosts */
+  }
+  .ink-30 {
+    color: rgba(24, 29, 24, 0.3); /* ornament: inactive icons, disabled glyphs */
+  }
+  .ink-40 {
+    color: rgba(24, 29, 24, 0.66); /* AA floor for small text — 5.02:1 */
+  }
+  .ink-50 {
+    color: rgba(24, 29, 24, 0.74);
+  }
+  .ink-60 {
+    color: rgba(24, 29, 24, 0.82);
+  }
+  .ink-70 {
+    color: rgba(24, 29, 24, 0.9);
+  }
+  .ink-90 {
+    color: rgba(24, 29, 24, 0.96); /* ~14:1 */
+  }
+
+  /* The old cream-era optical corrections. Syne is gone and headings now run
+     on Plus Jakarta Sans, so these collapse to no-ops that keep the existing
+     call sites valid. */
+  .tighten-hero,
+  .tighten-lg,
+  .tighten-md {
+    margin-left: 0;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Blocked on chrome and controls, never on readable copy. */
+  .no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .drag-none {
+    -webkit-user-drag: none;
+  }
+
+  /* Filter pill, driven by data-active so JSX stays declarative. The active
+     state is the tonal green container, which takes white text (9.52:1). */
+  .pill-tag {
+    display: inline-flex;
+    align-items: center;
+    height: 2.375rem;
+    padding: 0 1.125rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-card);
+    color: var(--color-ink);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1px solid var(--hairline);
+    transition:
+      background-color var(--dur-base) var(--ease-primary),
+      color var(--dur-base) var(--ease-primary),
+      border-color var(--dur-base) var(--ease-primary);
+  }
+  .pill-tag:hover,
+  .pill-tag:focus-visible {
+    background-color: var(--color-surface-container);
+  }
+  .pill-tag--active,
+  .pill-tag--active:hover,
+  .pill-tag--active:focus-visible {
+    background-color: var(--color-primary-container);
+    border-color: transparent;
+    color: var(--color-on-primary);
+  }
+}
