@@ -9,10 +9,10 @@
     </div>
 </div>
 <div class="risk-kpis">
-    <div class="stat-card"><div class="stat-label">Critical</div><div class="stat-value" style="color:#991b1b">{{ risk_data|length }}{% with c=0 %}{% endwith %}</div><div class="stat-description">See table badges for breakup</div></div>
-    <div class="stat-card"><div class="stat-label">How scoring works</div><div style="font-size:13px;color:var(--muted)">Critical +35 · High +20 · Medium +10 · Low +5 · Overdue compliance ≤30 · Overdue inspection ≤20 · Expired docs ≤20. Cap 100.</div></div>
-    <div class="stat-card"><div class="stat-label">ML model</div><div style="font-size:13px;color:var(--muted)">RandomForest on 10 operational features. If model file is missing, rule score is shown with a fallback badge, page never crashes.</div></div>
-    <div class="stat-card"><div class="stat-label">Change</div><div style="font-size:13px;color:var(--muted)">▲ rise vs previous history · ▼ improvement ·, no history yet.</div></div>
+    <div class="stat-card"><div class="stat-label" style="color: black;">Critical</div><div class="stat-value" style="color:#991b1b">{{ risk_data|length }}{% with c=0 %}{% endwith %}</div><div class="stat-description">See table badges for breakup</div></div>
+    <div class="stat-card"><div class="stat-label" style="color: black;">How scoring works</div><div style="font-size:13px;color:var(--muted)">Critical +35 · High +20 · Medium +10 · Low +5 · Overdue compliance ≤30 · Overdue inspection ≤20 · Expired docs ≤20. Cap 100.</div></div>
+    <div class="stat-card"><div class="stat-label" style="color: black;">ML model</div><div style="font-size:13px;color:var(--muted)">RandomForest on 10 operational features. If model file is missing, rule score is shown with a fallback badge, page never crashes.</div></div>
+    <div class="stat-card"><div class="stat-label" style="color: black;">Change</div><div style="font-size:13px;color:var(--muted)">▲ rise vs previous history · ▼ improvement ·, no history yet.</div></div>
 </div>
 <div class="content-card">
     <div class="card-header"><h2>Mine Risk Assessment</h2></div>
