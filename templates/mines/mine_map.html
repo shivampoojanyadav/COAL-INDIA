@@ -24,7 +24,7 @@
     <div class="basemap-bar">
         <span id="map-source-pill" class="map-pill">Basemap: Esri Streets</span>
         <button type="button" class="map-pill pill-active" data-basemap="streets">Streets</button>
-        <button type="button" class="map-pill" data-basemap="osm">OSM</button>
+        <button type="button" class="map-pill" data-basemap="carto">Topo</button>
         <button type="button" class="map-pill" data-basemap="sat">Satellite</button>
     </div>
     <div id="map-source-note" class="map-note" style="display:none;">
@@ -74,10 +74,7 @@
     // Basemap strategy: Esri Streets is the default (keyless, rarely rate-limited).
     // OSM stays one tap away. If every remote host fails, a local survey grid
     // is drawn so markers and positions are still fully usable in the demo.
-    var osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
-    });
+    var carto = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}", { maxZoom: 19, attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community" });
     var esriStreets = L.tileLayer(
         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
         maxZoom: 19,
@@ -105,10 +102,10 @@
         ctx.fillText("GRID " + coords.z + "/" + coords.x + "/" + coords.y, 10, 20);
         return tile;
     };
-    var layers = { streets: esriStreets, osm: osm, sat: esriSat, grid: surveyGrid };
-    var layerNames = { streets: "Esri Streets", osm: "OSM Standard", sat: "Esri Satellite", grid: "Survey grid (offline)" };
+    var layers = { streets: esriStreets, carto: carto, sat: esriSat, grid: surveyGrid };
+    var layerNames = { streets: "Esri Streets", carto: "Esri Topo", sat: "Esri Satellite", grid: "Survey grid (offline)" };
     var active = "streets";
-    var failures = { streets: 0, osm: 0, sat: 0 };
+    var failures = { streets: 0, carto: 0, sat: 0 };
     var pill = document.getElementById("map-source-pill");
     function setPill(text) { if (pill) pill.textContent = "Basemap: " + text; }
     function showLayer(key) {
@@ -123,12 +120,12 @@
             btn.classList.toggle("pill-active", btn.getAttribute("data-basemap") === key);
         });
     }
-    ["streets", "osm", "sat"].forEach(function (key) {
+    ["streets", "carto", "sat"].forEach(function (key) {
         layers[key].on("tileerror", function () {
             failures[key]++;
             if (key === active && failures[key] >= 6) {
-                if (key === "streets") showLayer("osm");
-                else if (key === "osm") showLayer("sat");
+                if (key === "streets") showLayer("carto");
+                else if (key === "carto") showLayer("sat");
                 else showLayer("grid");
             }
         });
